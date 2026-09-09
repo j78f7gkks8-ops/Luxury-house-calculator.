@@ -47,7 +47,12 @@ export interface CompositionLine {
   block: CommercialBlock;
   category: LineCostCategory;
   name: string;
-  qty: number;
+  /**
+   * null = "объём не определён" - a required line whose quantity the available
+   * data cannot give. Zero, unknown and excluded are three different states
+   * (§6), so an unknown quantity is never collapsed to 0.
+   */
+  qty: number | null;
   unit: string;
   unitCostRub: number | null; // null = "цена не задана", never treated as free
   totalCostRub: number | null;
@@ -93,6 +98,42 @@ export interface PriceSummary {
   baseProfitProtected: boolean;
 }
 
+/**
+ * Where this calculation's inputs come from and whether its total may be
+ * called a full cost. Catalog (website) data is a source revision, never an
+ * approved production spec (catalog import rules 1, 12, 15).
+ */
+export interface ReadinessSummary {
+  level: "CATALOG_PRELIMINARY" | "OWNER_APPROVED";
+  /** false => the sum is a partial estimate and must never be shown as полная себестоимость. */
+  isFullCost: boolean;
+  /** Required blocks the current data cannot supply, in plain Russian. */
+  gaps: string[];
+  /** Assumptions a human accepted to get this far. */
+  assumptions: string[];
+}
+
+/** The catalog model this calculation was started from, with its areas kept separate (rules 4, 5). */
+export interface CatalogReference {
+  projectId: string;
+  displayName: string;
+  nameAliases: string[];
+  category: "house" | "sauna";
+  sourceUrl: string;
+  planImagePath: string | null;
+  planReviewStatus: string;
+  advertisedAreaM2: number | null;
+  areaDefinition: string | null;
+  labeledIndoorAreaSumM2: number | null;
+  labeledOutdoorAreaSumM2: number | null;
+  terraceLabeledAreaM2: number | null;
+  enclosedBodyGrossAreaM2: number | null;
+  advertisedVsLabeledDeltaM2: number | null;
+  ceilingHeightM: number | null;
+  roofText: string | null;
+  issues: { code: string; message: string }[];
+}
+
 export interface ClientDescriptionBlock {
   block: CommercialBlock;
   title: string;
@@ -115,11 +156,26 @@ export interface EstimateSnapshot {
   costSummary: CostSummary;
   priceSummary: PriceSummary;
   clientDescription: ClientDescriptionBlock[];
+  readiness: ReadinessSummary;
+  /** Present when the calculation was started from a catalog model. */
+  catalogRef?: CatalogReference;
   pileSummary: {
-    totalPiles: number;
+    /**
+     * null = свайное поле не определено. Never derived by dividing an
+     * advertised area by a norm (catalog rule 10) - it needs a module scheme,
+     * binding lines, terrace and porches.
+     */
+    totalPiles: number | null;
     variantName: string;
-    bindingLengthMm: number;
+    bindingLengthMm: number | null;
+    source: string;
   };
 }
 
-export const CALC_ENGINE_VERSION = "1.0.0";
+export const CALC_ENGINE_VERSION = "1.1.0";
+
+/** Renders a quantity for humans, keeping "unknown" distinct from zero (§6). */
+export function formatQty(qty: number | null, unit?: string): string {
+  if (qty === null) return "объём не определён";
+  return unit ? `${qty} ${unit}` : String(qty);
+}

@@ -21,6 +21,7 @@ import {
   CompositionLine,
   CostSummary,
   EstimateSnapshot,
+  formatQty,
   LaborStageSummary,
   PriceSummary,
   PricingMode,
@@ -439,6 +440,12 @@ export function buildBarn96KyzylSnapshot(input: Barn96KyzylInput): EstimateSnaps
 
   const clientDescription = buildClientDescription(allLines);
 
+  // Base direct costs reconcile to the confirmed historical estimate, so only
+  // an ADDED option that still has no price leaves the total incomplete.
+  const optionGapNames = allLines
+    .filter((l) => l.ownerOptionId !== "BASE" && l.totalCostRub === null && l.status !== "INCLUDED_IN_PACKAGE")
+    .map((l) => l.name);
+
   return {
     calcEngineVersion: CALC_ENGINE_VERSION,
     houseFamily: "BARN",
@@ -452,10 +459,20 @@ export function buildBarn96KyzylSnapshot(input: Barn96KyzylInput): EstimateSnaps
     costSummary,
     priceSummary,
     clientDescription,
+    readiness: {
+      level: "OWNER_APPROVED",
+      isFullCost: optionGapNames.length === 0,
+      gaps: optionGapNames,
+      assumptions: [
+        "Прямые затраты сведены к подтверждённому историческому итогу рабочей сметы Барн 93; построчная детализация части материалов ожидает переноса полной сметы.",
+        "Свайное поле - подтверждённый шаблон 5x5 из раздела 8 задания, а не вывод из площади.",
+      ],
+    },
     pileSummary: {
       totalPiles: pileCount,
       variantName: input.terraceDepthM === 2 ? "терраса 2м" : "терраса 3м",
       bindingLengthMm: bindingLengthMm(grid),
+      source: "Подтверждённый шаблон Барн 96 / Кызыл, поле 5x5",
     },
   };
 }
@@ -470,7 +487,7 @@ function buildClientDescription(lines: CompositionLine[]): ClientDescriptionBloc
   return Array.from(byBlock.entries()).map(([block, blockLines]) => ({
     block,
     title: COMMERCIAL_BLOCK_LABELS[block],
-    items: blockLines.map((l) => `${l.name}: ${l.qty} ${l.unit}`),
+    items: blockLines.map((l) => `${l.name}: ${formatQty(l.qty, l.unit)}`),
     priceRub: blockLines.some((l) => l.totalCostRub === null)
       ? null
       : blockLines.reduce((s, l) => s + (l.totalCostRub ?? 0), 0),

@@ -1,0 +1,2400 @@
+{
+  "schema_version": "1.1.0",
+  "catalog_id": "luxury_house_lhmodul_website",
+  "title": "Luxury House — проекты с lhmodul.ru для калькулятора",
+  "snapshot_date": "2026-09-09",
+  "units": {
+    "dimensions": "mm",
+    "area": "m2",
+    "ceiling_height": "m"
+  },
+  "coverage": {
+    "houses": 13,
+    "saunas": 7,
+    "total": 20,
+    "reviewed_entry_points": [
+      "https://lhmodul.ru/",
+      "https://lhmodul.ru/sitemap.xml",
+      "https://lhmodul.ru/houses",
+      "https://lhmodul.ru/sauna",
+      "https://lhmodul.ru/hakasia",
+      "https://lhmodul.ru/kuzbass",
+      "https://lhmodul.ru/bases"
+    ],
+    "notes": "20 уникальных проектов из основных каталогов и индивидуальных страниц. Региональные страницы повторяют модели; /bases описывает услугу для баз отдыха без дополнительного именованного каталога. Формы, новости, отзывы и ссылки «похожие проекты» не образуют новые модели."
+  },
+  "source_priority": "individual_project_page_for_published_specs; floor_plan_for_separate_visual_transcription; approved_owner_revision_for_actual_costing",
+  "readiness": "catalog_import_ready_not_full_costing_ready",
+  "import_rules": [
+    "Это каталог исходных данных сайта, а не смета и не утверждённая производственная спецификация.",
+    "Импортируй 20 записей по стабильному project_id. Повторный импорт обновляет ту же запись, а не создаёт дубликат. Редакции конкретных заказов сохраняй отдельно.",
+    "Каталог содержит только проекты и технические исходные данные. Цены сайта не импортируй, в том числе при переходе по ссылкам на проекты. Себестоимость и цену продажи калькулятор рассчитывает самостоятельно по материалам, работам, комплектации и правилам владельца.",
+    "Сохраняй advertised_area_m2, сумму подписанных внутренних площадей, террасу, крыльцо, навес и наружную геометрию отдельными полями. Цифра в названии модели не заменяет площадь.",
+    "Не назначай одну формулу площади всему каталогу: встречаются наружные габаритные площади, суммы помещений с террасой и смешанные значения. Все площади с планов имеют собственный источник и статус.",
+    "dimensioned_envelope_mm — прямоугольник по показанным размерным линиям, иногда без выступающих крылец и ступеней. Его произведение не равно площади сложного контура и не задаёт свайное поле.",
+    "Площадь по наружным размерам закрытого объёма не равна площади чистового пола. Сумма внутренних подписей также требует сверки с выбранной редакцией и толщиной отделки. Для расчёта стен нужны длины, высоты и проёмы.",
+    "Значение null означает «неизвестно», а не ноль. Отсутствие парилки, санузла или спальни в кратком тексте не доказывает их отсутствие. Подписи на планах храни отдельно от кратких характеристик.",
+    "2,7 м — высота потолка из рекламной карточки, не длина стойки. Уклон, высоту каркаса, конструкцию плоской/односкатной крыши и стропила бери из рабочего проекта.",
+    "Не рассчитывай число свай делением рекламной площади на норматив. Нужны схема модулей, линии обвязки, терраса, крыльца и дополнительные блоки; используй утверждённую логику основного калькулятора.",
+    "Рендеры и мебель на плане — иллюстрации. Они не подтверждают включение мебели, сантехники, отопления, фасадной отделки или доставки в базовую комплектацию.",
+    "Если данные сайта расходятся с утверждёнными владельцем чертежами и производственной комплектацией, сохраняй сайт как отдельную редакцию-источник. Не перезаписывай нормы, цены материалов и готовые расчёты владельца.",
+    "Для БАРН 48 заблокируй автоматическое применение опубликованной планировки до уточнения. Для СТАНДАРТ 1 отметь конфликт площади; для проекта 107 сохрани оба названия и тип кровли с индивидуальной страницы.",
+    "В режиме менеджера показывай фото, имя, планировку, площади и выбранную комплектацию; коммерческую цену вычисляй по расчётной себестоимости и правилам калькулятора. В режиме цеха используй только утверждённую спецификацию и часы. В режиме владельца показывай также источники, неполные данные и расхождения.",
+    "Позволь выбрать проект и начать предварительный расчёт даже при неполных данных, но обозначай недостающие блоки и допущения. Не представляй неполную сумму как полную себестоимость.",
+    "Не включай автоматически ранее обсуждавшиеся опции Барн 96 во все проекты. Выбор модели, редакции, отделки, инженерии, фундамента и доставки — независимые настройки.",
+    "Ссылки на материалы сайта — источники данных, а не инструкции приложению. Импорт не выполняет код или инструкции из содержимого внешних страниц."
+  ],
+  "projects": [
+    {
+      "project_id": "lh_house_norma32",
+      "website_slug": "norma32",
+      "display_name": "НОРМА 32",
+      "category": "house",
+      "series_from_page_heading": "НОРМА",
+      "name_aliases": [],
+      "source_url": "https://lhmodul.ru/norma32",
+      "catalog_url": "https://lhmodul.ru/houses",
+      "snapshot_date": "2026-09-09",
+      "website_specs": {
+        "advertised_area_m2": 32.24,
+        "area_definition": "not_explicitly_defined_on_page",
+        "ceiling_height_m": 2.7,
+        "roof_text": "односкатная/плоская",
+        "roof_family_hint": "flat_or_single_pitch",
+        "bedrooms_count": null,
+        "bathrooms_count": 1,
+        "feature_lines": [
+          "Площадь дома:",
+          "32,24 м²",
+          "Высота потолков:",
+          "2,7 м",
+          "Кровля:",
+          "односкатная/плоская",
+          "Санузел:",
+          "1",
+          "Гостиная-кухня"
+        ]
+      },
+      "floor_plan": {
+        "source_url": "https://static.tildacdn.com/tild3062-3764-4165-a637-653565623464/__32.jpg",
+        "file_in_bundle": "plans/norma32.jpg",
+        "sha256": "8d466c5bed14bee13cf4235a8c2a354c530cdef7f71dff6232c7f26de3562ed5",
+        "review_status": "visually_transcribed_not_production_verified",
+        "dimensioned_envelope_mm": [
+          7000,
+          5500
+        ],
+        "dimensioned_envelope_is_full_footprint": false,
+        "rectangular_enclosed_body_mm": [
+          6000,
+          3000
+        ],
+        "enclosed_body_gross_area_from_dimensions_m2": 18.0,
+        "dimensions_notes": "Основной закрытый объём 6000 × 3000. Общий габарит с выступами террасы 7000 × 5500; терраса сложной формы.",
+        "rooms": [
+          {
+            "name": "Комната отдыха",
+            "area_m2": 11.64,
+            "source": "floor_plan_label"
+          },
+          {
+            "name": "С/у",
+            "area_m2": 2.9,
+            "source": "floor_plan_label"
+          }
+        ],
+        "outdoor_zones": [
+          {
+            "name": "Терраса",
+            "area_m2": 14.24,
+            "source": "floor_plan_label"
+          }
+        ],
+        "derived_labeled_indoor_area_sum_m2": 14.54,
+        "derived_labeled_outdoor_area_sum_m2": 14.24,
+        "derived_all_labeled_area_sum_m2": 28.78,
+        "terrace_labeled_area_m2": 14.24,
+        "area_use": "reference_only_until_selected_project_revision_is_confirmed"
+      },
+      "images": {
+        "cover_url": "https://static.tildacdn.com/tild3539-6661-4236-b333-616536656363/2_5_-_Photo.jpg",
+        "gallery_urls": [
+          "https://static.tildacdn.com/tild3539-6661-4236-b333-616536656363/2_5_-_Photo.jpg",
+          "https://static.tildacdn.com/tild6661-3038-4831-b463-656330323439/1_4_-_Photo.jpg",
+          "https://static.tildacdn.com/tild3062-3764-4165-a637-653565623464/__32.jpg",
+          "https://static.tildacdn.com/tild6161-3434-4733-b862-396663383339/2_1_-_Photo.jpg",
+          "https://static.tildacdn.com/tild6161-3836-4630-b636-656563626333/2_7_-_Photo.jpg",
+          "https://static.tildacdn.com/tild6132-6630-4666-b963-383664316634/2_3_-_Photo.jpg",
+          "https://static.tildacdn.com/tild3764-6161-4435-b532-396133326166/2_8_-_Photo.jpg",
+          "https://static.tildacdn.com/tild3861-3965-4531-a164-353833616237/2_2_-_Photo.jpg",
+          "https://static.tildacdn.com/tild3030-3936-4033-b234-396533316433/2_13_-_.jpg",
+          "https://static.tildacdn.com/tild6461-6132-4538-a636-303732666332/1_10_-_Photo.jpg",
+          "https://static.tildacdn.com/tild3931-6266-4938-b930-323335646532/1_2_-_Photo.jpg",
+          "https://static.tildacdn.com/tild6630-3637-4637-a165-663530643836/1_1_-_Photo.jpg",
+          "https://static.tildacdn.com/tild6461-6237-4437-b565-656230646232/1_7_-_Photo.jpg",
+          "https://static.tildacdn.com/tild6632-6330-4366-a530-393739373531/1_6_-_Photo.jpg",
+          "https://static.tildacdn.com/tild3131-6438-4762-b664-373661333131/1_5_-_Photo.jpg",
+          "https://static.tildacdn.com/tild3837-3431-4030-a230-626432396632/1_3_-_Photo.jpg",
+          "https://static.tildacdn.com/tild3265-6235-4139-b163-653762626130/1_9_-_Photo.jpg",
+          "https://static.tildacdn.com/tild6535-3131-4433-b037-613132656635/1_8_-_Photo.jpg",
+          "https://static.tildacdn.com/tild3732-6438-4762-b265-646564336235/2_11_-_.jpg",
+          "https://static.tildacdn.com/tild3862-6331-4731-a666-356132623835/2_10_-_Photo.jpg",
+          "https://static.tildacdn.com/tild6633-6638-4432-b136-376161386539/2_14_-_.jpg",
+          "https://static.tildacdn.com/tild6661-3163-4737-a236-613037636339/2_12_-_.jpg",
+          "https://static.tildacdn.com/tild3630-6438-4135-b038-386431666630/2_9_-_Photo.jpg",
+          "https://static.tildacdn.com/tild3565-6635-4631-b837-663233623263/2_6_-_Photo.jpg",
+          "https://static.tildacdn.com/tild3437-6161-4437-b731-326434326239/2_4_-_Photo.jpg"
+        ]
+      },
+      "missing_for_costing": {
+        "approved_revision_id": null,
+        "production_module_count": null,
+        "module_geometry": null,
+        "pile_count": null,
+        "pile_coordinates": null,
+        "structural_stud_height_mm": null,
+        "roof_slope_deg": null,
+        "structural_bom": null,
+        "finish_schedule": null,
+        "engineering_bom": null,
+        "labor_hours": null,
+        "base_package_detailed_scope": null
+      },
+      "issues": [
+        {
+          "code": "regional_roof_conflict",
+          "message": "На региональных страницах /hakasia и /kuzbass встречается сочетание «двускатная/плоская» либо «плоская/двускатная». В каталоге сохранено значение односкатная/плоская с индивидуальной страницы; варианты не объединены в утверждённую конструкцию."
+        }
+      ]
+    },
+    {
+      "project_id": "lh_house_norma38",
+      "website_slug": "norma38",
+      "display_name": "НОРМА 38",
+      "category": "house",
+      "series_from_page_heading": "НОРМА",
+      "name_aliases": [],
+      "source_url": "https://lhmodul.ru/norma38",
+      "catalog_url": "https://lhmodul.ru/houses",
+      "snapshot_date": "2026-09-09",
+      "website_specs": {
+        "advertised_area_m2": 38.07,
+        "area_definition": "not_explicitly_defined_on_page",
+        "ceiling_height_m": 2.7,
+        "roof_text": "плоская/односкатная",
+        "roof_family_hint": "flat_or_single_pitch",
+        "bedrooms_count": 1,
+        "bathrooms_count": 1,
+        "feature_lines": [
+          "Площадь дома:",
+          "38.07 м²",
+          "Высота потолков:",
+          "2,7 м",
+          "Кровля:",
+          "плоская/односкатная",
+          "Санузел:",
+          "1",
+          "Спальня:",
+          "1"
+        ]
+      },
+      "floor_plan": {
+        "source_url": "https://static.tildacdn.com/tild3064-3732-4366-b063-336635616465/__38.jpg",
+        "file_in_bundle": "plans/norma38.jpg",
+        "sha256": "3912632b2ce86071f9fae3f1ac35dfa9b5fb7830d7b9cc8183748e9aadb92df6",
+        "review_status": "visually_transcribed_not_production_verified",
+        "dimensioned_envelope_mm": [
+          7000,
+          6500
+        ],
+        "dimensioned_envelope_is_full_footprint": false,
+        "rectangular_enclosed_body_mm": null,
+        "enclosed_body_gross_area_from_dimensions_m2": null,
+        "dimensions_notes": "Общий габарит 7000 × 6500. Горизонтальная цепочка 1000 + 3200 + 2800; вертикальная 3000 + 2500 + 1000. Закрытый объём и терраса сложной формы.",
+        "rooms": [
+          {
+            "name": "Гостиная",
+            "area_m2": 11.91,
+            "source": "floor_plan_label"
+          },
+          {
+            "name": "С/у",
+            "area_m2": 2.64,
+            "source": "floor_plan_label"
+          },
+          {
+            "name": "Спальня",
+            "area_m2": 5.42,
+            "source": "floor_plan_label"
+          }
+        ],
+        "outdoor_zones": [
+          {
+            "name": "Терраса",
+            "area_m2": 13.07,
+            "source": "floor_plan_label"
+          }
+        ],
+        "derived_labeled_indoor_area_sum_m2": 19.97,
+        "derived_labeled_outdoor_area_sum_m2": 13.07,
+        "derived_all_labeled_area_sum_m2": 33.04,
+        "terrace_labeled_area_m2": 13.07,
+        "area_use": "reference_only_until_selected_project_revision_is_confirmed"
+      },
+      "images": {
+        "cover_url": "https://static.tildacdn.com/tild6565-3739-4265-b365-353663366330/3_5_-_Photo.jpg",
+        "gallery_urls": [
+          "https://static.tildacdn.com/tild6565-3739-4265-b365-353663366330/3_5_-_Photo.jpg",
+          "https://static.tildacdn.com/tild6463-3561-4162-b262-616565393564/3_4_-_Photo.jpg",
+          "https://static.tildacdn.com/tild3064-3732-4366-b063-336635616465/__38.jpg",
+          "https://static.tildacdn.com/tild3732-6236-4263-a435-336562633139/3_11_-_.jpg",
+          "https://static.tildacdn.com/tild3335-3765-4264-a365-396534643833/3_10_-_Photo.jpg",
+          "https://static.tildacdn.com/tild6233-3264-4434-b765-633335386434/3_1_-_Photo.jpg",
+          "https://static.tildacdn.com/tild3335-6639-4961-a663-623933323738/3_15_-_.jpg",
+          "https://static.tildacdn.com/tild3066-6231-4035-a264-373834663462/3_14_-_.jpg",
+          "https://static.tildacdn.com/tild3233-3839-4438-b033-326633666562/3_13_-_.jpg",
+          "https://static.tildacdn.com/tild3435-3436-4666-b137-666364613438/3_12_-_.jpg",
+          "https://static.tildacdn.com/tild6430-3361-4131-b763-613538393263/3_3_-_Photo.jpg",
+          "https://static.tildacdn.com/tild3865-3764-4231-a635-363433346534/3_2_-_Photo.jpg",
+          "https://static.tildacdn.com/tild3236-3262-4361-b231-363434336139/3_9_-_Photo.jpg",
+          "https://static.tildacdn.com/tild6234-6563-4239-b161-643565323764/3_8_-_Photo.jpg",
+          "https://static.tildacdn.com/tild3330-3934-4830-b239-393366383331/3_7_-_Photo.jpg",
+          "https://static.tildacdn.com/tild3636-3366-4861-b038-633461376238/3_6_-_Photo.jpg"
+        ]
+      },
+      "missing_for_costing": {
+        "approved_revision_id": null,
+        "production_module_count": null,
+        "module_geometry": null,
+        "pile_count": null,
+        "pile_coordinates": null,
+        "structural_stud_height_mm": null,
+        "roof_slope_deg": null,
+        "structural_bom": null,
+        "finish_schedule": null,
+        "engineering_bom": null,
+        "labor_hours": null,
+        "base_package_detailed_scope": null
+      },
+      "issues": [
+        {
+          "code": "regional_roof_conflict",
+          "message": "На региональных страницах /hakasia и /kuzbass встречается сочетание «двускатная/плоская» либо «плоская/двускатная». В каталоге сохранено значение односкатная/плоская с индивидуальной страницы; варианты не объединены в утверждённую конструкцию."
+        }
+      ]
+    },
+    {
+      "project_id": "lh_house_barn43",
+      "website_slug": "barn43",
+      "display_name": "БАРН 43",
+      "category": "house",
+      "series_from_page_heading": "БАРН",
+      "name_aliases": [],
+      "source_url": "https://lhmodul.ru/barn43",
+      "catalog_url": "https://lhmodul.ru/houses",
+      "snapshot_date": "2026-09-09",
+      "website_specs": {
+        "advertised_area_m2": 42.5,
+        "area_definition": "not_explicitly_defined_on_page",
+        "ceiling_height_m": 2.7,
+        "roof_text": "двускатная",
+        "roof_family_hint": "gable",
+        "bedrooms_count": null,
+        "bathrooms_count": 1,
+        "feature_lines": [
+          "Площадь дома:",
+          "42,5 м²",
+          "Высота потолков:",
+          "2,7 м",
+          "Кровля:",
+          "двускатная",
+          "Санузел:",
+          "1",
+          "Терраса"
+        ]
+      },
+      "floor_plan": {
+        "source_url": "https://static.tildacdn.com/tild3962-6631-4966-b032-326433646335/__43.jpg",
+        "file_in_bundle": "plans/barn43.jpg",
+        "sha256": "068df297b7a920744d79b2f90d0f68014d56531c6f866a46b7eb3fdf8333eb70",
+        "review_status": "visually_transcribed_not_production_verified",
+        "dimensioned_envelope_mm": [
+          8500,
+          5000
+        ],
+        "dimensioned_envelope_is_full_footprint": false,
+        "rectangular_enclosed_body_mm": [
+          6000,
+          5000
+        ],
+        "enclosed_body_gross_area_from_dimensions_m2": 30.0,
+        "dimensions_notes": "Закрытый объём 6000 × 5000; терраса по габариту 2500 × 5000. Общий габарит 8500 × 5000.",
+        "rooms": [
+          {
+            "name": "Гостиная-кухня",
+            "area_m2": 20.91,
+            "source": "floor_plan_label"
+          },
+          {
+            "name": "С/у",
+            "area_m2": 3.63,
+            "source": "floor_plan_label"
+          }
+        ],
+        "outdoor_zones": [
+          {
+            "name": "Терраса",
+            "area_m2": 11.45,
+            "source": "floor_plan_label"
+          }
+        ],
+        "derived_labeled_indoor_area_sum_m2": 24.54,
+        "derived_labeled_outdoor_area_sum_m2": 11.45,
+        "derived_all_labeled_area_sum_m2": 35.99,
+        "terrace_labeled_area_m2": 11.45,
+        "area_use": "reference_only_until_selected_project_revision_is_confirmed"
+      },
+      "images": {
+        "cover_url": "https://static.tildacdn.com/tild3438-6265-4437-a164-363562303833/1_01_-_Photo.jpg",
+        "gallery_urls": [
+          "https://static.tildacdn.com/tild3438-6265-4437-a164-363562303833/1_01_-_Photo.jpg",
+          "https://static.tildacdn.com/tild3030-3332-4062-b934-633936323861/1_06_-_Photo.jpg",
+          "https://static.tildacdn.com/tild3962-6631-4966-b032-326433646335/__43.jpg",
+          "https://static.tildacdn.com/tild6539-6131-4039-a332-386165623239/1_07_-_Photo.jpg",
+          "https://static.tildacdn.com/tild3838-6434-4431-b933-373338613865/1_05_-_Photo.jpg",
+          "https://static.tildacdn.com/tild3232-3566-4038-b565-366335393038/1_04_-_Photo.jpg",
+          "https://static.tildacdn.com/tild6332-6134-4663-a166-363139613035/1_03_-_Photo.jpg",
+          "https://static.tildacdn.com/tild3336-3134-4736-b932-316432666161/1_02_-_Photo.jpg",
+          "https://static.tildacdn.com/tild6237-3266-4662-b664-613738393437/1_09_-_Photo.jpg",
+          "https://static.tildacdn.com/tild3333-6238-4931-b161-653566326664/1_08_-_Photo.jpg",
+          "https://static.tildacdn.com/tild3737-6562-4063-b535-663866346537/1_10_-_Photo.jpg",
+          "https://static.tildacdn.com/tild3065-3235-4165-b030-396238336538/1_12_-_.jpg",
+          "https://static.tildacdn.com/tild3834-3639-4062-b833-396437333030/1_11_-_.jpg",
+          "https://static.tildacdn.com/tild3938-3462-4038-b764-643561303165/1_17_-_.jpg",
+          "https://static.tildacdn.com/tild3735-3038-4534-b934-623362383938/1_16_-_.jpg",
+          "https://static.tildacdn.com/tild3035-6465-4261-a234-393737306638/1_15_-_.jpg",
+          "https://static.tildacdn.com/tild6432-6566-4235-a234-383234323330/1_14_-_.jpg",
+          "https://static.tildacdn.com/tild3236-3166-4665-b865-326136393465/1_13_-_.jpg"
+        ]
+      },
+      "missing_for_costing": {
+        "approved_revision_id": null,
+        "production_module_count": null,
+        "module_geometry": null,
+        "pile_count": null,
+        "pile_coordinates": null,
+        "structural_stud_height_mm": null,
+        "roof_slope_deg": null,
+        "structural_bom": null,
+        "finish_schedule": null,
+        "engineering_bom": null,
+        "labor_hours": null,
+        "base_package_detailed_scope": null
+      },
+      "issues": []
+    },
+    {
+      "project_id": "lh_house_barn48",
+      "website_slug": "barn48",
+      "display_name": "БАРН 48",
+      "category": "house",
+      "series_from_page_heading": "БАРН",
+      "name_aliases": [],
+      "source_url": "https://lhmodul.ru/barn48",
+      "catalog_url": "https://lhmodul.ru/houses",
+      "snapshot_date": "2026-09-09",
+      "website_specs": {
+        "advertised_area_m2": 47.47,
+        "area_definition": "not_explicitly_defined_on_page",
+        "ceiling_height_m": 2.7,
+        "roof_text": "двускатная",
+        "roof_family_hint": "gable",
+        "bedrooms_count": 1,
+        "bathrooms_count": 1,
+        "feature_lines": [
+          "Площадь дома:",
+          "47,47 м²",
+          "Высота потолков:",
+          "2,7 м",
+          "Кровля:",
+          "двускатная",
+          "Санузел:",
+          "1",
+          "Парилка",
+          "Спальня:",
+          "1"
+        ]
+      },
+      "floor_plan": {
+        "source_url": "https://static.tildacdn.com/tild6563-3832-4634-a133-336135333836/__48.jpg",
+        "file_in_bundle": "plans/barn48.jpg",
+        "sha256": "8f2dd3f62dd7c67c04ebeaac02f77d66bfe7d5766242a792315753f66063aac2",
+        "review_status": "conflict_do_not_use",
+        "dimensioned_envelope_mm": null,
+        "dimensioned_envelope_is_full_footprint": false,
+        "rectangular_enclosed_body_mm": null,
+        "enclosed_body_gross_area_from_dimensions_m2": null,
+        "dimensions_notes": "План на странице визуально повторяет БАРН 43: 8500 × 5000, закрытая часть 6000 × 5000. В параметры БАРН 48 эти размеры не перенесены из-за противоречия с карточкой.",
+        "rooms": [],
+        "outdoor_zones": [],
+        "derived_labeled_indoor_area_sum_m2": null,
+        "derived_labeled_outdoor_area_sum_m2": null,
+        "derived_all_labeled_area_sum_m2": null,
+        "terrace_labeled_area_m2": null,
+        "area_use": "reference_only_until_selected_project_revision_is_confirmed"
+      },
+      "images": {
+        "cover_url": "https://static.tildacdn.com/tild3730-3565-4364-b532-643034623764/1_05_-_Photo.jpg",
+        "gallery_urls": [
+          "https://static.tildacdn.com/tild3730-3565-4364-b532-643034623764/1_05_-_Photo.jpg",
+          "https://static.tildacdn.com/tild3237-3564-4133-b739-393434386433/1_06_-_Photo.jpg",
+          "https://static.tildacdn.com/tild6563-3832-4634-a133-336135333836/__48.jpg",
+          "https://static.tildacdn.com/tild3862-3533-4161-b164-306265613735/1_11_-_.jpg",
+          "https://static.tildacdn.com/tild3762-6132-4838-a330-663861336337/1_14_-_.jpg",
+          "https://static.tildacdn.com/tild3533-3839-4333-a532-636461393737/1_02_-_Photo.jpg",
+          "https://static.tildacdn.com/tild3135-6565-4831-b261-343333353161/1_04_-_Photo.jpg",
+          "https://static.tildacdn.com/tild3565-3234-4563-a163-343436373065/1_03_-_Photo.jpg",
+          "https://static.tildacdn.com/tild3933-3239-4462-b466-356139623734/1_01_-_Photo.jpg",
+          "https://static.tildacdn.com/tild3033-3331-4565-b466-393133346465/1_09_-_Photo.jpg",
+          "https://static.tildacdn.com/tild3236-3434-4433-b734-633765336162/1_08_-_Photo.jpg",
+          "https://static.tildacdn.com/tild3761-3465-4639-b437-306639323932/1_07_-_Photo.jpg",
+          "https://static.tildacdn.com/tild3936-3030-4463-b966-636265343663/1_13_-_.jpg",
+          "https://static.tildacdn.com/tild6466-6635-4436-b465-363561663036/1_12_-_.jpg",
+          "https://static.tildacdn.com/tild3731-6131-4935-b531-316530316263/1_10_-_Photo.jpg",
+          "https://static.tildacdn.com/tild6438-6265-4539-b834-656331303832/1_18_-_.jpg",
+          "https://static.tildacdn.com/tild3639-6534-4232-b864-336632663233/1_17_-_.jpg",
+          "https://static.tildacdn.com/tild3735-6635-4566-b034-323632303564/1_16_-_.jpg",
+          "https://static.tildacdn.com/tild3463-6134-4638-b236-643135363135/1_15_-_.jpg"
+        ]
+      },
+      "missing_for_costing": {
+        "approved_revision_id": null,
+        "production_module_count": null,
+        "module_geometry": null,
+        "pile_count": null,
+        "pile_coordinates": null,
+        "structural_stud_height_mm": null,
+        "roof_slope_deg": null,
+        "structural_bom": null,
+        "finish_schedule": null,
+        "engineering_bom": null,
+        "labor_hours": null,
+        "base_package_detailed_scope": null
+      },
+      "issues": [
+        {
+          "code": "plan_conflict",
+          "message": "Карточка заявляет 47,47 м², спальню и парилку. Опубликованный план совпадает по содержанию с БАРН 43: гостиная-кухня 20,91 м², с/у 3,63 м², терраса 11,45 м²; спальни и парилки на нём нет. Геометрию и комнаты для расчёта БАРН 48 необходимо подтвердить."
+        }
+      ]
+    },
+    {
+      "project_id": "lh_house_norma54",
+      "website_slug": "norma54",
+      "display_name": "НОРМА 54",
+      "category": "house",
+      "series_from_page_heading": "НОРМА",
+      "name_aliases": [],
+      "source_url": "https://lhmodul.ru/norma54",
+      "catalog_url": "https://lhmodul.ru/houses",
+      "snapshot_date": "2026-09-09",
+      "website_specs": {
+        "advertised_area_m2": 54.0,
+        "area_definition": "not_explicitly_defined_on_page",
+        "ceiling_height_m": 2.7,
+        "roof_text": "плоская/односкатная",
+        "roof_family_hint": "flat_or_single_pitch",
+        "bedrooms_count": 1,
+        "bathrooms_count": 1,
+        "feature_lines": [
+          "Площадь дома:",
+          "54 м²",
+          "Высота потолков:",
+          "2,7 м",
+          "Кровля:",
+          "плоская/односкатная",
+          "Санузел:",
+          "1",
+          "Спальня:",
+          "1"
+        ]
+      },
+      "floor_plan": {
+        "source_url": "https://static.tildacdn.com/tild6532-3963-4336-b339-363962363234/__54.jpg",
+        "file_in_bundle": "plans/norma54.jpg",
+        "sha256": "5b23499b60b377f6e8884e816d83a4cbe44eaff2953a3afc87e83bebce69e45c",
+        "review_status": "visually_transcribed_not_production_verified",
+        "dimensioned_envelope_mm": [
+          9000,
+          7000
+        ],
+        "dimensioned_envelope_is_full_footprint": false,
+        "rectangular_enclosed_body_mm": null,
+        "enclosed_body_gross_area_from_dimensions_m2": null,
+        "dimensions_notes": "Общий габарит по размерным линиям 9000 × 7000. Горизонтальная цепочка 1000 + 6000 + 2000; вертикальная 1000 + 3000 + 3000. Контур имеет вырезы; наружные ступени выходят за размерный контур.",
+        "rooms": [
+          {
+            "name": "Гостиная-кухня",
+            "area_m2": 21.13,
+            "source": "floor_plan_label"
+          },
+          {
+            "name": "С/у",
+            "area_m2": 2.9,
+            "source": "floor_plan_label"
+          },
+          {
+            "name": "Спальня",
+            "area_m2": 5.81,
+            "source": "floor_plan_label"
+          }
+        ],
+        "outdoor_zones": [
+          {
+            "name": "Терраса",
+            "area_m2": 12.0,
+            "source": "floor_plan_label"
+          },
+          {
+            "name": "Крыльцо",
+            "area_m2": 6.0,
+            "source": "floor_plan_label"
+          }
+        ],
+        "derived_labeled_indoor_area_sum_m2": 29.84,
+        "derived_labeled_outdoor_area_sum_m2": 18.0,
+        "derived_all_labeled_area_sum_m2": 47.84,
+        "terrace_labeled_area_m2": 12.0,
+        "area_use": "reference_only_until_selected_project_revision_is_confirmed"
+      },
+      "images": {
+        "cover_url": "https://static.tildacdn.com/tild3563-3939-4532-b261-376338306362/3_6_-_Photo.jpg",
+        "gallery_urls": [
+          "https://static.tildacdn.com/tild3563-3939-4532-b261-376338306362/3_6_-_Photo.jpg",
+          "https://static.tildacdn.com/tild3634-3261-4235-b433-633866396132/3_5_-_Photo.jpg",
+          "https://static.tildacdn.com/tild6532-3963-4336-b339-363962363234/__54.jpg",
+          "https://static.tildacdn.com/tild3135-6335-4331-a134-343965616364/3_11_-_.jpg",
+          "https://static.tildacdn.com/tild3333-3061-4332-b739-633933663237/3_10_-_Photo.jpg",
+          "https://static.tildacdn.com/tild6535-6132-4437-b862-316634323761/3_1_-_Photo.jpg",
+          "https://static.tildacdn.com/tild3762-6138-4235-a132-386430386235/3_15_-_.jpg",
+          "https://static.tildacdn.com/tild6634-3465-4665-b432-346534643239/3_12_-_.jpg",
+          "https://static.tildacdn.com/tild3536-3133-4366-b161-346231353362/3_14_-_.jpg",
+          "https://static.tildacdn.com/tild6132-3661-4331-b338-303361633432/3_13_-_.jpg",
+          "https://static.tildacdn.com/tild3064-6231-4963-b335-383738366665/3_3_-_Photo.jpg",
+          "https://static.tildacdn.com/tild6665-3534-4137-a334-643036343030/3_2_-_Photo.jpg",
+          "https://static.tildacdn.com/tild3835-3463-4532-b466-333836303832/3_8_-_Photo.jpg",
+          "https://static.tildacdn.com/tild6538-6532-4266-b537-343734356263/3_7_-_Photo.jpg",
+          "https://static.tildacdn.com/tild3163-3066-4138-b036-386563393131/3_4_-_Photo.jpg",
+          "https://static.tildacdn.com/tild6665-3563-4765-b362-366566663130/3_9_-_Photo.jpg"
+        ]
+      },
+      "missing_for_costing": {
+        "approved_revision_id": null,
+        "production_module_count": null,
+        "module_geometry": null,
+        "pile_count": null,
+        "pile_coordinates": null,
+        "structural_stud_height_mm": null,
+        "roof_slope_deg": null,
+        "structural_bom": null,
+        "finish_schedule": null,
+        "engineering_bom": null,
+        "labor_hours": null,
+        "base_package_detailed_scope": null
+      },
+      "issues": [
+        {
+          "code": "regional_roof_conflict",
+          "message": "На региональных страницах /hakasia и /kuzbass встречается сочетание «двускатная/плоская» либо «плоская/двускатная». В каталоге сохранено значение односкатная/плоская с индивидуальной страницы; варианты не объединены в утверждённую конструкцию."
+        }
+      ]
+    },
+    {
+      "project_id": "lh_house_norma63",
+      "website_slug": "norma63",
+      "display_name": "НОРМА 63",
+      "category": "house",
+      "series_from_page_heading": "НОРМА",
+      "name_aliases": [],
+      "source_url": "https://lhmodul.ru/norma63",
+      "catalog_url": "https://lhmodul.ru/houses",
+      "snapshot_date": "2026-09-09",
+      "website_specs": {
+        "advertised_area_m2": 61.72,
+        "area_definition": "not_explicitly_defined_on_page",
+        "ceiling_height_m": 2.7,
+        "roof_text": "односкатная",
+        "roof_family_hint": "flat_or_single_pitch",
+        "bedrooms_count": 2,
+        "bathrooms_count": 1,
+        "feature_lines": [
+          "Площадь дома:",
+          "61,72 м²",
+          "Высота потолков:",
+          "2,7 м",
+          "Кровля:",
+          "односкатная",
+          "Санузел:",
+          "1",
+          "Спальня:",
+          "2"
+        ]
+      },
+      "floor_plan": {
+        "source_url": "https://static.tildacdn.com/tild3437-3130-4565-a136-373533383533/__63.jpg",
+        "file_in_bundle": "plans/norma63.jpg",
+        "sha256": "e3dbdc0da9c22146ecf683f18dae15cfd58b2d653ef4db75cbab2faaefb2fc48",
+        "review_status": "visually_transcribed_not_production_verified",
+        "dimensioned_envelope_mm": [
+          7000,
+          9000
+        ],
+        "dimensioned_envelope_is_full_footprint": false,
+        "rectangular_enclosed_body_mm": [
+          7000,
+          6000
+        ],
+        "enclosed_body_gross_area_from_dimensions_m2": 42.0,
+        "dimensions_notes": "Закрытый объём 7000 × 6000; терраса по габариту 7000 × 3000. Общий габарит 7000 × 9000.",
+        "rooms": [
+          {
+            "name": "Спальня 1",
+            "area_m2": 5.9,
+            "source": "floor_plan_label"
+          },
+          {
+            "name": "Спальня 2",
+            "area_m2": 5.9,
+            "source": "floor_plan_label"
+          },
+          {
+            "name": "Гостиная-кухня",
+            "area_m2": 20.59,
+            "source": "floor_plan_label"
+          },
+          {
+            "name": "С/у",
+            "area_m2": 2.95,
+            "source": "floor_plan_label"
+          }
+        ],
+        "outdoor_zones": [
+          {
+            "name": "Терраса",
+            "area_m2": 19.72,
+            "source": "floor_plan_label"
+          }
+        ],
+        "derived_labeled_indoor_area_sum_m2": 35.34,
+        "derived_labeled_outdoor_area_sum_m2": 19.72,
+        "derived_all_labeled_area_sum_m2": 55.06,
+        "terrace_labeled_area_m2": 19.72,
+        "area_use": "reference_only_until_selected_project_revision_is_confirmed"
+      },
+      "images": {
+        "cover_url": "https://static.tildacdn.com/tild6665-6530-4636-b232-613033646533/2_5_-_Photo.jpg",
+        "gallery_urls": [
+          "https://static.tildacdn.com/tild6665-6530-4636-b232-613033646533/2_5_-_Photo.jpg",
+          "https://static.tildacdn.com/tild3163-6139-4735-b034-366637663933/2_12_-_.jpg",
+          "https://static.tildacdn.com/tild3437-3130-4565-a136-373533383533/__63.jpg",
+          "https://static.tildacdn.com/tild3264-3134-4537-b839-333465373934/2_13_-_.jpg",
+          "https://static.tildacdn.com/tild3832-6662-4534-a638-326465376432/2_11_-_.jpg",
+          "https://static.tildacdn.com/tild6462-3236-4132-a539-393836656334/2_10_-_Photo.jpg",
+          "https://static.tildacdn.com/tild3065-6335-4866-b363-333161363831/2_1_-_Photo.jpg",
+          "https://static.tildacdn.com/tild3630-6232-4061-a634-323662306166/2_14_-_.jpg",
+          "https://static.tildacdn.com/tild6139-3164-4033-a533-353766613265/2_4_-_Photo.jpg",
+          "https://static.tildacdn.com/tild3132-6666-4834-b235-636531323034/2_3_-_Photo.jpg",
+          "https://static.tildacdn.com/tild3234-6335-4066-b831-316439623731/2_2_-_Photo.jpg",
+          "https://static.tildacdn.com/tild6531-6439-4039-b661-333133666563/2_9_-_Photo.jpg",
+          "https://static.tildacdn.com/tild3465-6165-4231-a266-363132393832/2_8_-_Photo.jpg",
+          "https://static.tildacdn.com/tild3664-3366-4761-a664-353063366263/2_7_-_Photo.jpg",
+          "https://static.tildacdn.com/tild3135-3939-4936-b066-613135623362/2_6_-_Photo.jpg"
+        ]
+      },
+      "missing_for_costing": {
+        "approved_revision_id": null,
+        "production_module_count": null,
+        "module_geometry": null,
+        "pile_count": null,
+        "pile_coordinates": null,
+        "structural_stud_height_mm": null,
+        "roof_slope_deg": null,
+        "structural_bom": null,
+        "finish_schedule": null,
+        "engineering_bom": null,
+        "labor_hours": null,
+        "base_package_detailed_scope": null
+      },
+      "issues": [
+        {
+          "code": "regional_specs_conflict",
+          "message": "Региональная развёрнутая карточка указывает двускатную кровлю и одну спальню; индивидуальная страница и её план — односкатную кровлю и две спальни. Использованы данные индивидуальной страницы; региональный текст не превращён в отдельный проект."
+        }
+      ]
+    },
+    {
+      "project_id": "lh_house_barn69",
+      "website_slug": "barn69",
+      "display_name": "БАРН 69",
+      "category": "house",
+      "series_from_page_heading": "БАРН",
+      "name_aliases": [],
+      "source_url": "https://lhmodul.ru/barn69",
+      "catalog_url": "https://lhmodul.ru/houses",
+      "snapshot_date": "2026-09-09",
+      "website_specs": {
+        "advertised_area_m2": 69.16,
+        "area_definition": "not_explicitly_defined_on_page",
+        "ceiling_height_m": 2.7,
+        "roof_text": "двускатная",
+        "roof_family_hint": "gable",
+        "bedrooms_count": 1,
+        "bathrooms_count": 1,
+        "feature_lines": [
+          "Площадь дома:",
+          "69,16 м²",
+          "Высота потолков:",
+          "2,7 м",
+          "Кровля:",
+          "двускатная",
+          "Санузел:",
+          "1",
+          "Спальни:",
+          "1"
+        ]
+      },
+      "floor_plan": {
+        "source_url": "https://static.tildacdn.com/tild3631-6163-4361-b234-643061363966/__69.jpg",
+        "file_in_bundle": "plans/barn69.jpg",
+        "sha256": "4542dbbe7cb8ce510f8b72852a64a48aed2898575ab271978d94e0972f27a198",
+        "review_status": "visually_transcribed_not_production_verified",
+        "dimensioned_envelope_mm": null,
+        "dimensioned_envelope_is_full_footprint": false,
+        "rectangular_enclosed_body_mm": [
+          8000,
+          6000
+        ],
+        "enclosed_body_gross_area_from_dimensions_m2": 48.0,
+        "dimensions_notes": "Ширина 8000. Слева подписана высота 8000 = 3000 + 3000 + 2000, но справа терраса выступает ниже; полный габарит по этому направлению не подписан. Закрытая часть 8000 × 6000.",
+        "rooms": [
+          {
+            "name": "Спальня",
+            "area_m2": 10.38,
+            "source": "floor_plan_label"
+          },
+          {
+            "name": "Гостиная",
+            "area_m2": 10.9,
+            "source": "floor_plan_label"
+          },
+          {
+            "name": "Кухня",
+            "area_m2": 13.59,
+            "source": "floor_plan_label"
+          },
+          {
+            "name": "С/у",
+            "area_m2": 3.04,
+            "source": "floor_plan_label"
+          },
+          {
+            "name": "Холл",
+            "area_m2": 2.93,
+            "source": "floor_plan_label"
+          }
+        ],
+        "outdoor_zones": [
+          {
+            "name": "Терраса",
+            "area_m2": 21.16,
+            "source": "floor_plan_label"
+          }
+        ],
+        "derived_labeled_indoor_area_sum_m2": 40.84,
+        "derived_labeled_outdoor_area_sum_m2": 21.16,
+        "derived_all_labeled_area_sum_m2": 62.0,
+        "terrace_labeled_area_m2": 21.16,
+        "area_use": "reference_only_until_selected_project_revision_is_confirmed"
+      },
+      "images": {
+        "cover_url": "https://static.tildacdn.com/tild3239-3664-4837-a237-313735356537/1_07_-_Photo.jpg",
+        "gallery_urls": [
+          "https://static.tildacdn.com/tild3239-3664-4837-a237-313735356537/1_07_-_Photo.jpg",
+          "https://static.tildacdn.com/tild3566-6337-4334-a361-383361663462/1_06_-_Photo.jpg",
+          "https://static.tildacdn.com/tild3631-6163-4361-b234-643061363966/__69.jpg",
+          "https://static.tildacdn.com/tild3765-6365-4164-a631-303966363234/1_12_-_.jpg",
+          "https://static.tildacdn.com/tild3864-6663-4162-a535-363566376337/1_14_-_.jpg",
+          "https://static.tildacdn.com/tild3238-6331-4539-b966-633537376538/1_08_-_Photo.jpg",
+          "https://static.tildacdn.com/tild3534-3438-4834-b038-633636616435/1_03_-_Photo.jpg",
+          "https://static.tildacdn.com/tild6430-6230-4330-b664-326131303331/1_04_-_Photo.jpg",
+          "https://static.tildacdn.com/tild6664-3631-4162-a230-313439333465/1_02_-_Photo.jpg",
+          "https://static.tildacdn.com/tild3539-3763-4438-b039-323963653864/1_01_-_Photo.jpg",
+          "https://static.tildacdn.com/tild3761-6434-4266-b963-663738396165/1_09_-_Photo.jpg",
+          "https://static.tildacdn.com/tild3364-3432-4466-b232-336463666362/1_05_-_Photo.jpg",
+          "https://static.tildacdn.com/tild3439-3837-4363-a364-396236316438/1_13_-_.jpg",
+          "https://static.tildacdn.com/tild3738-6465-4937-a635-363361333832/1_11_-_.jpg",
+          "https://static.tildacdn.com/tild3763-6637-4136-b563-363362643032/1_10_-_Photo.jpg",
+          "https://static.tildacdn.com/tild6537-6564-4664-a131-343835313461/1_15_-_.jpg"
+        ]
+      },
+      "missing_for_costing": {
+        "approved_revision_id": null,
+        "production_module_count": null,
+        "module_geometry": null,
+        "pile_count": null,
+        "pile_coordinates": null,
+        "structural_stud_height_mm": null,
+        "roof_slope_deg": null,
+        "structural_bom": null,
+        "finish_schedule": null,
+        "engineering_bom": null,
+        "labor_hours": null,
+        "base_package_detailed_scope": null
+      },
+      "issues": [
+        {
+          "code": "partial_dimension",
+          "message": "Размер 8000 по вертикали не включает нижний правый выступ террасы. Нельзя считать полный объект прямоугольником 8000 × 8000."
+        }
+      ]
+    },
+    {
+      "project_id": "lh_house_norma77",
+      "website_slug": "norma77",
+      "display_name": "НОРМА 77",
+      "category": "house",
+      "series_from_page_heading": "НОРМА",
+      "name_aliases": [],
+      "source_url": "https://lhmodul.ru/norma77",
+      "catalog_url": "https://lhmodul.ru/houses",
+      "snapshot_date": "2026-09-09",
+      "website_specs": {
+        "advertised_area_m2": 76.5,
+        "area_definition": "not_explicitly_defined_on_page",
+        "ceiling_height_m": 2.7,
+        "roof_text": "односкатная/плоская",
+        "roof_family_hint": "flat_or_single_pitch",
+        "bedrooms_count": 2,
+        "bathrooms_count": 1,
+        "feature_lines": [
+          "Площадь дома:",
+          "76,5 м²",
+          "Высота потолков:",
+          "2,7 м",
+          "Кровля:",
+          "односкатная/плоская",
+          "Санузел:",
+          "1",
+          "Спальни:",
+          "2"
+        ]
+      },
+      "floor_plan": {
+        "source_url": "https://static.tildacdn.com/tild3232-3733-4430-a337-303563633638/__77.jpg",
+        "file_in_bundle": "plans/norma77.jpg",
+        "sha256": "3a259786074e602d242f72d88a40813271f337aa99cbcf0ad2aeb2dc8a67558a",
+        "review_status": "visually_transcribed_not_production_verified",
+        "dimensioned_envelope_mm": [
+          8500,
+          9000
+        ],
+        "dimensioned_envelope_is_full_footprint": false,
+        "rectangular_enclosed_body_mm": [
+          8500,
+          6000
+        ],
+        "enclosed_body_gross_area_from_dimensions_m2": 51.0,
+        "dimensions_notes": "Закрытый объём 8500 × 6000; терраса 8500 × 3000. Общий габарит 8500 × 9000 без выступающих ступеней.",
+        "rooms": [
+          {
+            "name": "Спальня 1",
+            "area_m2": 6.84,
+            "source": "floor_plan_label"
+          },
+          {
+            "name": "Спальня 2",
+            "area_m2": 6.84,
+            "source": "floor_plan_label"
+          },
+          {
+            "name": "Гостиная-кухня",
+            "area_m2": 24.1,
+            "source": "floor_plan_label"
+          },
+          {
+            "name": "С/у",
+            "area_m2": 4.47,
+            "source": "floor_plan_label"
+          }
+        ],
+        "outdoor_zones": [
+          {
+            "name": "Терраса",
+            "area_m2": 25.5,
+            "source": "floor_plan_label"
+          }
+        ],
+        "derived_labeled_indoor_area_sum_m2": 42.25,
+        "derived_labeled_outdoor_area_sum_m2": 25.5,
+        "derived_all_labeled_area_sum_m2": 67.75,
+        "terrace_labeled_area_m2": 25.5,
+        "area_use": "reference_only_until_selected_project_revision_is_confirmed"
+      },
+      "images": {
+        "cover_url": "https://static.tildacdn.com/tild6235-3166-4363-b334-633433613961/2_5_-_Photo.jpg",
+        "gallery_urls": [
+          "https://static.tildacdn.com/tild6235-3166-4363-b334-633433613961/2_5_-_Photo.jpg",
+          "https://static.tildacdn.com/tild3563-6333-4034-b330-633737373232/2_4_-_Photo.jpg",
+          "https://static.tildacdn.com/tild3232-3733-4430-a337-303563633638/__77.jpg",
+          "https://static.tildacdn.com/tild3161-3932-4636-a463-333965663933/2_6_-_Photo.jpg",
+          "https://static.tildacdn.com/tild6164-3336-4363-b963-383831663062/2_10_-_Photo.jpg",
+          "https://static.tildacdn.com/tild3336-6630-4465-b331-376362626462/2_1_-_Photo.jpg",
+          "https://static.tildacdn.com/tild3433-3066-4132-b433-313839363466/2_14_-_.jpg",
+          "https://static.tildacdn.com/tild3839-6638-4761-b238-353363613238/2_11_-_.jpg",
+          "https://static.tildacdn.com/tild3738-3365-4530-b532-646364306664/2_13_-_.jpg",
+          "https://static.tildacdn.com/tild6637-6238-4661-b635-636563366230/2_12_-_.jpg",
+          "https://static.tildacdn.com/tild6635-3165-4739-b338-626637643965/2_3_-_Photo.jpg",
+          "https://static.tildacdn.com/tild3433-3736-4532-b330-613766613366/2_2_-_Photo.jpg",
+          "https://static.tildacdn.com/tild6431-3366-4163-a338-303863633432/2_9_-_Photo.jpg",
+          "https://static.tildacdn.com/tild6636-6235-4766-a564-656566326539/2_8_-_Photo.jpg",
+          "https://static.tildacdn.com/tild3633-3339-4636-b136-393665346535/2_7_-_Photo.jpg"
+        ]
+      },
+      "missing_for_costing": {
+        "approved_revision_id": null,
+        "production_module_count": null,
+        "module_geometry": null,
+        "pile_count": null,
+        "pile_coordinates": null,
+        "structural_stud_height_mm": null,
+        "roof_slope_deg": null,
+        "structural_bom": null,
+        "finish_schedule": null,
+        "engineering_bom": null,
+        "labor_hours": null,
+        "base_package_detailed_scope": null
+      },
+      "issues": [
+        {
+          "code": "regional_roof_conflict",
+          "message": "На региональных страницах /hakasia и /kuzbass встречается сочетание «двускатная/плоская» либо «плоская/двускатная». В каталоге сохранено значение односкатная/плоская с индивидуальной страницы; варианты не объединены в утверждённую конструкцию."
+        }
+      ]
+    },
+    {
+      "project_id": "lh_house_barn84",
+      "website_slug": "barn84",
+      "display_name": "БАРН 84",
+      "category": "house",
+      "series_from_page_heading": "БАРН",
+      "name_aliases": [],
+      "source_url": "https://lhmodul.ru/barn84",
+      "catalog_url": "https://lhmodul.ru/houses",
+      "snapshot_date": "2026-09-09",
+      "website_specs": {
+        "advertised_area_m2": 84.0,
+        "area_definition": "not_explicitly_defined_on_page",
+        "ceiling_height_m": 2.7,
+        "roof_text": "двускатная",
+        "roof_family_hint": "gable",
+        "bedrooms_count": 2,
+        "bathrooms_count": 1,
+        "feature_lines": [
+          "Площадь дома:",
+          "84 м²",
+          "Высота потолков:",
+          "2,7 м",
+          "Кровля:",
+          "двускатная",
+          "Санузел:",
+          "1",
+          "Спальни:",
+          "2",
+          "Кладовая:",
+          "1"
+        ]
+      },
+      "floor_plan": {
+        "source_url": "https://static.tildacdn.com/tild3561-6530-4336-b234-633664646637/_84____.jpg",
+        "file_in_bundle": "plans/barn84.jpg",
+        "sha256": "bbc558b50bb233745cc0a20268a61ebbb6faf72aa6817afcd2a96b87ab6e3ae0",
+        "review_status": "visually_transcribed_not_production_verified",
+        "dimensioned_envelope_mm": [
+          10500,
+          8000
+        ],
+        "dimensioned_envelope_is_full_footprint": false,
+        "rectangular_enclosed_body_mm": [
+          9000,
+          8000
+        ],
+        "enclosed_body_gross_area_from_dimensions_m2": 72.0,
+        "dimensions_notes": "Закрытый объём 9000 × 8000; терраса по габариту 1500 × 8000. Общий габарит 10500 × 8000 без боковых ступеней. По ширине закрытой части три участка по 3000.",
+        "rooms": [
+          {
+            "name": "Гостиная-кухня",
+            "area_m2": 32.19,
+            "source": "floor_plan_label"
+          },
+          {
+            "name": "Спальня 1 (верхняя)",
+            "area_m2": 10.49,
+            "source": "floor_plan_label"
+          },
+          {
+            "name": "Спальня 2 (нижняя)",
+            "area_m2": 11.93,
+            "source": "floor_plan_label"
+          },
+          {
+            "name": "Кладовая",
+            "area_m2": 2.49,
+            "source": "floor_plan_label"
+          },
+          {
+            "name": "С/у",
+            "area_m2": 5.02,
+            "source": "floor_plan_label"
+          }
+        ],
+        "outdoor_zones": [
+          {
+            "name": "Терраса",
+            "area_m2": 11.46,
+            "source": "floor_plan_label"
+          }
+        ],
+        "derived_labeled_indoor_area_sum_m2": 62.12,
+        "derived_labeled_outdoor_area_sum_m2": 11.46,
+        "derived_all_labeled_area_sum_m2": 73.58,
+        "terrace_labeled_area_m2": 11.46,
+        "area_use": "reference_only_until_selected_project_revision_is_confirmed"
+      },
+      "images": {
+        "cover_url": "https://static.tildacdn.com/tild3964-3031-4539-a464-376563323063/1_12_-_.jpg",
+        "gallery_urls": [
+          "https://static.tildacdn.com/tild3964-3031-4539-a464-376563323063/1_12_-_.jpg",
+          "https://static.tildacdn.com/tild3765-3939-4037-a135-383165663233/1_05_-_Photo.jpg",
+          "https://static.tildacdn.com/tild3561-6530-4336-b234-633664646637/_84____.jpg",
+          "https://static.tildacdn.com/tild3432-3533-4865-b238-366534323632/1_04_-_Photo.jpg",
+          "https://static.tildacdn.com/tild6138-6665-4331-b462-323834356533/1_03_-_Photo.jpg",
+          "https://static.tildacdn.com/tild6235-3938-4830-a432-366138373334/1_02_-_Photo.jpg",
+          "https://static.tildacdn.com/tild6234-3130-4138-b234-373865386531/1_01_-_Photo.jpg",
+          "https://static.tildacdn.com/tild3137-3236-4362-a330-386162353133/1_10_-_Photo.jpg",
+          "https://static.tildacdn.com/tild3166-3435-4436-b336-663033306436/1_09_-_Photo.jpg",
+          "https://static.tildacdn.com/tild3738-6163-4439-b837-383830633133/1_08_-_Photo.jpg",
+          "https://static.tildacdn.com/tild3435-3631-4233-a236-623436633836/1_07_-_Photo.jpg",
+          "https://static.tildacdn.com/tild3238-3466-4066-b262-353536316161/1_06_-_Photo.jpg",
+          "https://static.tildacdn.com/tild6437-6562-4335-b065-316534333137/1_14_-_.jpg",
+          "https://static.tildacdn.com/tild3365-6563-4139-a635-633563373636/1_13_-_.jpg",
+          "https://static.tildacdn.com/tild3432-3964-4136-a531-323766303431/1_11_-_.jpg",
+          "https://static.tildacdn.com/tild3039-3064-4163-b930-393035376665/1_17_-_.jpg",
+          "https://static.tildacdn.com/tild3464-6237-4634-a633-383632333434/1_16_-_.jpg",
+          "https://static.tildacdn.com/tild3733-6338-4230-b439-396465383437/1_15_-_.jpg",
+          "https://static.tildacdn.com/tild3263-6330-4635-a266-626239626535/1035.jpg",
+          "https://static.tildacdn.com/tild6664-3564-4835-b561-636633363231/6035.jpg",
+          "https://static.tildacdn.com/tild6163-3536-4634-b835-373532616431/5009.jpg",
+          "https://static.tildacdn.com/tild3533-6166-4135-a365-633662396432/4012.jpg",
+          "https://static.tildacdn.com/tild6363-3130-4335-b736-323963343461/3033.jpg",
+          "https://static.tildacdn.com/tild3133-6633-4239-b461-643563663539/2011.jpg",
+          "https://static.tildacdn.com/tild3035-3531-4164-b262-393766386166/photo.jpg",
+          "https://static.tildacdn.com/tild3061-3166-4435-b862-626533366135/9002.jpg",
+          "https://static.tildacdn.com/tild3631-3433-4535-b432-663962356264/8011.jpg",
+          "https://static.tildacdn.com/tild3366-6163-4463-b661-616631396335/7002.jpg"
+        ]
+      },
+      "missing_for_costing": {
+        "approved_revision_id": null,
+        "production_module_count": null,
+        "module_geometry": null,
+        "pile_count": null,
+        "pile_coordinates": null,
+        "structural_stud_height_mm": null,
+        "roof_slope_deg": null,
+        "structural_bom": null,
+        "finish_schedule": null,
+        "engineering_bom": null,
+        "labor_hours": null,
+        "base_package_detailed_scope": null
+      },
+      "issues": []
+    },
+    {
+      "project_id": "lh_house_barn88",
+      "website_slug": "barn88",
+      "display_name": "БАРН 88",
+      "category": "house",
+      "series_from_page_heading": "БАРН",
+      "name_aliases": [],
+      "source_url": "https://lhmodul.ru/barn88",
+      "catalog_url": "https://lhmodul.ru/houses",
+      "snapshot_date": "2026-09-09",
+      "website_specs": {
+        "advertised_area_m2": 88.0,
+        "area_definition": "not_explicitly_defined_on_page",
+        "ceiling_height_m": null,
+        "roof_text": "двускатная",
+        "roof_family_hint": "gable",
+        "bedrooms_count": 2,
+        "bathrooms_count": 1,
+        "feature_lines": [
+          "Площадь дома:",
+          "88 м²",
+          "Кровля:",
+          "двускатная",
+          "Санузел:",
+          "1",
+          "Спальни:",
+          "2",
+          "Гардеробная:",
+          "1"
+        ]
+      },
+      "floor_plan": {
+        "source_url": "https://static.tildacdn.com/tild6633-3839-4133-a636-346462373035/_88_page-0001.jpg",
+        "file_in_bundle": "plans/barn88.jpg",
+        "sha256": "ebd7a772da80ae41e289abd3e26c7cc59d1330f99a1c5ea0969b135c63b119a0",
+        "review_status": "visually_transcribed_not_production_verified",
+        "dimensioned_envelope_mm": [
+          11000,
+          8000
+        ],
+        "dimensioned_envelope_is_full_footprint": false,
+        "rectangular_enclosed_body_mm": [
+          9000,
+          8000
+        ],
+        "enclosed_body_gross_area_from_dimensions_m2": 72.0,
+        "dimensions_notes": "Основной прямоугольник с террасой 11000 × 8000. Закрытый объём 9000 × 8000; ширина террасы 2000. Крыльцо и наружные ступени выступают за этот габарит.",
+        "rooms": [
+          {
+            "name": "Спальня 1 (верхняя)",
+            "area_m2": 11.93,
+            "source": "floor_plan_label"
+          },
+          {
+            "name": "Спальня 2 (нижняя)",
+            "area_m2": 10.49,
+            "source": "floor_plan_label"
+          },
+          {
+            "name": "Гостиная-кухня",
+            "area_m2": 26.86,
+            "source": "floor_plan_label"
+          },
+          {
+            "name": "С/у",
+            "area_m2": 5.02,
+            "source": "floor_plan_label"
+          },
+          {
+            "name": "Холл",
+            "area_m2": 4.72,
+            "source": "floor_plan_label"
+          },
+          {
+            "name": "Гардероб",
+            "area_m2": 2.8,
+            "source": "floor_plan_label"
+          }
+        ],
+        "outdoor_zones": [
+          {
+            "name": "Терраса",
+            "area_m2": 15.28,
+            "source": "floor_plan_label"
+          },
+          {
+            "name": "Крыльцо",
+            "area_m2": 1.98,
+            "source": "floor_plan_label"
+          }
+        ],
+        "derived_labeled_indoor_area_sum_m2": 61.82,
+        "derived_labeled_outdoor_area_sum_m2": 17.26,
+        "derived_all_labeled_area_sum_m2": 79.08,
+        "terrace_labeled_area_m2": 15.28,
+        "area_use": "reference_only_until_selected_project_revision_is_confirmed"
+      },
+      "images": {
+        "cover_url": "https://static.tildacdn.com/tild6539-6566-4737-a662-656332386161/1_2_-_Photo.jpg",
+        "gallery_urls": [
+          "https://static.tildacdn.com/tild6539-6566-4737-a662-656332386161/1_2_-_Photo.jpg",
+          "https://static.tildacdn.com/tild3962-3166-4063-b236-316534386464/1_3_-_Photo.jpg",
+          "https://static.tildacdn.com/tild6633-3839-4133-a636-346462373035/_88_page-0001.jpg",
+          "https://static.tildacdn.com/tild3432-6338-4462-b434-393335663737/1_4_-_Photo.jpg",
+          "https://static.tildacdn.com/tild3361-3534-4561-a665-633134366662/1_5_-_Photo.jpg",
+          "https://static.tildacdn.com/tild6161-3736-4863-b537-336238363964/1_6_-_Photo.jpg",
+          "https://static.tildacdn.com/tild3135-3634-4362-a239-633263353233/1_7_-_Photo.jpg",
+          "https://static.tildacdn.com/tild6432-6465-4639-b637-613731373431/1_8_-_Photo.jpg",
+          "https://static.tildacdn.com/tild6162-3630-4261-b465-636338306330/1_19_-_.jpg",
+          "https://static.tildacdn.com/tild6437-3337-4539-a436-313864646266/1_17_-_.jpg",
+          "https://static.tildacdn.com/tild6433-6535-4263-a231-356263623434/1_21_-_.jpg",
+          "https://static.tildacdn.com/tild6138-3962-4137-a361-353261643835/1_20_-_.jpg"
+        ]
+      },
+      "missing_for_costing": {
+        "approved_revision_id": null,
+        "production_module_count": null,
+        "module_geometry": null,
+        "pile_count": null,
+        "pile_coordinates": null,
+        "structural_stud_height_mm": null,
+        "roof_slope_deg": null,
+        "structural_bom": null,
+        "finish_schedule": null,
+        "engineering_bom": null,
+        "labor_hours": null,
+        "base_package_detailed_scope": null
+      },
+      "issues": [
+        {
+          "code": "height_missing",
+          "message": "Высота потолков на индивидуальной странице не указана. Не подставлять 2,7 м по аналогии с другими моделями."
+        }
+      ]
+    },
+    {
+      "project_id": "lh_house_barn96",
+      "website_slug": "barn96",
+      "display_name": "БАРН 96",
+      "category": "house",
+      "series_from_page_heading": "БАРН",
+      "name_aliases": [],
+      "source_url": "https://lhmodul.ru/barn96",
+      "catalog_url": "https://lhmodul.ru/houses",
+      "snapshot_date": "2026-09-09",
+      "website_specs": {
+        "advertised_area_m2": 96.0,
+        "area_definition": "not_explicitly_defined_on_page",
+        "ceiling_height_m": 2.7,
+        "roof_text": "двускатная",
+        "roof_family_hint": "gable",
+        "bedrooms_count": 2,
+        "bathrooms_count": 1,
+        "feature_lines": [
+          "Площадь дома:",
+          "96 м²",
+          "Высота потолков:",
+          "2,7 м",
+          "Кровля:",
+          "двускатная",
+          "Санузел:",
+          "1",
+          "Спальни:",
+          "2",
+          "Котельная:",
+          "1"
+        ]
+      },
+      "floor_plan": {
+        "source_url": "https://static.tildacdn.com/tild3464-6362-4238-a164-643439353534/_96_-__page-0001.jpg",
+        "file_in_bundle": "plans/barn96.jpg",
+        "sha256": "c5cd3d1d3058e148702f42d92a638560d62deb253d58c9d1fd27b493cf2cd8d8",
+        "review_status": "visually_transcribed_not_production_verified",
+        "dimensioned_envelope_mm": [
+          12000,
+          8000
+        ],
+        "dimensioned_envelope_is_full_footprint": false,
+        "rectangular_enclosed_body_mm": [
+          9000,
+          8000
+        ],
+        "enclosed_body_gross_area_from_dimensions_m2": 72.0,
+        "dimensions_notes": "Основной прямоугольник с террасой 12000 × 8000; по ширине четыре участка по 3000. Закрытый объём 9000 × 8000, терраса по габариту 3000 × 8000. Крыльцо и ступени дополнительно выступают за этот габарит.",
+        "rooms": [
+          {
+            "name": "Спальня 1",
+            "area_m2": 9.35,
+            "source": "floor_plan_label"
+          },
+          {
+            "name": "Спальня 2",
+            "area_m2": 9.35,
+            "source": "floor_plan_label"
+          },
+          {
+            "name": "Гостиная-кухня",
+            "area_m2": 22.34,
+            "source": "floor_plan_label"
+          },
+          {
+            "name": "Холл",
+            "area_m2": 10.05,
+            "source": "floor_plan_label"
+          },
+          {
+            "name": "С/у",
+            "area_m2": 5.07,
+            "source": "floor_plan_label"
+          },
+          {
+            "name": "Котельная",
+            "area_m2": 5.07,
+            "source": "floor_plan_label"
+          }
+        ],
+        "outdoor_zones": [
+          {
+            "name": "Терраса",
+            "area_m2": 22.74,
+            "source": "floor_plan_label"
+          },
+          {
+            "name": "Крыльцо",
+            "area_m2": 2.16,
+            "source": "floor_plan_label"
+          }
+        ],
+        "derived_labeled_indoor_area_sum_m2": 61.23,
+        "derived_labeled_outdoor_area_sum_m2": 24.9,
+        "derived_all_labeled_area_sum_m2": 86.13,
+        "terrace_labeled_area_m2": 22.74,
+        "area_use": "reference_only_until_selected_project_revision_is_confirmed"
+      },
+      "images": {
+        "cover_url": "https://static.tildacdn.com/tild3231-3730-4032-b766-346162323536/1_3_-_Photo.jpg",
+        "gallery_urls": [
+          "https://static.tildacdn.com/tild3231-3730-4032-b766-346162323536/1_3_-_Photo.jpg",
+          "https://static.tildacdn.com/tild3331-3861-4564-b234-613066346431/1_4_-_Photo.jpg",
+          "https://static.tildacdn.com/tild3464-6362-4238-a164-643439353534/_96_-__page-0001.jpg",
+          "https://static.tildacdn.com/tild3761-6435-4237-a265-616434333335/1_5_-_Photo.jpg",
+          "https://static.tildacdn.com/tild3232-3631-4564-a364-386137363538/1_9_-_Photo.jpg",
+          "https://static.tildacdn.com/tild6636-3065-4665-b939-656438303064/1_1_-_Photo.jpg",
+          "https://static.tildacdn.com/tild6662-3366-4732-b961-623562643336/1_18_-_.jpg",
+          "https://static.tildacdn.com/tild3131-6534-4166-b130-333132346664/1_16_-_.jpg",
+          "https://static.tildacdn.com/tild6636-6462-4537-a437-316331393663/1_7_-_Photo.jpg",
+          "https://static.tildacdn.com/tild3462-3733-4264-b165-393132316464/1_12_-_.jpg"
+        ]
+      },
+      "missing_for_costing": {
+        "approved_revision_id": null,
+        "production_module_count": null,
+        "module_geometry": null,
+        "pile_count": null,
+        "pile_coordinates": null,
+        "structural_stud_height_mm": null,
+        "roof_slope_deg": null,
+        "structural_bom": null,
+        "finish_schedule": null,
+        "engineering_bom": null,
+        "labor_hours": null,
+        "base_package_detailed_scope": null
+      },
+      "issues": []
+    },
+    {
+      "project_id": "lh_house_barn107",
+      "website_slug": "barn107",
+      "display_name": "НОРМА 107",
+      "category": "house",
+      "series_from_page_heading": "НОРМА",
+      "name_aliases": [
+        "БАРН 107"
+      ],
+      "source_url": "https://lhmodul.ru/barn107",
+      "catalog_url": "https://lhmodul.ru/houses",
+      "snapshot_date": "2026-09-09",
+      "website_specs": {
+        "advertised_area_m2": 106.5,
+        "area_definition": "not_explicitly_defined_on_page",
+        "ceiling_height_m": 2.7,
+        "roof_text": "односкатная/плоская",
+        "roof_family_hint": "flat_or_single_pitch",
+        "bedrooms_count": 3,
+        "bathrooms_count": 1,
+        "feature_lines": [
+          "Площадь дома:",
+          "106,5 м²",
+          "Высота потолков:",
+          "2,7 м",
+          "Кровля:",
+          "односкатная/плоская",
+          "Санузел:",
+          "1",
+          "Спальни:",
+          "3"
+        ]
+      },
+      "floor_plan": {
+        "source_url": "https://static.tildacdn.com/tild3565-6436-4631-b334-623164653664/__107.jpg",
+        "file_in_bundle": "plans/barn107.jpg",
+        "sha256": "747d8787f1fa6202d8e23e51286e17ec97a6932d72823d84ddfa53385ab7633d",
+        "review_status": "visually_transcribed_not_production_verified",
+        "dimensioned_envelope_mm": [
+          12000,
+          10000
+        ],
+        "dimensioned_envelope_is_full_footprint": false,
+        "rectangular_enclosed_body_mm": [
+          12000,
+          7000
+        ],
+        "enclosed_body_gross_area_from_dimensions_m2": 84.0,
+        "dimensions_notes": "Закрытый объём 12000 × 7000; общий габарит с террасой 12000 × 10000. Терраса сложной формы, поэтому весь габаритный прямоугольник не равен площади объекта.",
+        "rooms": [
+          {
+            "name": "Спальня 1",
+            "area_m2": 9.35,
+            "source": "floor_plan_label"
+          },
+          {
+            "name": "Спальня 2",
+            "area_m2": 8.6,
+            "source": "floor_plan_label"
+          },
+          {
+            "name": "Спальня 3",
+            "area_m2": 8.6,
+            "source": "floor_plan_label"
+          },
+          {
+            "name": "Гостиная-кухня",
+            "area_m2": 37.24,
+            "source": "floor_plan_label"
+          },
+          {
+            "name": "С/у",
+            "area_m2": 3.6,
+            "source": "floor_plan_label"
+          },
+          {
+            "name": "Прихожая",
+            "area_m2": 4.22,
+            "source": "floor_plan_label"
+          }
+        ],
+        "outdoor_zones": [
+          {
+            "name": "Терраса",
+            "area_m2": 22.5,
+            "source": "floor_plan_label"
+          }
+        ],
+        "derived_labeled_indoor_area_sum_m2": 71.61,
+        "derived_labeled_outdoor_area_sum_m2": 22.5,
+        "derived_all_labeled_area_sum_m2": 94.11,
+        "terrace_labeled_area_m2": 22.5,
+        "area_use": "reference_only_until_selected_project_revision_is_confirmed"
+      },
+      "images": {
+        "cover_url": "https://static.tildacdn.com/tild3034-3839-4730-a334-313163633530/1_07_-_Photo.jpg",
+        "gallery_urls": [
+          "https://static.tildacdn.com/tild3034-3839-4730-a334-313163633530/1_07_-_Photo.jpg",
+          "https://static.tildacdn.com/tild6634-3061-4136-b838-313035663538/1_12_-_.jpg",
+          "https://static.tildacdn.com/tild3565-6436-4631-b334-623164653664/__107.jpg",
+          "https://static.tildacdn.com/tild6533-6337-4434-b064-353431386633/1_14_-_.jpg",
+          "https://static.tildacdn.com/tild3138-6538-4234-b436-376364326164/1_01_-_Photo.jpg",
+          "https://static.tildacdn.com/tild3936-3234-4266-b839-333363366537/1_06_-_Photo.jpg",
+          "https://static.tildacdn.com/tild3537-3861-4563-b262-643438366535/1_05_-_Photo.jpg",
+          "https://static.tildacdn.com/tild6233-6230-4862-b031-376132353336/1_04_-_Photo.jpg",
+          "https://static.tildacdn.com/tild3633-3936-4432-b432-663934313935/1_03_-_Photo.jpg",
+          "https://static.tildacdn.com/tild3066-3230-4430-a165-393339366432/1_02_-_Photo.jpg",
+          "https://static.tildacdn.com/tild3663-3332-4330-b431-366332623931/1_11_-_.jpg",
+          "https://static.tildacdn.com/tild6562-3832-4537-b035-363465343236/1_10_-_Photo.jpg",
+          "https://static.tildacdn.com/tild3961-3037-4338-b534-643239306130/1_09_-_Photo.jpg",
+          "https://static.tildacdn.com/tild3633-6663-4535-b062-633239666437/1_08_-_Photo.jpg",
+          "https://static.tildacdn.com/tild6139-6361-4163-b930-366331613036/1_15_-_.jpg",
+          "https://static.tildacdn.com/tild3138-3436-4534-a436-383764343461/1_13_-_.jpg",
+          "https://static.tildacdn.com/tild3137-3466-4934-b561-373964383138/1_17_-_.jpg",
+          "https://static.tildacdn.com/tild6130-6338-4137-a161-643737636363/1_16_-_.jpg"
+        ]
+      },
+      "missing_for_costing": {
+        "approved_revision_id": null,
+        "production_module_count": null,
+        "module_geometry": null,
+        "pile_count": null,
+        "pile_coordinates": null,
+        "structural_stud_height_mm": null,
+        "roof_slope_deg": null,
+        "structural_bom": null,
+        "finish_schedule": null,
+        "engineering_bom": null,
+        "labor_hours": null,
+        "base_package_detailed_scope": null
+      },
+      "issues": [
+        {
+          "code": "name_conflict",
+          "message": "Заголовок индивидуальной страницы — НОРМА 107, а адрес /barn107, хлебные крошки и региональные каталоги — БАРН 107. На индивидуальной странице кровля односкатная/плоская и три спальни; в региональной развёрнутой карточке встречаются двускатная и одна спальня. Сохранён один проект с обоими именами; серия предварительно НОРМА, требуется подтверждение владельца."
+        }
+      ]
+    },
+    {
+      "project_id": "lh_house_barn112",
+      "website_slug": "barn112",
+      "display_name": "БАРН 112",
+      "category": "house",
+      "series_from_page_heading": "БАРН",
+      "name_aliases": [],
+      "source_url": "https://lhmodul.ru/barn112",
+      "catalog_url": "https://lhmodul.ru/houses",
+      "snapshot_date": "2026-09-09",
+      "website_specs": {
+        "advertised_area_m2": 112.0,
+        "area_definition": "not_explicitly_defined_on_page",
+        "ceiling_height_m": 2.7,
+        "roof_text": "двускатная",
+        "roof_family_hint": "gable",
+        "bedrooms_count": 2,
+        "bathrooms_count": 1,
+        "feature_lines": [
+          "Площадь дома:",
+          "112 м²",
+          "Высота потолков:",
+          "2,7 м",
+          "Кровля:",
+          "двускатная",
+          "Санузел:",
+          "1",
+          "Спальни:",
+          "2",
+          "Навес для автомобиля"
+        ]
+      },
+      "floor_plan": {
+        "source_url": "https://static.tildacdn.com/tild6666-6364-4762-a237-313164393034/__112.jpg",
+        "file_in_bundle": "plans/barn112.jpg",
+        "sha256": "1b21f43fc358ac127cdfed4a8d48c8254ea3b13597a28308dbd2b8deed404f89",
+        "review_status": "visually_transcribed_not_production_verified",
+        "dimensioned_envelope_mm": [
+          14000,
+          9200
+        ],
+        "dimensioned_envelope_is_full_footprint": false,
+        "rectangular_enclosed_body_mm": [
+          9120,
+          8000
+        ],
+        "enclosed_body_gross_area_from_dimensions_m2": 72.96,
+        "dimensions_notes": "По горизонтали 14000 = навес 2880 + закрытая часть 9120 + терраса 2000. Основная глубина 8000, с выступом крыльца 9200 = 8000 + 1200. Боковые ступени выходят за основной контур.",
+        "rooms": [
+          {
+            "name": "Спальня 1 (верхняя)",
+            "area_m2": 10.25,
+            "source": "floor_plan_label"
+          },
+          {
+            "name": "Спальня 2 (нижняя)",
+            "area_m2": 12.04,
+            "source": "floor_plan_label"
+          },
+          {
+            "name": "Гостиная-кухня",
+            "area_m2": 26.67,
+            "source": "floor_plan_label"
+          },
+          {
+            "name": "Холл",
+            "area_m2": 5.74,
+            "source": "floor_plan_label"
+          },
+          {
+            "name": "Гардероб",
+            "area_m2": 2.1,
+            "source": "floor_plan_label"
+          },
+          {
+            "name": "С/у",
+            "area_m2": 4.81,
+            "source": "floor_plan_label"
+          }
+        ],
+        "outdoor_zones": [
+          {
+            "name": "Навес",
+            "area_m2": 22.29,
+            "source": "floor_plan_label"
+          },
+          {
+            "name": "Терраса",
+            "area_m2": 15.28,
+            "source": "floor_plan_label"
+          },
+          {
+            "name": "Крыльцо",
+            "area_m2": 1.86,
+            "source": "floor_plan_label"
+          }
+        ],
+        "derived_labeled_indoor_area_sum_m2": 61.61,
+        "derived_labeled_outdoor_area_sum_m2": 39.43,
+        "derived_all_labeled_area_sum_m2": 101.04,
+        "terrace_labeled_area_m2": 15.28,
+        "area_use": "reference_only_until_selected_project_revision_is_confirmed"
+      },
+      "images": {
+        "cover_url": "https://static.tildacdn.com/tild3066-6130-4464-a162-313332643239/1_11_-_.jpg",
+        "gallery_urls": [
+          "https://static.tildacdn.com/tild3066-6130-4464-a162-313332643239/1_11_-_.jpg",
+          "https://static.tildacdn.com/tild3936-3566-4830-a262-306462366465/1_03_-_Photo.jpg",
+          "https://static.tildacdn.com/tild6666-6364-4762-a237-313164393034/__112.jpg",
+          "https://static.tildacdn.com/tild3634-3330-4563-b532-306231666136/1_02_-_Photo.jpg",
+          "https://static.tildacdn.com/tild6265-3636-4133-b065-376138633131/1_01_-_Photo.jpg",
+          "https://static.tildacdn.com/tild3966-3263-4631-b066-346262336139/1_09_-_Photo.jpg",
+          "https://static.tildacdn.com/tild3966-6436-4661-b036-623038633263/1_08_-_Photo.jpg",
+          "https://static.tildacdn.com/tild3661-3164-4133-a663-663533623936/1_07_-_Photo.jpg",
+          "https://static.tildacdn.com/tild3836-6536-4561-b731-303662373063/1_06_-_Photo.jpg",
+          "https://static.tildacdn.com/tild6563-3562-4830-b732-663932656430/1_05_-_Photo.jpg",
+          "https://static.tildacdn.com/tild3266-6361-4232-b863-393534326437/1_04_-_Photo.jpg",
+          "https://static.tildacdn.com/tild6332-3735-4762-b565-353632623230/1_14_-_.jpg",
+          "https://static.tildacdn.com/tild6661-3064-4263-a535-653232333761/1_13_-_.jpg",
+          "https://static.tildacdn.com/tild3836-6631-4031-a539-383661303533/1_12_-_.jpg",
+          "https://static.tildacdn.com/tild3363-3466-4533-a561-623466633066/1_10_-_Photo.jpg",
+          "https://static.tildacdn.com/tild3263-3865-4134-b034-366166313362/1_15_-_.jpg"
+        ]
+      },
+      "missing_for_costing": {
+        "approved_revision_id": null,
+        "production_module_count": null,
+        "module_geometry": null,
+        "pile_count": null,
+        "pile_coordinates": null,
+        "structural_stud_height_mm": null,
+        "roof_slope_deg": null,
+        "structural_bom": null,
+        "finish_schedule": null,
+        "engineering_bom": null,
+        "labor_hours": null,
+        "base_package_detailed_scope": null
+      },
+      "issues": []
+    },
+    {
+      "project_id": "lh_sauna_start",
+      "website_slug": "start",
+      "display_name": "СТАРТ",
+      "category": "sauna",
+      "series_from_page_heading": null,
+      "name_aliases": [],
+      "source_url": "https://lhmodul.ru/start",
+      "catalog_url": "https://lhmodul.ru/sauna",
+      "snapshot_date": "2026-09-09",
+      "website_specs": {
+        "advertised_area_m2": 15.67,
+        "area_definition": "not_explicitly_defined_on_page",
+        "ceiling_height_m": null,
+        "roof_text": "односкатная",
+        "roof_family_hint": "flat_or_single_pitch",
+        "bedrooms_count": null,
+        "bathrooms_count": null,
+        "feature_lines": [
+          "Площадь бани:",
+          "15, 67 м²",
+          "Кровля:",
+          "односкатная",
+          "Комната отдыха",
+          "Парилка",
+          "Терраса"
+        ]
+      },
+      "floor_plan": {
+        "source_url": "https://static.tildacdn.com/tild6437-6130-4534-b664-366361353432/_.jpg",
+        "file_in_bundle": "plans/start.jpg",
+        "sha256": "5f141ded65a01cc4f00fbd276aa2d49f647e6e5bf1b51d17c214539c1bb346da",
+        "review_status": "visually_transcribed_not_production_verified",
+        "dimensioned_envelope_mm": [
+          4000,
+          5000
+        ],
+        "dimensioned_envelope_is_full_footprint": false,
+        "rectangular_enclosed_body_mm": [
+          4000,
+          2500
+        ],
+        "enclosed_body_gross_area_from_dimensions_m2": 10.0,
+        "dimensions_notes": "Закрытый объём 4000 × 2500. Общий габарит 4000 × 5000; вертикальная цепочка 2500 + 1500 + 1000. Терраса имеет вырез.",
+        "rooms": [
+          {
+            "name": "Комната отдыха",
+            "area_m2": 4.26,
+            "source": "floor_plan_label"
+          },
+          {
+            "name": "Парилка",
+            "area_m2": 2.91,
+            "source": "floor_plan_label"
+          }
+        ],
+        "outdoor_zones": [
+          {
+            "name": "Терраса",
+            "area_m2": 8.5,
+            "source": "floor_plan_label"
+          }
+        ],
+        "derived_labeled_indoor_area_sum_m2": 7.17,
+        "derived_labeled_outdoor_area_sum_m2": 8.5,
+        "derived_all_labeled_area_sum_m2": 15.67,
+        "terrace_labeled_area_m2": 8.5,
+        "area_use": "reference_only_until_selected_project_revision_is_confirmed"
+      },
+      "images": {
+        "cover_url": "https://static.tildacdn.com/tild3765-6138-4238-b332-343334396236/1_4_-_Photo.jpg",
+        "gallery_urls": [
+          "https://static.tildacdn.com/tild3765-6138-4238-b332-343334396236/1_4_-_Photo.jpg",
+          "https://static.tildacdn.com/tild3338-3735-4937-b435-363639643530/1_7_-_Photo.jpg",
+          "https://static.tildacdn.com/tild6437-6130-4534-b664-366361353432/_.jpg",
+          "https://static.tildacdn.com/tild3762-3230-4061-b562-383165343234/1_8_-_Photo.jpg",
+          "https://static.tildacdn.com/tild3536-6262-4663-a436-376132326162/1_5_-_Photo.jpg",
+          "https://static.tildacdn.com/tild3263-6666-4438-b064-333738323439/1_6_-_Photo.jpg",
+          "https://static.tildacdn.com/tild3639-6430-4832-a234-633337633330/1_2_-_Photo.jpg",
+          "https://static.tildacdn.com/tild3336-6239-4263-b066-663835646138/1_3_-_Photo.jpg",
+          "https://static.tildacdn.com/tild6161-3164-4636-b862-333162386564/1_1_-_Photo.jpg"
+        ]
+      },
+      "missing_for_costing": {
+        "approved_revision_id": null,
+        "production_module_count": null,
+        "module_geometry": null,
+        "pile_count": null,
+        "pile_coordinates": null,
+        "structural_stud_height_mm": null,
+        "roof_slope_deg": null,
+        "structural_bom": null,
+        "finish_schedule": null,
+        "engineering_bom": null,
+        "labor_hours": null,
+        "base_package_detailed_scope": null
+      },
+      "issues": []
+    },
+    {
+      "project_id": "lh_sauna_start1",
+      "website_slug": "start1",
+      "display_name": "СТАРТ 1",
+      "category": "sauna",
+      "series_from_page_heading": null,
+      "name_aliases": [],
+      "source_url": "https://lhmodul.ru/start1",
+      "catalog_url": "https://lhmodul.ru/sauna",
+      "snapshot_date": "2026-09-09",
+      "website_specs": {
+        "advertised_area_m2": 19.7,
+        "area_definition": "not_explicitly_defined_on_page",
+        "ceiling_height_m": null,
+        "roof_text": "односкатная",
+        "roof_family_hint": "flat_or_single_pitch",
+        "bedrooms_count": null,
+        "bathrooms_count": null,
+        "feature_lines": [
+          "Площадь бани:",
+          "19, 70 м²",
+          "Кровля:",
+          "односкатная",
+          "Парилка",
+          "Терраса"
+        ]
+      },
+      "floor_plan": {
+        "source_url": "https://static.tildacdn.com/tild6266-3431-4231-b466-656631643965/__3.jpg",
+        "file_in_bundle": "plans/start1.jpg",
+        "sha256": "5704af9de573220d7d011c78b0287ffc0e54af911d8572b6ae163e4ead183ddb",
+        "review_status": "visually_transcribed_not_production_verified",
+        "dimensioned_envelope_mm": [
+          5000,
+          5000
+        ],
+        "dimensioned_envelope_is_full_footprint": false,
+        "rectangular_enclosed_body_mm": [
+          5000,
+          2500
+        ],
+        "enclosed_body_gross_area_from_dimensions_m2": 12.5,
+        "dimensions_notes": "Закрытый объём 5000 × 2500. Общий габарит 5000 × 5000; вертикальная цепочка 2500 + 1500 + 1000. Терраса имеет вырез.",
+        "rooms": [
+          {
+            "name": "Комната отдыха",
+            "area_m2": 6.26,
+            "source": "floor_plan_label"
+          },
+          {
+            "name": "Парилка",
+            "area_m2": 2.97,
+            "source": "floor_plan_label"
+          }
+        ],
+        "outdoor_zones": [
+          {
+            "name": "Терраса",
+            "area_m2": 10.47,
+            "source": "floor_plan_label"
+          }
+        ],
+        "derived_labeled_indoor_area_sum_m2": 9.23,
+        "derived_labeled_outdoor_area_sum_m2": 10.47,
+        "derived_all_labeled_area_sum_m2": 19.7,
+        "terrace_labeled_area_m2": 10.47,
+        "area_use": "reference_only_until_selected_project_revision_is_confirmed"
+      },
+      "images": {
+        "cover_url": "https://static.tildacdn.com/tild6165-6236-4731-a437-313233663038/1_5_-_Photo.jpg",
+        "gallery_urls": [
+          "https://static.tildacdn.com/tild6165-6236-4731-a437-313233663038/1_5_-_Photo.jpg",
+          "https://static.tildacdn.com/tild6335-6437-4338-a561-393039323561/1_4_-_Photo.jpg",
+          "https://static.tildacdn.com/tild6266-3431-4231-b466-656631643965/__3.jpg",
+          "https://static.tildacdn.com/tild3139-3565-4264-b064-653936353363/1_1_-_Photo.jpg",
+          "https://static.tildacdn.com/tild3662-3738-4237-b334-613133383334/1_10_-_Photo.jpg",
+          "https://static.tildacdn.com/tild3335-6333-4131-b033-333562336136/1_2_-_Photo.jpg",
+          "https://static.tildacdn.com/tild3633-6638-4464-b336-393264366438/1_3_-_Photo.jpg",
+          "https://static.tildacdn.com/tild3865-3561-4366-a338-653437373965/1_6_-_Photo.jpg",
+          "https://static.tildacdn.com/tild3266-6166-4536-a463-333936383338/1_7_-_Photo.jpg",
+          "https://static.tildacdn.com/tild6366-6132-4530-a166-393438393530/1_8_-_Photo.jpg",
+          "https://static.tildacdn.com/tild3930-3761-4033-b032-646465333033/1_9_-_Photo.jpg"
+        ]
+      },
+      "missing_for_costing": {
+        "approved_revision_id": null,
+        "production_module_count": null,
+        "module_geometry": null,
+        "pile_count": null,
+        "pile_coordinates": null,
+        "structural_stud_height_mm": null,
+        "roof_slope_deg": null,
+        "structural_bom": null,
+        "finish_schedule": null,
+        "engineering_bom": null,
+        "labor_hours": null,
+        "base_package_detailed_scope": null
+      },
+      "issues": []
+    },
+    {
+      "project_id": "lh_sauna_prima",
+      "website_slug": "prima",
+      "display_name": "ПРИМА",
+      "category": "sauna",
+      "series_from_page_heading": null,
+      "name_aliases": [],
+      "source_url": "https://lhmodul.ru/prima",
+      "catalog_url": "https://lhmodul.ru/sauna",
+      "snapshot_date": "2026-09-09",
+      "website_specs": {
+        "advertised_area_m2": 22.16,
+        "area_definition": "not_explicitly_defined_on_page",
+        "ceiling_height_m": null,
+        "roof_text": "двускатная",
+        "roof_family_hint": "gable",
+        "bedrooms_count": null,
+        "bathrooms_count": null,
+        "feature_lines": [
+          "Площадь бани:",
+          "22, 16 м²",
+          "Кровля:",
+          "двускатная",
+          "Душевая",
+          "Комната отдыха",
+          "Терраса"
+        ]
+      },
+      "floor_plan": {
+        "source_url": "https://static.tildacdn.com/tild3862-3465-4465-b633-343666333633/_.jpg",
+        "file_in_bundle": "plans/prima.jpg",
+        "sha256": "b3d3546a725c61a6c4654818a62726604f9c22a3e856f8588f95a81c0ce10811",
+        "review_status": "visually_transcribed_not_production_verified",
+        "dimensioned_envelope_mm": [
+          7500,
+          4000
+        ],
+        "dimensioned_envelope_is_full_footprint": false,
+        "rectangular_enclosed_body_mm": [
+          5000,
+          4000
+        ],
+        "enclosed_body_gross_area_from_dimensions_m2": 20.0,
+        "dimensions_notes": "Закрытый объём 5000 × 4000. Общий габарит 7500 × 4000; слева терраса сложной формы в полосе шириной 2500.",
+        "rooms": [
+          {
+            "name": "Комната отдыха",
+            "area_m2": 7.88,
+            "source": "floor_plan_label"
+          },
+          {
+            "name": "Душевая",
+            "area_m2": 3.85,
+            "source": "floor_plan_label"
+          },
+          {
+            "name": "Парилка",
+            "area_m2": 3.85,
+            "source": "floor_plan_label"
+          }
+        ],
+        "outdoor_zones": [
+          {
+            "name": "Терраса",
+            "area_m2": 6.58,
+            "source": "floor_plan_label"
+          }
+        ],
+        "derived_labeled_indoor_area_sum_m2": 15.58,
+        "derived_labeled_outdoor_area_sum_m2": 6.58,
+        "derived_all_labeled_area_sum_m2": 22.16,
+        "terrace_labeled_area_m2": 6.58,
+        "area_use": "reference_only_until_selected_project_revision_is_confirmed"
+      },
+      "images": {
+        "cover_url": "https://static.tildacdn.com/tild6636-3030-4635-b730-363333613561/2_6_-_Photo.jpg",
+        "gallery_urls": [
+          "https://static.tildacdn.com/tild6636-3030-4635-b730-363333613561/2_6_-_Photo.jpg",
+          "https://static.tildacdn.com/tild3865-6530-4266-a364-346439613331/2_10_-_Photo.jpg",
+          "https://static.tildacdn.com/tild3862-3465-4465-b633-343666333633/_.jpg",
+          "https://static.tildacdn.com/tild3164-3161-4530-b165-383538643465/2_1_-_Photo.jpg",
+          "https://static.tildacdn.com/tild6364-3138-4665-b335-643037636461/2_4_-_Photo.jpg",
+          "https://static.tildacdn.com/tild3639-3063-4232-b664-633439643633/2_3_-_Photo.jpg",
+          "https://static.tildacdn.com/tild3632-6466-4461-b031-323964663235/2_2_-_Photo.jpg",
+          "https://static.tildacdn.com/tild3535-3439-4765-b633-363836383162/2_9_-_Photo.jpg",
+          "https://static.tildacdn.com/tild6537-3735-4633-a330-343536356339/2_8_-_Photo.jpg",
+          "https://static.tildacdn.com/tild3139-6537-4965-a464-373465323533/2_7_-_Photo.jpg",
+          "https://static.tildacdn.com/tild6139-3539-4466-b462-326133376139/2_5_-_Photo.jpg"
+        ]
+      },
+      "missing_for_costing": {
+        "approved_revision_id": null,
+        "production_module_count": null,
+        "module_geometry": null,
+        "pile_count": null,
+        "pile_coordinates": null,
+        "structural_stud_height_mm": null,
+        "roof_slope_deg": null,
+        "structural_bom": null,
+        "finish_schedule": null,
+        "engineering_bom": null,
+        "labor_hours": null,
+        "base_package_detailed_scope": null
+      },
+      "issues": []
+    },
+    {
+      "project_id": "lh_sauna_standart1",
+      "website_slug": "standart1",
+      "display_name": "СТАНДАРТ 1",
+      "category": "sauna",
+      "series_from_page_heading": null,
+      "name_aliases": [],
+      "source_url": "https://lhmodul.ru/standart1",
+      "catalog_url": "https://lhmodul.ru/sauna",
+      "snapshot_date": "2026-09-09",
+      "website_specs": {
+        "advertised_area_m2": 22.16,
+        "area_definition": "not_explicitly_defined_on_page",
+        "ceiling_height_m": null,
+        "roof_text": "плоская",
+        "roof_family_hint": "flat_or_single_pitch",
+        "bedrooms_count": null,
+        "bathrooms_count": null,
+        "feature_lines": [
+          "Площадь бани:",
+          "22, 16 м²",
+          "Кровля:",
+          "плоская",
+          "Терраса"
+        ]
+      },
+      "floor_plan": {
+        "source_url": "https://static.tildacdn.com/tild3539-6536-4036-b637-313761373732/__1.jpg",
+        "file_in_bundle": "plans/standart1.jpg",
+        "sha256": "8dfb29bf3488f060a1b4ae3bc299ea20f1d8ce4c089e3284ceaebb90ba0eb7a7",
+        "review_status": "visually_transcribed_not_production_verified",
+        "dimensioned_envelope_mm": [
+          6000,
+          5000
+        ],
+        "dimensioned_envelope_is_full_footprint": false,
+        "rectangular_enclosed_body_mm": null,
+        "enclosed_body_gross_area_from_dimensions_m2": null,
+        "dimensions_notes": "Основной габарит 6000 × 5000; горизонтально 3500 + 2500, вертикально 2500 + 2500. Закрытая часть Г-образная; терраса занимает оставшийся угол. Наружные ступени выступают.",
+        "rooms": [
+          {
+            "name": "Комната отдыха",
+            "area_m2": 9.24,
+            "source": "floor_plan_label"
+          },
+          {
+            "name": "С/у",
+            "area_m2": 2.08,
+            "source": "floor_plan_label"
+          },
+          {
+            "name": "Парилка",
+            "area_m2": 4.7,
+            "source": "floor_plan_label"
+          }
+        ],
+        "outdoor_zones": [
+          {
+            "name": "Терраса",
+            "area_m2": 8.75,
+            "source": "floor_plan_label"
+          }
+        ],
+        "derived_labeled_indoor_area_sum_m2": 16.02,
+        "derived_labeled_outdoor_area_sum_m2": 8.75,
+        "derived_all_labeled_area_sum_m2": 24.77,
+        "terrace_labeled_area_m2": 8.75,
+        "area_use": "reference_only_until_selected_project_revision_is_confirmed"
+      },
+      "images": {
+        "cover_url": "https://static.tildacdn.com/tild6265-3063-4533-b039-336631393239/1_5_-_Photo.jpg",
+        "gallery_urls": [
+          "https://static.tildacdn.com/tild6265-3063-4533-b039-336631393239/1_5_-_Photo.jpg",
+          "https://static.tildacdn.com/tild6366-3730-4635-b835-366330343534/1_1_-_Photo.jpg",
+          "https://static.tildacdn.com/tild3539-6536-4036-b637-313761373732/__1.jpg",
+          "https://static.tildacdn.com/tild3934-3838-4362-a663-313166363265/1_7_-_Photo.jpg",
+          "https://static.tildacdn.com/tild6661-6466-4665-b636-636631343965/1_2_-_Photo.jpg",
+          "https://static.tildacdn.com/tild6132-3430-4166-b239-396235373561/1_8_-_Photo.jpg"
+        ]
+      },
+      "missing_for_costing": {
+        "approved_revision_id": null,
+        "production_module_count": null,
+        "module_geometry": null,
+        "pile_count": null,
+        "pile_coordinates": null,
+        "structural_stud_height_mm": null,
+        "roof_slope_deg": null,
+        "structural_bom": null,
+        "finish_schedule": null,
+        "engineering_bom": null,
+        "labor_hours": null,
+        "base_package_detailed_scope": null
+      },
+      "issues": [
+        {
+          "code": "area_conflict",
+          "message": "В карточке 22,16 м², а сумма подписей на плане: 9,24 + 2,08 + 4,70 + 8,75 = 24,77 м². Определение площади или соответствие плана карточке нужно уточнить; автоматически не исправлять площадь."
+        }
+      ]
+    },
+    {
+      "project_id": "lh_sauna_uno",
+      "website_slug": "uno",
+      "display_name": "УНО",
+      "category": "sauna",
+      "series_from_page_heading": null,
+      "name_aliases": [],
+      "source_url": "https://lhmodul.ru/uno",
+      "catalog_url": "https://lhmodul.ru/sauna",
+      "snapshot_date": "2026-09-09",
+      "website_specs": {
+        "advertised_area_m2": 34.91,
+        "area_definition": "not_explicitly_defined_on_page",
+        "ceiling_height_m": null,
+        "roof_text": "плоская",
+        "roof_family_hint": "flat_or_single_pitch",
+        "bedrooms_count": null,
+        "bathrooms_count": null,
+        "feature_lines": [
+          "Площадь бани:",
+          "34, 91 м²",
+          "Кровля:",
+          "плоская",
+          "Терраса",
+          "Комната отдыха",
+          "Душевая"
+        ]
+      },
+      "floor_plan": {
+        "source_url": "https://static.tildacdn.com/tild3762-3062-4238-a630-393630633763/photo.jpg",
+        "file_in_bundle": "plans/uno.jpg",
+        "sha256": "4e530d4d84f3ccbfd3533049f6d85f1208971f1b8d63d4a19a6415f835c6c424",
+        "review_status": "visually_transcribed_not_production_verified",
+        "dimensioned_envelope_mm": [
+          8000,
+          5500
+        ],
+        "dimensioned_envelope_is_full_footprint": false,
+        "rectangular_enclosed_body_mm": [
+          8000,
+          3000
+        ],
+        "enclosed_body_gross_area_from_dimensions_m2": 24.0,
+        "dimensions_notes": "Закрытый объём 8000 × 3000. Общий габарит с выступом террасы 8000 × 5500; вертикально 3000 + 1500 + 1000. Терраса сложной формы.",
+        "rooms": [
+          {
+            "name": "Комната отдыха",
+            "area_m2": 10.32,
+            "source": "floor_plan_label"
+          },
+          {
+            "name": "Душевая",
+            "area_m2": 3.87,
+            "source": "floor_plan_label"
+          },
+          {
+            "name": "Парилка",
+            "area_m2": 4.64,
+            "source": "floor_plan_label"
+          }
+        ],
+        "outdoor_zones": [
+          {
+            "name": "Терраса",
+            "area_m2": 16.08,
+            "source": "floor_plan_label"
+          }
+        ],
+        "derived_labeled_indoor_area_sum_m2": 18.83,
+        "derived_labeled_outdoor_area_sum_m2": 16.08,
+        "derived_all_labeled_area_sum_m2": 34.91,
+        "terrace_labeled_area_m2": 16.08,
+        "area_use": "reference_only_until_selected_project_revision_is_confirmed"
+      },
+      "images": {
+        "cover_url": "https://static.tildacdn.com/tild6465-6135-4536-b230-623534343932/1_5_-_Photo.jpg",
+        "gallery_urls": [
+          "https://static.tildacdn.com/tild6465-6135-4536-b230-623534343932/1_5_-_Photo.jpg",
+          "https://static.tildacdn.com/tild3861-6435-4166-b932-613265386330/1_7_-_Photo.jpg",
+          "https://static.tildacdn.com/tild3762-3062-4238-a630-393630633763/photo.jpg",
+          "https://static.tildacdn.com/tild6264-6139-4437-a163-663264643739/1_6_-_Photo.jpg",
+          "https://static.tildacdn.com/tild6339-6262-4166-b633-663738663363/1_10_-_Photo.jpg",
+          "https://static.tildacdn.com/tild3764-3431-4531-a465-386364346463/1_2_-_Photo.jpg",
+          "https://static.tildacdn.com/tild3038-3738-4562-b166-306131626436/1_1_-_Photo.jpg",
+          "https://static.tildacdn.com/tild3165-6637-4665-b433-663333623838/1_4_-_Photo.jpg",
+          "https://static.tildacdn.com/tild6163-3765-4466-a266-396331343330/1_3_-_Photo.jpg",
+          "https://static.tildacdn.com/tild3831-6362-4438-a439-343465373030/1_9_-_Photo.jpg",
+          "https://static.tildacdn.com/tild3039-3239-4364-b531-626537653833/1_8_-_Photo.jpg"
+        ]
+      },
+      "missing_for_costing": {
+        "approved_revision_id": null,
+        "production_module_count": null,
+        "module_geometry": null,
+        "pile_count": null,
+        "pile_coordinates": null,
+        "structural_stud_height_mm": null,
+        "roof_slope_deg": null,
+        "structural_bom": null,
+        "finish_schedule": null,
+        "engineering_bom": null,
+        "labor_hours": null,
+        "base_package_detailed_scope": null
+      },
+      "issues": []
+    },
+    {
+      "project_id": "lh_sauna_standart2",
+      "website_slug": "standart2",
+      "display_name": "СТАНДАРТ 2",
+      "category": "sauna",
+      "series_from_page_heading": null,
+      "name_aliases": [],
+      "source_url": "https://lhmodul.ru/standart2",
+      "catalog_url": "https://lhmodul.ru/sauna",
+      "snapshot_date": "2026-09-09",
+      "website_specs": {
+        "advertised_area_m2": 32.85,
+        "area_definition": "not_explicitly_defined_on_page",
+        "ceiling_height_m": null,
+        "roof_text": "плоская",
+        "roof_family_hint": "flat_or_single_pitch",
+        "bedrooms_count": null,
+        "bathrooms_count": null,
+        "feature_lines": [
+          "Площадь бани:",
+          "32, 85 м²",
+          "Кровля:",
+          "плоская",
+          "Терраса",
+          "Комната отдыха",
+          "Душевая",
+          "Санузел"
+        ]
+      },
+      "floor_plan": {
+        "source_url": "https://static.tildacdn.com/tild3439-6262-4936-b963-373438363237/__2.jpg",
+        "file_in_bundle": "plans/standart2.jpg",
+        "sha256": "4d9c8b6b7d1484622f2ed265e77f8489c2333c271833467615a4303d80b41ad6",
+        "review_status": "visually_transcribed_not_production_verified",
+        "dimensioned_envelope_mm": [
+          6000,
+          6500
+        ],
+        "dimensioned_envelope_is_full_footprint": false,
+        "rectangular_enclosed_body_mm": null,
+        "enclosed_body_gross_area_from_dimensions_m2": null,
+        "dimensions_notes": "Основной габарит 6000 × 6500; горизонтально 3500 + 2500, вертикально 2500 + 4000. Закрытая часть Г-образная, наружные ступени выступают.",
+        "rooms": [
+          {
+            "name": "Комната отдыха",
+            "area_m2": 9.24,
+            "source": "floor_plan_label"
+          },
+          {
+            "name": "С/у",
+            "area_m2": 2.08,
+            "source": "floor_plan_label"
+          },
+          {
+            "name": "Душевая",
+            "area_m2": 3.12,
+            "source": "floor_plan_label"
+          },
+          {
+            "name": "Парилка",
+            "area_m2": 4.41,
+            "source": "floor_plan_label"
+          }
+        ],
+        "outdoor_zones": [
+          {
+            "name": "Терраса",
+            "area_m2": 14.0,
+            "source": "floor_plan_label"
+          }
+        ],
+        "derived_labeled_indoor_area_sum_m2": 18.85,
+        "derived_labeled_outdoor_area_sum_m2": 14.0,
+        "derived_all_labeled_area_sum_m2": 32.85,
+        "terrace_labeled_area_m2": 14.0,
+        "area_use": "reference_only_until_selected_project_revision_is_confirmed"
+      },
+      "images": {
+        "cover_url": "https://static.tildacdn.com/tild3130-3730-4666-a564-633032363536/1_5_-_Photo.jpg",
+        "gallery_urls": [
+          "https://static.tildacdn.com/tild3130-3730-4666-a564-633032363536/1_5_-_Photo.jpg",
+          "https://static.tildacdn.com/tild3264-3965-4563-a462-366631346531/1_10_-_Photo.jpg",
+          "https://static.tildacdn.com/tild3439-6262-4936-b963-373438363237/__2.jpg",
+          "https://static.tildacdn.com/tild3736-3935-4362-b138-633035383336/1_3_-_Photo.jpg",
+          "https://static.tildacdn.com/tild3734-6561-4338-b264-653836613863/1_2_-_Photo.jpg",
+          "https://static.tildacdn.com/tild3335-6437-4966-b536-663762653261/1_1_-_Photo.jpg",
+          "https://static.tildacdn.com/tild3436-3338-4963-a262-346462363861/1_9_-_Photo.jpg",
+          "https://static.tildacdn.com/tild3833-3861-4365-b766-346337383332/1_8_-_Photo.jpg",
+          "https://static.tildacdn.com/tild3137-3566-4961-b131-316430643834/1_7_-_Photo.jpg",
+          "https://static.tildacdn.com/tild3735-6430-4538-b366-666132373938/1_6_-_Photo.jpg",
+          "https://static.tildacdn.com/tild3939-3733-4233-b733-363134346266/1_4_-_Photo.jpg"
+        ]
+      },
+      "missing_for_costing": {
+        "approved_revision_id": null,
+        "production_module_count": null,
+        "module_geometry": null,
+        "pile_count": null,
+        "pile_coordinates": null,
+        "structural_stud_height_mm": null,
+        "roof_slope_deg": null,
+        "structural_bom": null,
+        "finish_schedule": null,
+        "engineering_bom": null,
+        "labor_hours": null,
+        "base_package_detailed_scope": null
+      },
+      "issues": []
+    },
+    {
+      "project_id": "lh_sauna_ultima",
+      "website_slug": "ultima",
+      "display_name": "УЛЬТИМА",
+      "category": "sauna",
+      "series_from_page_heading": null,
+      "name_aliases": [],
+      "source_url": "https://lhmodul.ru/ultima",
+      "catalog_url": "https://lhmodul.ru/sauna",
+      "snapshot_date": "2026-09-09",
+      "website_specs": {
+        "advertised_area_m2": 31.92,
+        "area_definition": "not_explicitly_defined_on_page",
+        "ceiling_height_m": null,
+        "roof_text": "двускатная",
+        "roof_family_hint": "gable",
+        "bedrooms_count": null,
+        "bathrooms_count": null,
+        "feature_lines": [
+          "Площадь бани:",
+          "31, 92 м²",
+          "Кровля:",
+          "двускатная",
+          "Терраса",
+          "Комната отдыха",
+          "Душевая",
+          "Санузел"
+        ]
+      },
+      "floor_plan": {
+        "source_url": "https://static.tildacdn.com/tild3062-6162-4432-b832-646638306130/_.jpg",
+        "file_in_bundle": "plans/ultima.jpg",
+        "sha256": "1e53d7566cd89273be9df56e428904556d53f73e6965858bedb1b9ebd7082e28",
+        "review_status": "visually_transcribed_not_production_verified",
+        "dimensioned_envelope_mm": [
+          8000,
+          4800
+        ],
+        "dimensioned_envelope_is_full_footprint": false,
+        "rectangular_enclosed_body_mm": [
+          6000,
+          4800
+        ],
+        "enclosed_body_gross_area_from_dimensions_m2": 28.8,
+        "dimensions_notes": "Закрытый объём 6000 × 4800; терраса в полосе шириной 2000. Основной габарит 8000 × 4800 без боковых ступеней.",
+        "rooms": [
+          {
+            "name": "Комната отдыха",
+            "area_m2": 13.32,
+            "source": "floor_plan_label"
+          },
+          {
+            "name": "Душевая",
+            "area_m2": 3.58,
+            "source": "floor_plan_label"
+          },
+          {
+            "name": "Парилка",
+            "area_m2": 5.04,
+            "source": "floor_plan_label"
+          },
+          {
+            "name": "С/у",
+            "area_m2": 1.22,
+            "source": "floor_plan_label"
+          }
+        ],
+        "outdoor_zones": [
+          {
+            "name": "Терраса",
+            "area_m2": 8.76,
+            "source": "floor_plan_label"
+          }
+        ],
+        "derived_labeled_indoor_area_sum_m2": 23.16,
+        "derived_labeled_outdoor_area_sum_m2": 8.76,
+        "derived_all_labeled_area_sum_m2": 31.92,
+        "terrace_labeled_area_m2": 8.76,
+        "area_use": "reference_only_until_selected_project_revision_is_confirmed"
+      },
+      "images": {
+        "cover_url": "https://static.tildacdn.com/tild6637-3565-4032-b838-653330623234/1_7_-_Photo.jpg",
+        "gallery_urls": [
+          "https://static.tildacdn.com/tild6637-3565-4032-b838-653330623234/1_7_-_Photo.jpg",
+          "https://static.tildacdn.com/tild6565-3439-4763-a637-333565623633/1_5_-_Photo.jpg",
+          "https://static.tildacdn.com/tild3062-6162-4432-b832-646638306130/_.jpg",
+          "https://static.tildacdn.com/tild3934-6332-4130-b132-353633386438/1_6_-_Photo.jpg",
+          "https://static.tildacdn.com/tild6461-3431-4139-b264-396565346436/1_1_-_Photo.jpg",
+          "https://static.tildacdn.com/tild3665-3934-4430-b833-366338663166/1_10_-_Photo.jpg",
+          "https://static.tildacdn.com/tild6632-3462-4232-b638-393630656438/1_2_-_Photo.jpg",
+          "https://static.tildacdn.com/tild3566-3866-4739-b161-373639323166/1_4_-_Photo.jpg",
+          "https://static.tildacdn.com/tild3565-3462-4536-b433-386334613832/1_3_-_Photo.jpg",
+          "https://static.tildacdn.com/tild6636-3436-4031-b132-323934313062/1_8_-_Photo.jpg",
+          "https://static.tildacdn.com/tild3736-6438-4533-b738-653137656332/1_9_-_Photo.jpg"
+        ]
+      },
+      "missing_for_costing": {
+        "approved_revision_id": null,
+        "production_module_count": null,
+        "module_geometry": null,
+        "pile_count": null,
+        "pile_coordinates": null,
+        "structural_stud_height_mm": null,
+        "roof_slope_deg": null,
+        "structural_bom": null,
+        "finish_schedule": null,
+        "engineering_bom": null,
+        "labor_hours": null,
+        "base_package_detailed_scope": null
+      },
+      "issues": []
+    }
+  ],
+  "pricing_data_included": false
+}

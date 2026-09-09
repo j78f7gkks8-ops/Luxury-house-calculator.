@@ -1,4 +1,4 @@
-import { EstimateSnapshot, COMMERCIAL_BLOCK_LABELS, CommercialBlock } from "@/lib/domain/snapshot";
+import { EstimateSnapshot, COMMERCIAL_BLOCK_LABELS, CommercialBlock, formatQty } from "@/lib/domain/snapshot";
 import { escapeHtml, wrapHtmlDocument } from "./htmlTemplate";
 
 export interface ProductionDocMeta {
@@ -26,7 +26,7 @@ export function productionTaskHtml(snapshot: EstimateSnapshot, meta: ProductionD
           (l) => `
         <tr>
           <td>${escapeHtml(l.name)}</td>
-          <td>${l.qty}</td>
+          <td>${formatQty(l.qty)}</td>
           <td>${escapeHtml(l.unit)}</td>
           <td>${escapeHtml(l.status)}</td>
           <td class="muted">${escapeHtml(sanitizeFormula(l.formulaExplanation))}</td>
@@ -68,7 +68,11 @@ export function productionTaskHtml(snapshot: EstimateSnapshot, meta: ProductionD
       </div>
     </div>
     <p><strong>Модель:</strong> ${escapeHtml(snapshot.templateLabel)}, ${escapeHtml(snapshot.pileSummary.variantName)}</p>
-    <p class="muted">Свай в поле: ${snapshot.pileSummary.totalPiles} шт. Только актуальная выпущенная версия задания.</p>
+    <p class="muted">Свайное поле: ${
+      snapshot.pileSummary.totalPiles === null
+        ? escapeHtml(snapshot.pileSummary.source)
+        : `${snapshot.pileSummary.totalPiles} шт`
+    }. Только актуальная выпущенная версия задания.</p>
 
     ${blocksHtml}
     ${laborHtml}

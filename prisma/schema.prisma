@@ -182,3 +182,69 @@ model ExportSnapshot {
   createdByUserId String
   createdAt       DateTime         @default(now())
 }
+
+// Catalog entry imported from the lhmodul.ru snapshot (data/catalog).
+// This is SOURCE DATA, not an approved production spec and not an estimate
+// (import rule 1). It never carries prices (rule 3) and never overwrites the
+// owner's approved norms - it only links to them via approvedTemplateId
+// (rule 12). Re-import upserts on projectId, never duplicates (rule 2).
+model HouseProject {
+  id          String @id @default(cuid())
+  projectId   String @unique
+  websiteSlug String
+  displayName String
+  // rule 13: project 107 keeps both НОРМА 107 and БАРН 107
+  nameAliasesJson String
+  category    String // "house" | "sauna"
+  series      String?
+  sourceUrl   String
+  catalogUrl  String?
+  snapshotDate String
+
+  // website_specs - advertised figures stored literally and separately from
+  // any plan-derived area (rules 4, 5). null means unknown, never zero (rule 8).
+  advertisedAreaM2 Float?
+  areaDefinition   String?
+  // ad-card ceiling height: NOT the structural stud height (rule 9)
+  ceilingHeightM   Float?
+  roofText         String?
+  roofFamilyHint   String?
+  bedroomsCount    Int?
+  bathroomsCount   Int?
+  featureLinesJson String
+
+  // floor_plan - visual transcription of the published plan image
+  floorPlanFile         String?
+  floorPlanSourceUrl    String?
+  floorPlanSha256       String?
+  floorPlanReviewStatus String // "visually_transcribed_not_production_verified" | "conflict_do_not_use"
+  // rectangle of the drawn dimension lines: its product is neither the area of
+  // a complex contour nor a pile field (rule 6)
+  dimensionedEnvelopeMmJson String?
+  envelopeIsFullFootprint   Boolean @default(false)
+  enclosedBodyMmJson        String?
+  enclosedBodyGrossAreaM2   Float?
+  dimensionsNotes           String?
+  roomsJson                 String
+  outdoorZonesJson          String
+  labeledIndoorAreaSumM2    Float?
+  labeledOutdoorAreaSumM2   Float?
+  terraceLabeledAreaM2      Float?
+  areaUse                   String?
+
+  // what the site cannot give for full costing - all null by design
+  missingForCostingJson String
+  // source conflicts (e.g. БАРН 48 plan/card mismatch, СТАНДАРТ 1 area gap)
+  issuesJson            String
+
+  coverImageUrl   String?
+  galleryUrlsJson String
+
+  // full raw record as imported, for traceability back to the snapshot
+  rawJson    String
+  importedAt DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  // owner-approved calculation template for this model, when one exists
+  approvedTemplateId String?
+}

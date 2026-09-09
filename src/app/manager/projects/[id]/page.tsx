@@ -45,10 +45,18 @@ export default async function ProjectDetailPage({ params }: { params: { id: stri
           Клиент: {project.customer.name} · Статус: {latestRevision.status}
         </p>
 
+        {!snapshot.readiness.isFullCost && (
+          <p className="tag warn" style={{ display: "inline-block" }}>
+            Предварительная оценка: не полная себестоимость, {snapshot.readiness.gaps.length} позиций не определено
+          </p>
+        )}
+
         <div className="grid-2">
           <div>
             <div className="price-box">
-              <div className="muted">Цена предложения</div>
+              <div className="muted">
+                {snapshot.readiness.isFullCost ? "Цена предложения" : "Предварительная цена по известным позициям"}
+              </div>
               <div style={{ fontSize: 26, fontWeight: 700 }} className="money">
                 {formatRub(snapshot.priceSummary.roundedPriceRub)}
               </div>
@@ -72,6 +80,74 @@ export default async function ProjectDetailPage({ params }: { params: { id: stri
           </div>
 
           <div>
+            {snapshot.catalogRef && (
+              <div className="card">
+                <h2 style={{ marginTop: 0 }}>Модель и источник данных</h2>
+                <p style={{ marginTop: 0 }}>
+                  <strong>{snapshot.catalogRef.displayName}</strong>
+                  {snapshot.catalogRef.nameAliases.length > 0 && (
+                    <span className="muted"> (также: {snapshot.catalogRef.nameAliases.join(", ")})</span>
+                  )}
+                </p>
+                {snapshot.catalogRef.planImagePath && (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img
+                    src={snapshot.catalogRef.planImagePath}
+                    alt={`Планировка ${snapshot.catalogRef.displayName}`}
+                    style={{ width: "100%", borderRadius: 8, background: "var(--bg)" }}
+                  />
+                )}
+                <table>
+                  <tbody>
+                    <tr>
+                      <td>Площадь сайта</td>
+                      <td>{snapshot.catalogRef.advertisedAreaM2 ?? "не указано"} м²</td>
+                    </tr>
+                    <tr>
+                      <td>Сумма подписей внутри плана</td>
+                      <td>{snapshot.catalogRef.labeledIndoorAreaSumM2 ?? "не указано"} м²</td>
+                    </tr>
+                    <tr>
+                      <td>Терраса по плану</td>
+                      <td>{snapshot.catalogRef.terraceLabeledAreaM2 ?? "не указано"} м²</td>
+                    </tr>
+                    <tr>
+                      <td>Высота потолка (карточка)</td>
+                      <td>{snapshot.catalogRef.ceilingHeightM ?? "не указано"} м</td>
+                    </tr>
+                  </tbody>
+                </table>
+                {session.user.role === "OWNER" && (
+                  <p className="muted" style={{ fontSize: 12 }}>
+                    Источник: <a href={snapshot.catalogRef.sourceUrl}>{snapshot.catalogRef.sourceUrl}</a> · статус
+                    плана: {snapshot.catalogRef.planReviewStatus}
+                  </p>
+                )}
+                {snapshot.catalogRef.issues.map((issue, i) => (
+                  <p key={i} className="tag warn" style={{ display: "block", marginTop: 6 }}>
+                    {issue.message}
+                  </p>
+                ))}
+              </div>
+            )}
+
+            {session.user.role === "OWNER" && snapshot.readiness.gaps.length > 0 && (
+              <div className="card">
+                <h2 style={{ marginTop: 0 }}>Неполные данные ({snapshot.readiness.gaps.length})</h2>
+                <ul style={{ fontSize: 13, marginTop: 0 }}>
+                  {snapshot.readiness.gaps.map((g, i) => (
+                    <li key={i}>{g}</li>
+                  ))}
+                </ul>
+                <div className="section-title">Принятые допущения</div>
+                <ul style={{ fontSize: 13, marginTop: 0 }}>
+                  {snapshot.readiness.assumptions.map((a, i) => (
+                    <li key={i}>{a}</li>
+                  ))}
+                </ul>
+              </div>
+            )}
+
             {session.user.role === "OWNER" && (
               <div className="card">
                 <h2 style={{ marginTop: 0 }}>Экономика (только владелец)</h2>

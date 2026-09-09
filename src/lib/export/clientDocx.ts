@@ -66,6 +66,26 @@ export async function buildClientDocx(snapshot: EstimateSnapshot, meta: ClientDo
     }),
   );
 
+  if (snapshot.readiness.gaps.length > 0) {
+    children.push(
+      new Paragraph({ text: "Ожидают уточнения", heading: HeadingLevel.HEADING_2 }),
+      new Paragraph({ children: [new TextRun({ text: snapshot.readiness.gaps.join("; ") + ".", italics: true })] }),
+    );
+  }
+
+  if (!snapshot.readiness.isFullCost) {
+    children.push(
+      new Paragraph({
+        children: [
+          new TextRun({
+            text: "Предварительный расчёт: итог посчитан только по определённым позициям и не является полной ценой договора.",
+            bold: true,
+          }),
+        ],
+      }),
+    );
+  }
+
   if (snapshot.costSummary.linesWithMissingPrice.length > 0) {
     children.push(
       new Paragraph({

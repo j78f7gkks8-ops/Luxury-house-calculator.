@@ -170,10 +170,22 @@ export function buildNorma77Snapshot(input: Norma77Input): EstimateSnapshot {
     costSummary,
     priceSummary,
     clientDescription,
+    readiness: {
+      level: "OWNER_APPROVED",
+      // Deliberately incomplete: Приложение Б gives Норма 77 far less confirmed
+      // detail than Барн 96, so this total is never a full cost.
+      isFullCost: false,
+      gaps: lines.filter((l) => l.totalCostRub === null).map((l) => l.name),
+      assumptions: [
+        "Свайное поле 6x4 - координаты из §Б3 задания.",
+        "Каркас, кровля и фасад ожидают переноса рабочей сметы Норма 77.",
+      ],
+    },
     pileSummary: {
       totalPiles: pileCount,
       variantName: "поле 6x4",
       bindingLengthMm: bindingLengthMm(NORMA_77_GRID),
+      source: "Координаты свай из §Б3 задания (Норма 77 V2)",
     },
   };
 }

@@ -24,7 +24,7 @@ export async function buildOwnerXlsx(snapshot: EstimateSnapshot, meta: { project
     linesSheet.addRow({
       block: COMMERCIAL_BLOCK_LABELS[l.block],
       name: l.name,
-      qty: l.qty,
+      qty: l.qty ?? "объём не определён",
       unit: l.unit,
       unitCost: l.unitCostRub,
       total: l.totalCostRub,

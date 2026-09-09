@@ -17,7 +17,7 @@ export async function buildProductionXlsx(snapshot: EstimateSnapshot, meta: { pr
   ];
   sheet.getRow(1).font = { bold: true };
   for (const l of snapshot.compositionLines) {
-    sheet.addRow({ block: COMMERCIAL_BLOCK_LABELS[l.block], name: l.name, qty: l.qty, unit: l.unit, status: l.status });
+    sheet.addRow({ block: COMMERCIAL_BLOCK_LABELS[l.block], name: l.name, qty: l.qty ?? "объём не определён", unit: l.unit, status: l.status });
   }
 
   const laborSheet = wb.addWorksheet("Человеко-часы");

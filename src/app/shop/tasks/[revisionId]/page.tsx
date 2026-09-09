@@ -3,7 +3,7 @@ import { requireSession } from "@/lib/auth";
 import { AppHeader } from "@/components/AppHeader";
 import { loadRevisionWithSnapshot } from "@/lib/domain/revisionAccess";
 import { redactSnapshotForRole } from "@/lib/domain/rbac";
-import { COMMERCIAL_BLOCK_LABELS, CommercialBlock } from "@/lib/domain/snapshot";
+import { COMMERCIAL_BLOCK_LABELS, CommercialBlock, formatQty } from "@/lib/domain/snapshot";
 import { ShopEntryForms } from "@/components/shop/ShopEntryForms";
 
 export const dynamic = "force-dynamic";
@@ -39,7 +39,8 @@ export default async function ShopTaskPage({ params }: { params: { revisionId: s
           {revision.variant.project.title} <span className="tag">v{revision.version}</span>
         </h1>
         <p className="muted">
-          {snapshot.templateLabel}, {snapshot.pileSummary.variantName} · {snapshot.pileSummary.totalPiles} свай
+          {snapshot.templateLabel}, {snapshot.pileSummary.variantName}
+          {snapshot.pileSummary.totalPiles !== null && ` · ${snapshot.pileSummary.totalPiles} свай`}
         </p>
 
         <div className="card">
@@ -70,7 +71,7 @@ export default async function ShopTaskPage({ params }: { params: { revisionId: s
                   {lines.map((l) => (
                     <tr key={l.key}>
                       <td>{l.name}</td>
-                      <td>{l.qty}</td>
+                      <td>{formatQty(l.qty)}</td>
                       <td>{l.unit}</td>
                       <td>
                         <span className="tag">{l.status}</span>

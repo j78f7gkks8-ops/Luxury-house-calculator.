@@ -3,15 +3,16 @@ export const dynamic = "force-dynamic";
 import { NextRequest, NextResponse } from "next/server";
 import { requireRole } from "@/lib/api/guard";
 import { prisma } from "@/lib/prisma";
-import { buildSnapshot, TemplateInput } from "@/lib/domain/templates";
+import { buildSnapshot } from "@/lib/domain/templates";
 import { CALC_ENGINE_VERSION } from "@/lib/domain/snapshot";
 import { CalcError } from "@/lib/calc/money";
+import { resolveTemplateInput, templateRequestSchema } from "@/lib/domain/templateRequest";
 
 interface CreateProjectBody {
   customerName: string;
   phone?: string;
   title: string;
-  templateInput: TemplateInput;
+  templateInput: unknown;
 }
 
 export async function POST(req: NextRequest) {
@@ -23,9 +24,14 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "customerName и title обязательны" }, { status: 400 });
   }
 
+  const parsedTemplate = templateRequestSchema.safeParse(body.templateInput);
+  if (!parsedTemplate.success) {
+    return NextResponse.json({ error: "Некорректные параметры расчёта" }, { status: 400 });
+  }
+
   let snapshot;
   try {
-    snapshot = buildSnapshot(body.templateInput);
+    snapshot = buildSnapshot(await resolveTemplateInput(parsedTemplate.data));
   } catch (e) {
     if (e instanceof CalcError) {
       return NextResponse.json({ error: e.message, code: e.code }, { status: 422 });

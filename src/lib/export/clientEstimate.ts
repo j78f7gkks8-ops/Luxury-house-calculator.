@@ -57,6 +57,7 @@ export function clientEstimateHtml(snapshot: EstimateSnapshot, meta: ClientDocMe
     .join("");
 
   const missingCount = snapshot.costSummary.linesWithMissingPrice.length;
+  const isPreliminary = !snapshot.readiness.isFullCost;
 
   const body = `
     <div class="header">
@@ -70,6 +71,14 @@ export function clientEstimateHtml(snapshot: EstimateSnapshot, meta: ClientDocMe
         ${meta.offerValidUntil ? `<div class="muted">Действительно до: ${escapeHtml(meta.offerValidUntil)}</div>` : ""}
       </div>
     </div>
+    ${
+      isPreliminary
+        ? `<div class="price-box" style="border-color:#e0b877;background:#fff8ec">
+             <strong>Предварительный расчёт.</strong> Итог ниже посчитан только по определённым позициям
+             и не является полной ценой договора: часть обязательных блоков ещё уточняется.
+           </div>`
+        : ""
+    }
     <p><strong>Клиент:</strong> ${escapeHtml(meta.customerName)}</p>
     <p><strong>Модель:</strong> ${escapeHtml(snapshot.templateLabel)}${
       snapshot.pileSummary ? `, ${escapeHtml(snapshot.pileSummary.variantName)}` : ""
@@ -77,8 +86,15 @@ export function clientEstimateHtml(snapshot: EstimateSnapshot, meta: ClientDocMe
 
     ${blocksHtml}
 
+    ${
+      snapshot.readiness.gaps.length > 0
+        ? `<h2>Ожидают уточнения</h2>
+           <p class="muted">${escapeHtml(snapshot.readiness.gaps.join("; "))}.</p>`
+        : ""
+    }
+
     <div class="price-box">
-      <div class="muted">Итоговая цена предложения</div>
+      <div class="muted">${isPreliminary ? "Предварительная цена по определённым позициям" : "Итоговая цена предложения"}</div>
       <div class="amount">${formatRub(snapshot.priceSummary.roundedPriceRub)}</div>
       ${missingCount > 0 ? `<div class="muted">Предварительное предложение: ${missingCount} позиций ожидают цены/уточнения и не включены в итог.</div>` : ""}
     </div>
