@@ -1,0 +1,184 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+// SQLite has no native enum support in Prisma - roles/statuses are plain
+// strings here, validated against the union types in src/lib/domain/enums.ts.
+
+model User {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  passwordHash String
+  name         String
+  role         String // "SHOP" | "MANAGER" | "OWNER"
+  isDemo       Boolean  @default(false)
+  createdAt    DateTime @default(now())
+
+  projectsCreated   Project[]           @relation("ProjectCreatedBy")
+  revisionsCreated  EstimateRevision[]  @relation("RevisionCreatedBy")
+  actualWorkEntries ActualWorkEntry[]
+  materialMovements MaterialMovement[]
+  approvals         Approval[]
+  exports           ExportSnapshot[]
+}
+
+model Customer {
+  id        String    @id @default(cuid())
+  name      String
+  phone     String?
+  address   String?
+  createdAt DateTime  @default(now())
+  projects  Project[]
+}
+
+model Project {
+  id              String           @id @default(cuid())
+  customerId      String
+  customer        Customer         @relation(fields: [customerId], references: [id])
+  title           String
+  houseFamily     String // "BARN" | "NORMA_FLAT_ROOF"
+  createdByUser   User             @relation("ProjectCreatedBy", fields: [createdByUserId], references: [id])
+  createdByUserId String
+  createdAt       DateTime         @default(now())
+  variants        ProjectVariant[]
+}
+
+model ProjectVariant {
+  id        String              @id @default(cuid())
+  projectId String
+  project   Project             @relation(fields: [projectId], references: [id])
+  name      String
+  createdAt DateTime            @default(now())
+  revisions EstimateRevision[]
+}
+
+// An immutable, versioned computed estimate - §20. Once created it is never
+// mutated; "recalculate with new prices" creates a new row with
+// parentRevisionId pointing at the one it was derived from.
+model EstimateRevision {
+  id                String             @id @default(cuid())
+  variantId         String
+  variant           ProjectVariant     @relation(fields: [variantId], references: [id])
+  version           Int
+  status            String             @default("DRAFT")
+  calcEngineVersion String
+  // Full snapshot: geometry inputs, selected options, pricing policy inputs,
+  // computed composition lines and totals - see src/lib/domain/snapshot.ts
+  snapshotJson      String
+  parentRevisionId  String?
+  parentRevision    EstimateRevision?  @relation("RevisionParent", fields: [parentRevisionId], references: [id])
+  childRevisions    EstimateRevision[] @relation("RevisionParent")
+  createdByUser     User               @relation("RevisionCreatedBy", fields: [createdByUserId], references: [id])
+  createdByUserId   String
+  createdAt         DateTime           @default(now())
+
+  actualWorkEntries ActualWorkEntry[]
+  materialMovements MaterialMovement[]
+  approvals         Approval[]
+  exports           ExportSnapshot[]
+
+  @@unique([variantId, version])
+}
+
+model Material {
+  id          String    @id @default(cuid())
+  sku         String?
+  name        String
+  supplier    String?
+  unit        String
+  packageSize Float?
+  priceRub    Float? // null = "не задана", never treated as free
+  priceDate   DateTime?
+  region      String?
+  source      String?
+  status      String    @default("PRELIMINARY_BY_ANALOGY")
+  comment     String?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+}
+
+model WorkNorm {
+  id              String   @id @default(cuid())
+  operationKey    String   @unique
+  name            String
+  unitOfMeasure   String
+  hoursPerUnit    Float? // null = "трудоёмкость не задана"
+  ratePerHourRub  Float?
+  packagePriceRub Float?
+  location        String?
+  comment         String?
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+}
+
+model PricingPolicy {
+  id                   String   @id @default(cuid())
+  name                 String
+  taxFraction          Float
+  commissionFraction   Float
+  reserveFraction      Float
+  lineRoundingStepRub  Float?
+  totalRoundingStepRub Float?
+  isActive             Boolean  @default(true)
+  createdAt            DateTime @default(now())
+}
+
+model ActualWorkEntry {
+  id                String           @id @default(cuid())
+  revisionId        String
+  revision          EstimateRevision @relation(fields: [revisionId], references: [id])
+  operationKey      String
+  employeeOrBrigade String
+  hours             Float
+  entryMode         String // "PER_PERSON" | "BRIGADE_TOTAL"
+  reworkFlag        Boolean          @default(false)
+  idleFlag          Boolean          @default(false)
+  comment           String?
+  enteredByUser     User             @relation(fields: [enteredByUserId], references: [id])
+  enteredByUserId   String
+  idempotencyKey    String           @unique
+  createdAt         DateTime         @default(now())
+}
+
+model MaterialMovement {
+  id              String           @id @default(cuid())
+  revisionId      String
+  revision        EstimateRevision @relation(fields: [revisionId], references: [id])
+  materialName    String
+  direction       String // "ISSUED" | "RETURNED" | "CONSUMED" | "SHORTAGE"
+  qty             Float
+  unit            String
+  photoRef        String?
+  comment         String?
+  enteredByUser   User             @relation(fields: [enteredByUserId], references: [id])
+  enteredByUserId String
+  idempotencyKey  String           @unique
+  createdAt       DateTime         @default(now())
+}
+
+model Approval {
+  id               String           @id @default(cuid())
+  revisionId       String
+  revision         EstimateRevision @relation(fields: [revisionId], references: [id])
+  approvedPriceRub Float
+  reason           String
+  approvedByUser   User             @relation(fields: [approvedByUserId], references: [id])
+  approvedByUserId String
+  createdAt        DateTime         @default(now())
+}
+
+model ExportSnapshot {
+  id              String           @id @default(cuid())
+  revisionId      String
+  revision        EstimateRevision @relation(fields: [revisionId], references: [id])
+  kind            String // "CLIENT_PDF" | "CLIENT_DOCX" | "OWNER_XLSX" | "PRODUCTION_PDF" | "PRODUCTION_XLSX" | "JSON"
+  filePath        String
+  createdByUser   User             @relation(fields: [createdByUserId], references: [id])
+  createdByUserId String
+  createdAt       DateTime         @default(now())
+}
