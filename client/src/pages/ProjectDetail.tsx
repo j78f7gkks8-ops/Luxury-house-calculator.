@@ -3,7 +3,15 @@ import { useParams } from "react-router-dom";
 import { useAuth } from "../auth/AuthContext";
 import { api, ApiError, downloadFile } from "../api";
 import { EstimateBlocks, GapsBanner } from "../components/EstimateBlocks";
-import { VariantForm, defaultVariantFormValue, type VariantFormValue } from "./VariantForm";
+import { FloorPlanSchematic } from "../components/FloorPlanSchematic";
+import {
+  WindowsSection,
+  OptionsSection,
+  FoundationSection,
+  PricingSection,
+  defaultVariantFormValue,
+  type VariantFormValue,
+} from "./VariantForm";
 import type { AnyEstimateView, CatalogProject, ManagerEstimateView, OwnerEstimateView, ProjectSummary } from "../types";
 
 function toSelection(v: VariantFormValue, family: "BARN" | "NORMA") {
@@ -48,6 +56,14 @@ function toSelection(v: VariantFormValue, family: "BARN" | "NORMA") {
   };
 }
 
+const TABS = [
+  { id: "windows", label: "1. Остекление" },
+  { id: "options", label: "2. Опции и отделка" },
+  { id: "foundation", label: "3. Фундамент" },
+  { id: "pricing", label: "4. Цена" },
+] as const;
+type TabId = (typeof TABS)[number]["id"];
+
 export function ProjectDetail() {
   const { id } = useParams<{ id: string }>();
   const { user } = useAuth();
@@ -58,6 +74,7 @@ export function ProjectDetail() {
   const [formValue, setFormValue] = useState<VariantFormValue | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
+  const [activeTab, setActiveTab] = useState<TabId>("windows");
 
   const load = useCallback(async () => {
     if (!id) return;
@@ -120,9 +137,12 @@ export function ProjectDetail() {
           {project.familyType} · {catalogEntry?.name ?? project.catalogTemplateId} · клиент: {project.customer?.name ?? "—"}
         </p>
         {catalogEntry && (
-          <p className="muted">
-            Внутри по экспликации: {catalogEntry.insideByExplicationM2} м² · Закрытая часть по контуру: {catalogEntry.closedFootprintM2} м²
-          </p>
+          <>
+            <p className="muted">
+              Внутри по экспликации: {catalogEntry.insideByExplicationM2} м² · Закрытая часть по контуру: {catalogEntry.closedFootprintM2} м²
+            </p>
+            <FloorPlanSchematic project={catalogEntry} />
+          </>
         )}
       </div>
 
@@ -130,7 +150,7 @@ export function ProjectDetail() {
 
       {estimate && (
         <div className="card">
-          <h3>Расчёт</h3>
+          <h3>Текущий расчёт</h3>
           {"pricing" in estimate && (estimate as OwnerEstimateView).fullCostC !== undefined && (
             <div style={{ marginBottom: 12 }}>
               <div className="big-number">{(estimate as OwnerEstimateView).pricing.price.toLocaleString("ru-RU")} ₽</div>
@@ -179,7 +199,45 @@ export function ProjectDetail() {
         </div>
       )}
 
-      {isManagerOrOwner && <VariantForm value={formValue} onChange={setFormValue} onSubmit={submitVariant} submitting={submitting} />}
+      {isManagerOrOwner && (
+        <>
+          <div className="card" style={{ paddingBottom: 12 }}>
+            <div className="field" style={{ marginBottom: 0, maxWidth: 320 }}>
+              <label>Название варианта</label>
+              <input value={formValue.label} onChange={(e) => setFormValue({ ...formValue, label: e.target.value })} />
+            </div>
+          </div>
+
+          <div className="card" style={{ padding: "8px 16px" }}>
+            <div style={{ display: "flex", gap: 4, flexWrap: "wrap" }}>
+              {TABS.map((t) => (
+                <button
+                  key={t.id}
+                  className={activeTab === t.id ? "" : "secondary"}
+                  onClick={() => setActiveTab(t.id)}
+                  style={{ borderRadius: "6px 6px 0 0" }}
+                >
+                  {t.label}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {activeTab === "windows" && <WindowsSection value={formValue} onChange={setFormValue} />}
+          {activeTab === "options" && <OptionsSection value={formValue} onChange={setFormValue} />}
+          {activeTab === "foundation" && <FoundationSection value={formValue} onChange={setFormValue} />}
+          {activeTab === "pricing" && <PricingSection value={formValue} onChange={setFormValue} />}
+
+          <div className="card">
+            <button onClick={submitVariant} disabled={submitting}>
+              {submitting ? "Расчёт..." : "Рассчитать и сохранить версию"}
+            </button>
+            <p className="muted" style={{ marginTop: 8 }}>
+              Пересчитывает по всем четырём шагам сразу и сохраняет новую версию сметы; старые версии не изменяются.
+            </p>
+          </div>
+        </>
+      )}
 
       {user?.role === "WORKSHOP" && activeVariantId && <ActualWorkForm projectId={id!} />}
     </div>

@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { FacadeSchematic } from "../components/FacadeSchematic";
 
 export interface WindowRow {
   id: string;
@@ -71,21 +72,13 @@ export function defaultVariantFormValue(
   };
 }
 
-/** Раздел 4: "выбрать остекление, отопление и комплектацию" — упрощённый, но реальный конструктор выбора. */
-export function VariantForm({
-  value,
-  onChange,
-  onSubmit,
-  submitting,
-}: {
+interface SectionProps {
   value: VariantFormValue;
   onChange: (v: VariantFormValue) => void;
-  onSubmit: () => void;
-  submitting: boolean;
-}) {
-  const [newOptionLabel, setNewOptionLabel] = useState("");
-  const [newOptionPrice, setNewOptionPrice] = useState("");
+}
 
+/** Раздел 11: выбор окон + наглядная схема набора остекления (раздел 11.8). */
+export function WindowsSection({ value, onChange }: SectionProps) {
   function addWindow(productId: WindowRow["productId"]) {
     const ref = REFERENCE_SIZES[productId];
     onChange({
@@ -96,49 +89,16 @@ export function VariantForm({
       ],
     });
   }
-
   function updateWindow(id: string, patch: Partial<WindowRow>) {
     onChange({ ...value, windows: value.windows.map((w) => (w.id === id ? { ...w, ...patch } : w)) });
   }
-
   function removeWindow(id: string) {
     onChange({ ...value, windows: value.windows.filter((w) => w.id !== id) });
   }
 
-  function addOption() {
-    if (!newOptionLabel.trim()) return;
-    onChange({
-      ...value,
-      options: [...value.options, { id: crypto.randomUUID(), label: newOptionLabel, priceRub: newOptionPrice ? Number(newOptionPrice) : null }],
-    });
-    setNewOptionLabel("");
-    setNewOptionPrice("");
-  }
-
-  function removeOption(id: string) {
-    onChange({ ...value, options: value.options.filter((o) => o.id !== id) });
-  }
-
   return (
     <div className="card">
-      <h3>Комплектация варианта</h3>
-      <div className="field">
-        <label>Название варианта</label>
-        <input value={value.label} onChange={(e) => onChange({ ...value, label: e.target.value })} />
-      </div>
-
-      {value.rectFootprint ? (
-        <p className="muted">
-          Прямоугольный контур: пролёт {value.rectFootprint.spanM} м × длина {value.rectFootprint.lengthM} м — стены и кровля считаются по реальной
-          геометрии (раздел 7.4).
-        </p>
-      ) : (
-        <p className="muted status-tag warn" style={{ display: "inline-block" }}>
-          Контур не прямоугольный/не задан — коробка дома считается только по аналогу площади
-        </p>
-      )}
-
-      <h4>Остекление (раздел 11)</h4>
+      <h3>Остекление</h3>
       <div style={{ display: "flex", gap: 8, marginBottom: 8, flexWrap: "wrap" }}>
         {(Object.keys(REFERENCE_SIZES) as WindowRow["productId"][]).map((id) => (
           <button type="button" key={id} className="secondary" onClick={() => addWindow(id)}>
@@ -190,7 +150,33 @@ export function VariantForm({
       )}
       <p className="muted">Изменение ширины/высоты относительно эталона запускает предварительную оценку по формуле раздела 11.3.2.</p>
 
-      <h4>Опции и внутренняя отделка (раздел 19)</h4>
+      <h4 style={{ marginTop: 16 }}>Схема набора остекления</h4>
+      <FacadeSchematic windows={value.windows} />
+    </div>
+  );
+}
+
+/** Раздел 19: опции и внутренняя отделка. */
+export function OptionsSection({ value, onChange }: SectionProps) {
+  const [newOptionLabel, setNewOptionLabel] = useState("");
+  const [newOptionPrice, setNewOptionPrice] = useState("");
+
+  function addOption() {
+    if (!newOptionLabel.trim()) return;
+    onChange({
+      ...value,
+      options: [...value.options, { id: crypto.randomUUID(), label: newOptionLabel, priceRub: newOptionPrice ? Number(newOptionPrice) : null }],
+    });
+    setNewOptionLabel("");
+    setNewOptionPrice("");
+  }
+  function removeOption(id: string) {
+    onChange({ ...value, options: value.options.filter((o) => o.id !== id) });
+  }
+
+  return (
+    <div className="card">
+      <h3>Опции и внутренняя отделка</h3>
       <table style={{ marginBottom: 8 }}>
         <thead>
           <tr>
@@ -203,9 +189,7 @@ export function VariantForm({
           {value.options.map((o) => (
             <tr key={o.id}>
               <td>{o.label}</td>
-              <td>
-                {o.priceRub != null ? o.priceRub.toLocaleString("ru-RU") : <span className="status-tag warn">цена не задана</span>}
-              </td>
+              <td>{o.priceRub != null ? o.priceRub.toLocaleString("ru-RU") : <span className="status-tag warn">цена не задана</span>}</td>
               <td>
                 <button type="button" className="secondary" onClick={() => removeOption(o.id)}>
                   ✕
@@ -215,19 +199,29 @@ export function VariantForm({
           ))}
         </tbody>
       </table>
-      <div style={{ display: "flex", gap: 8 }}>
+      <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
         <input placeholder="Название опции" value={newOptionLabel} onChange={(e) => setNewOptionLabel(e.target.value)} />
         <input placeholder="Цена, ₽ (пусто = не задана)" type="number" value={newOptionPrice} onChange={(e) => setNewOptionPrice(e.target.value)} />
         <button type="button" className="secondary" onClick={addOption}>
           Добавить
         </button>
       </div>
+    </div>
+  );
+}
 
-      <h4 style={{ marginTop: 20 }}>Фундамент (раздел 8)</h4>
+/** Раздел 8: схема фундамента. */
+export function FoundationSection({ value, onChange }: SectionProps) {
+  return (
+    <div className="card">
+      <h3>Фундамент</h3>
       <div className="grid-2">
         <div className="field">
           <label>Схема</label>
-          <select value={value.foundationTemplate} onChange={(e) => onChange({ ...value, foundationTemplate: e.target.value as VariantFormValue["foundationTemplate"] })}>
+          <select
+            value={value.foundationTemplate}
+            onChange={(e) => onChange({ ...value, foundationTemplate: e.target.value as VariantFormValue["foundationTemplate"] })}
+          >
             <option value="barn96_kyzyl">Барн 96 / Кызыл (точная сетка 5×5)</option>
             <option value="norma77">Норма 77 (точная сетка 6×4)</option>
             <option value="generic_analog">Оценка по аналогу (для новой планировки)</option>
@@ -247,8 +241,15 @@ export function VariantForm({
           </div>
         )}
       </div>
+    </div>
+  );
+}
 
-      <h4 style={{ marginTop: 20 }}>Ценообразование (раздел 18)</h4>
+/** Раздел 18: режим цены. */
+export function PricingSection({ value, onChange }: SectionProps) {
+  return (
+    <div className="card">
+      <h3>Ценообразование</h3>
       <div className="grid-2">
         <div className="field">
           <label>Режим цены</label>
@@ -282,17 +283,18 @@ export function VariantForm({
         </div>
         <div className="field">
           <label>Комиссия менеджера, доля от цены</label>
-          <input type="number" step="0.01" value={value.managerCommissionM} onChange={(e) => onChange({ ...value, managerCommissionM: Number(e.target.value) })} />
+          <input
+            type="number"
+            step="0.01"
+            value={value.managerCommissionM}
+            onChange={(e) => onChange({ ...value, managerCommissionM: Number(e.target.value) })}
+          />
         </div>
         <div className="field">
           <label>Шаг округления цены, ₽</label>
           <input type="number" value={value.roundingStep} onChange={(e) => onChange({ ...value, roundingStep: Number(e.target.value) })} />
         </div>
       </div>
-
-      <button onClick={onSubmit} disabled={submitting} style={{ marginTop: 12 }}>
-        {submitting ? "Расчёт..." : "Рассчитать и сохранить версию"}
-      </button>
     </div>
   );
 }
