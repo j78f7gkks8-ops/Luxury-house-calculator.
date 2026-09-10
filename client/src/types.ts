@@ -75,6 +75,7 @@ export interface CatalogProject {
   pages: number;
   rooms: { name: string; areaM2: number }[];
   footprintNote: string;
+  rectFootprint?: { spanM: number; lengthM: number; confidence: string; note: string } | null;
   sourceFileAvailable: boolean;
   pileFieldTemplate?: string;
   versionConflicts?: string[];

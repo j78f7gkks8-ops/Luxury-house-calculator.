@@ -18,6 +18,7 @@
         { "name": "С/у", "areaM2": 3.04 }
       ],
       "footprintNote": "8×6 м; терраса с выступом, основной участок 8×2 м; общий габарит по размерному листу 8×9,5 м",
+      "rectFootprint": { "spanM": 8, "lengthM": 6, "confidence": "confirmed_by_shared_dimension", "note": "8м — общий пролёт с террасой (8×2), 6м — длина закрытой части вдоль цепочки; выступ террасы (до 9,5м) в этот прямоугольник не входит." },
       "sourceFile": "Барн 69 - ПДФ.pdf",
       "documentedSha256": "a7bf79cebab2a05f08b523a6fafa43dcec00acdccd12e48720632bd6e96f8989",
       "sourceFileAvailable": false
@@ -39,6 +40,7 @@
         { "name": "Гардероб", "areaM2": 2.8 }
       ],
       "footprintNote": "8×9 м закрытой части; терраса 2 м с выступом ещё на 1 м — не обрезать выступ до прямоугольника 8×2",
+      "rectFootprint": { "spanM": 8, "lengthM": 9, "confidence": "inferred_by_family_pattern", "note": "8м пролёт предположен по аналогии с Барн 96/93 (общий с террасой), для этого файла отдельно текстом не подтверждён — требует сверки по чертежу." },
       "sourceFile": "Барн 88 V2 - пдф.pdf",
       "documentedSha256": "a6b188b60dd3e6014147bc1a441d246a351877b6714b0d347bda69d0ca3b267c",
       "sourceFileAvailable": false
@@ -60,6 +62,7 @@
         { "name": "Гардероб", "areaM2": 2.8 }
       ],
       "footprintNote": "9×8 м закрытой части; терраса 2×8 м; крыльцо отдельно. НЕ путать с исторической рабочей сметой 'Барн 93' (комнаты Барна 96, 61,23 м²) — это другая планировка",
+      "rectFootprint": { "spanM": 8, "lengthM": 9, "confidence": "confirmed_by_shared_dimension", "note": "8м — общий пролёт с террасой (2×8)." },
       "sourceFile": "Барн 93 V2 - планировка.pdf",
       "documentedSha256": "16e4df89333b1a94d62a6fdbb048fbc01d8e0deb8bd0bcfc426399d41fba0b45",
       "sourceFileAvailable": false
@@ -81,6 +84,7 @@
         { "name": "Спальня 2", "areaM2": 9.35 }
       ],
       "footprintNote": "9×8 м закрытой части; терраса 3×8 м; общий прямоугольник 12×8 м; крыльцо отдельно. 3 жилых модуля + 1 террасный. Вариант террасы 2 м — отдельная версия свайного поля (см. раздел 8)",
+      "rectFootprint": { "spanM": 8, "lengthM": 9, "confidence": "confirmed_by_example", "note": "Пролёт 8м подтверждён явным примером раздела 7.2 (подъём конька ≈0.6335м при 9°)." },
       "sourceFile": "Барн 96 - ПДФ (1)(1).pdf",
       "documentedSha256": "979ce97882cbbeb8c00c5a8f76dc253e7cc13d2a9ae8cfd678b2d38811b0a532",
       "sourceFileAvailable": false,
@@ -103,6 +107,7 @@
         { "name": "С/у", "areaM2": 4.81 }
       ],
       "footprintNote": "Поперечная цепочка 2,88 навес + 9,12 закрытая часть + 2 терраса = 14 м; глубина 8 м. Навес НЕ означает палубный пол или утепление автоматически",
+      "rectFootprint": { "spanM": 8, "lengthM": 9.12, "confidence": "confirmed_by_explicit_text", "note": "Глубина 8м указана в тексте явно; 72.96=8×9.12 совпадает с closedFootprintM2." },
       "sourceFile": "Барн 112 - ПДФ.pdf",
       "documentedSha256": "4e8995f622c0d4a871f31d6175292508db61747cc82a772e04aa789d5a28d6ff",
       "sourceFileAvailable": false
@@ -120,6 +125,7 @@
         { "name": "С/у", "areaM2": 3.63 }
       ],
       "footprintNote": "Закрытая часть 6×5 м; терраса 2,5×5 м; общий габарит 8,5×5 м",
+      "rectFootprint": { "spanM": 5, "lengthM": 6, "confidence": "confirmed_by_shared_dimension", "note": "5м — общий пролёт с террасой (2.5×5)." },
       "sourceFile": "Барнхаус 43 - планировка (1).pdf",
       "documentedSha256": "5c467dc6f8ea4116246a116e27adeb2ede6dfa926e70287befed49dfe330a04e",
       "sourceFileAvailable": false
@@ -139,6 +145,7 @@
         { "name": "Тамбур", "areaM2": 4.1 }
       ],
       "footprintNote": "Закрытая часть 6×6 м; терраса Г-образная: 3×3 м + проход 1×3 м. Охватывающий прямоугольник 9×6 — не площадь настила",
+      "rectFootprint": { "spanM": 6, "lengthM": 6, "confidence": "assumed_square", "note": "Закрытый контур квадратный — выбор оси не влияет на площадь/периметр." },
       "sourceFile": "Барнхаус 48 - планировка.pdf",
       "documentedSha256": "b58348779d6760ef2bc8d653df3e42734009017f7474c4214cf01be2efef0b8f",
       "sourceFileAvailable": false
@@ -156,6 +163,7 @@
         { "name": "С/у", "areaM2": 2.9 }
       ],
       "footprintNote": "Закрытая часть 6×3 м; терраса Г-образная: 7×1,5 и 3,74×1 м; габарит с террасой 7×5,5 — рамка, не площадь",
+      "rectFootprint": { "spanM": 3, "lengthM": 6, "confidence": "assumed", "note": "Терраса Г-образная без чёткой общей стороны с закрытым контуром — ось пролёта не подтверждена текстом, для Нормы это не блокирует расчёт (угол кровли и так needs_price по умолчанию)." },
       "sourceFile": "Норма 32 - ПДФ (2).pdf",
       "documentedSha256": "db730ff95f51e071ecf541249735ff9bc232ed0f904581eb388ae497288a22d2",
       "sourceFileAvailable": false
@@ -174,6 +182,8 @@
         { "name": "Спальня", "areaM2": 5.42 }
       ],
       "footprintNote": "Закрытый Г-образный контур: 6×3 + 2,8×2,5; общий габарит с террасой 7×6,5. Не достраивать отсутствующий угол ради сетки",
+      "rectFootprint": null,
+      "rectFootprintNote": "Сам ЗАКРЫТЫЙ контур Г-образный (не только терраса) — упрощённый прямоугольный расчёт стен/кровли здесь не применяется, чтобы не подменять реальную форму (раздел 7.4). Площадь пола/потолка берётся из closedFootprintM2, площадь стен/кровли — needs_size до полигональной геометрии.",
       "sourceFile": "Норма 38 - ПДФ (1).pdf",
       "documentedSha256": "c2f2172186e18c43994a83487802dcd1828b43a83a9e771e8da67da2574365ac",
       "sourceFileAvailable": false
@@ -192,6 +202,8 @@
         { "name": "Спальня", "areaM2": 5.81 }
       ],
       "footprintNote": "Два прямоугольника 6×3 со смещением на 2 м; общая сторона примыкания 4 м; рамка 9×7 — не площадь дома",
+      "rectFootprint": null,
+      "rectFootprintNote": "Составной контур из двух смещённых прямоугольников — не единый прямоугольник (раздел 7: 'два сдвинутых модуля'). Площадь пола берётся из closedFootprintM2, стены/кровля — needs_size до полигональной геометрии.",
       "sourceFile": "Норма 54 - ПДФ.pdf",
       "documentedSha256": "9cd22fdb35276e83533692406bd20c268abe1c9de603221147d64fce57ba0066",
       "sourceFileAvailable": false
@@ -211,6 +223,7 @@
         { "name": "Спальня 2", "areaM2": 7.5 }
       ],
       "footprintNote": "Закрытая часть 7×6; терраса 7×3; общий прямоугольник 7×9. PDF побайтово совпадает с прежним 'Норма 40.2 V2'. Старый каркас Норма 63 (35,34 м² по комнатам) относится к ДРУГОЙ версии перегородок — не смешивать",
+      "rectFootprint": { "spanM": 7, "lengthM": 6, "confidence": "confirmed_by_shared_dimension", "note": "7м — общий пролёт с террасой (7×3)." },
       "sourceFile": "Норма 63 V2 - ПДФ.pdf",
       "documentedSha256": "f063f51f9063a0df289bfbfad6589dcbc64d541cc1798f40fc4975e26c19f905",
       "sourceFileAvailable": false,
@@ -233,6 +246,7 @@
         { "name": "Спальня 2", "areaM2": 6.84 }
       ],
       "footprintNote": "Закрытая часть 8,5×6; терраса Г-образная 43,5 м² по наружному контуру (43,33 по экспликации); рамка 10,5×9. Фасад полностью планкен. Крыша террасы — предварительная оценка 33 м² (проекция, не настил)",
+      "rectFootprint": { "spanM": 8.5, "lengthM": 6, "confidence": "confirmed_by_reference", "note": "Приложение Б3: 'два жилых модуля 8.5×3 м; наружная закрытая часть 8.5×6=51' — 8.5м пролёт, два модуля по 3м составляют длину 6м." },
       "sourceFile": "Норма 77 V2 - ПДФ (2)(2).pdf",
       "documentedSha256": "7c1fad6ebe0065d07a086ad01b43e5596627b63bc2616f323fbf1ca9f59ffcc3",
       "sourceFileAvailable": false,
@@ -258,6 +272,7 @@
         { "name": "С/у", "areaM2": 3.6 }
       ],
       "footprintNote": "Закрытая часть 12×7; терраса перед частью фасада, глубина участков различается; габарит по крайним точкам 12×10 — считать многоугольник террасы, а не рамку",
+      "rectFootprint": { "spanM": 7, "lengthM": 12, "confidence": "assumed", "note": "Терраса не даёт чёткой общей стороны для определения оси пролёта — принято по общему масштабу проекта (Норма, крыша needs_price по умолчанию)." },
       "sourceFile": "Норма 107- ПДФ.pdf",
       "documentedSha256": "b3c6be8fcaaf96a97477beda970c0e602dac18e23fd24cd00f6e208b13a85432",
       "sourceFileAvailable": false

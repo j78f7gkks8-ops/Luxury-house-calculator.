@@ -15,3 +15,4 @@ export * from "./finishes.js";
 export * from "./electrical.js";
 export * from "./geometry.js";
 export * from "./analog-scaling.js";
+export * from "./shell.js";

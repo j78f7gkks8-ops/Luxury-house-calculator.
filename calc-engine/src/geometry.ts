@@ -26,11 +26,6 @@ export function roofPlaneAreaM2(horizontalProjectionAreaM2: Num, angleDeg: Num =
   return d(horizontalProjectionAreaM2).dividedBy(Decimal.cos(degToRad(angleDeg)));
 }
 
-/** Раздел 7.3: Норма — низкоуклонная кровля, угол — параметр КОНКРЕТНОГО профиля, не факт всех Норм. */
-export function lowSlopeRoofAreaM2(horizontalProjectionAreaM2: Num, angleDeg: Num): Decimal {
-  return roofPlaneAreaM2(horizontalProjectionAreaM2, angleDeg);
-}
-
 /**
  * Раздел 23 п.3: общие поверхности Г-образного контура учитываются один раз. Обе допустимые
  * декомпозиции прямоугольниками должны давать одинаковую площадь, если пересечение не

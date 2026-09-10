@@ -85,6 +85,10 @@ export interface EstimateSelection {
   closedFootprintM2: number;
   terraceAreaM2?: number;
   porchAreaM2?: number;
+  /** Раздел 7.4: прямоугольный закрытый контур для реального расчёта стен/кровли.
+   *  Отсутствует для Г-образных/составных планировок — тогда движок честно переходит
+   *  на масштабирование по аналогу вместо подмены формы прямоугольником. */
+  rectFootprint?: { spanM: number; lengthM: number } | null;
   windows: WindowSelectionInput[];
   options: OptionSelectionInput[];
   foundation: FoundationSelectionInput;

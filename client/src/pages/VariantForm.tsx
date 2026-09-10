@@ -28,6 +28,7 @@ export interface VariantFormValue {
   label: string;
   insideAreaM2: number;
   closedFootprintM2: number;
+  rectFootprint: { spanM: number; lengthM: number } | null;
   windows: WindowRow[];
   options: OptionRow[];
   foundationTemplate: "barn96_kyzyl" | "norma77" | "generic_analog" | "manual";
@@ -42,11 +43,16 @@ export interface VariantFormValue {
   roundingStep: number;
 }
 
-export function defaultVariantFormValue(insideAreaM2: number, closedFootprintM2: number): VariantFormValue {
+export function defaultVariantFormValue(
+  insideAreaM2: number,
+  closedFootprintM2: number,
+  rectFootprint: { spanM: number; lengthM: number } | null = null
+): VariantFormValue {
   return {
     label: "Вариант 1",
     insideAreaM2,
     closedFootprintM2,
+    rectFootprint,
     windows: [],
     options: [
       { id: "toilet", label: "Унитаз стандарт с установкой", priceRub: 30000 },
@@ -120,6 +126,17 @@ export function VariantForm({
         <label>Название варианта</label>
         <input value={value.label} onChange={(e) => onChange({ ...value, label: e.target.value })} />
       </div>
+
+      {value.rectFootprint ? (
+        <p className="muted">
+          Прямоугольный контур: пролёт {value.rectFootprint.spanM} м × длина {value.rectFootprint.lengthM} м — стены и кровля считаются по реальной
+          геометрии (раздел 7.4).
+        </p>
+      ) : (
+        <p className="muted status-tag warn" style={{ display: "inline-block" }}>
+          Контур не прямоугольный/не задан — коробка дома считается только по аналогу площади
+        </p>
+      )}
 
       <h4>Остекление (раздел 11)</h4>
       <div style={{ display: "flex", gap: 8, marginBottom: 8, flexWrap: "wrap" }}>

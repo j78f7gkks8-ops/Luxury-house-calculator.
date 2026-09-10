@@ -6,12 +6,13 @@ import { EstimateBlocks, GapsBanner } from "../components/EstimateBlocks";
 import { VariantForm, defaultVariantFormValue, type VariantFormValue } from "./VariantForm";
 import type { AnyEstimateView, CatalogProject, ManagerEstimateView, OwnerEstimateView, ProjectSummary } from "../types";
 
-function toSelection(v: VariantFormValue) {
+function toSelection(v: VariantFormValue, family: "BARN" | "NORMA") {
   return {
     catalogTemplateId: "custom",
-    family: "BARN" as const,
+    family,
     insideAreaM2: v.insideAreaM2,
     closedFootprintM2: v.closedFootprintM2,
+    rectFootprint: v.rectFootprint,
     windows: v.windows.map((w) => ({
       id: w.id,
       label: w.label,
@@ -66,7 +67,13 @@ export function ProjectDetail() {
     const entry = catalog.projects.find((c) => c.id === p.catalogTemplateId) ?? null;
     setCatalogEntry(entry);
     if (!formValue) {
-      setFormValue(defaultVariantFormValue(entry?.insideByExplicationM2 ?? 60, entry?.closedFootprintM2 ?? 72));
+      setFormValue(
+        defaultVariantFormValue(
+          entry?.insideByExplicationM2 ?? 60,
+          entry?.closedFootprintM2 ?? 72,
+          entry?.rectFootprint ? { spanM: entry.rectFootprint.spanM, lengthM: entry.rectFootprint.lengthM } : null
+        )
+      );
     }
     if (p.variants && p.variants.length > 0) {
       const latest = p.variants[p.variants.length - 1];
@@ -82,11 +89,11 @@ export function ProjectDetail() {
   }, [load]);
 
   async function submitVariant() {
-    if (!id || !formValue) return;
+    if (!id || !formValue || !project) return;
     setSubmitting(true);
     setError(null);
     try {
-      const selection = toSelection(formValue);
+      const selection = toSelection(formValue, project.familyType);
       const result = await api.post<{ variant: { id: string }; estimate: AnyEstimateView }>(`/projects/${id}/variants`, {
         label: formValue.label,
         selection,

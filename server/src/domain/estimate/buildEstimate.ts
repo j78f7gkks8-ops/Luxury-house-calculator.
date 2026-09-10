@@ -21,11 +21,20 @@ import {
   overheadPerHouse,
   fullEconomicCost,
   computePrice,
+  productAreaM2,
+  footprintAreaM2,
+  wallPerimeterM,
+  grossWallAreaM2,
+  barnGableRoofAreaM2,
+  netWallAreaM2,
+  insulationVolumeM3,
+  areaWithReserve,
   type PricingInput,
   type WindowReferenceProduct,
+  type RectFootprint,
 } from "@lhc/calc-engine";
 import { getCalculationDefaults } from "./catalogData.js";
-import { BARN96_HISTORICAL_ANALOG, BARN96_SHELL_DIRECT_COST_SHARE } from "./analogBasis.js";
+import { BARN96_HISTORICAL_ANALOG, BARN96_FRAMING_ONLY_SHARE } from "./analogBasis.js";
 import type { EstimateBlock, EstimateGap, EstimateLine, EstimateResult, EstimateSelection, WindowSelectionInput } from "./types.js";
 
 const ENGINE_VERSION = "1.0.0";
@@ -115,6 +124,242 @@ function computeWindowLine(w: WindowSelectionInput): EstimateLine {
   );
 }
 
+function totalWindowOpeningAreaM2(windows: WindowSelectionInput[]): number {
+  return windows.reduce((acc, w) => {
+    const area = productAreaM2({
+      shape: w.shape,
+      widthMm: w.widthMm,
+      heightMm: w.heightMm,
+      heightLeftMm: w.heightLeftMm,
+      heightRightMm: w.heightRightMm,
+    });
+    return acc + area.times(w.qty).toNumber();
+  }, 0);
+}
+
+/**
+ * Раздел 7.4/7.5: если у планировки есть прямоугольный закрытый контур (rectFootprint),
+ * стены/кровля/утепление/облицовка/плёнки считаются по реальной геометрии и ценам за
+ * единицу, а не одним коэффициентом ₽/м² (раздел 7.1: "нельзя хранить весь дом одним
+ * коэффициентом"). Проёмы вычитаются из площади стены (раздел 11.5.1) до расчёта облицовки
+ * и утеплителя. Каркас/крепёж/работы по сборке коробки остаются оценкой по аналогу — для них
+ * нет ни рабочего чертежа, ни нормы на узел (раздел 7.5, уровень 3).
+ */
+function buildShellBlock(
+  selection: EstimateSelection,
+  defaults: any,
+  windowsOpeningAreaM2: number
+): { block: EstimateBlock; gaps: EstimateGap[] } {
+  const gaps: EstimateGap[] = [];
+  const lines: EstimateLine[] = [];
+  const footprint = selection.rectFootprint;
+
+  const framingScaled = scaleByAnalog({
+    analogLabel: BARN96_HISTORICAL_ANALOG.label,
+    analogValue: BARN96_HISTORICAL_ANALOG.directCostsD * BARN96_FRAMING_ONLY_SHARE,
+    analogDriverVolume: BARN96_HISTORICAL_ANALOG.insideAreaM2,
+    newDriverVolume: selection.insideAreaM2,
+  });
+  lines.push(
+    line(
+      {
+        label: `Каркас, крепёж и сборка коробки — оценка по аналогу (${BARN96_HISTORICAL_ANALOG.label})`,
+        amount: framingScaled.scaledValue.toNumber(),
+        status: "preliminary_by_analog",
+        costCategory: "material",
+        note: framingScaled.basis + ". Требует рабочих чертежей для перехода в подтверждённый статус (раздел 7.5).",
+      },
+      "shell_framing_analog"
+    )
+  );
+
+  if (!footprint) {
+    gaps.push({
+      code: "shell_geometry_not_rectangular",
+      message: "Закрытый контур не прямоугольный (или геометрия не задана) — площадь стен/кровли не может быть посчитана напрямую; используется только оценка каркаса по аналогу.",
+      blocksFinal: false,
+    });
+    return { block: makeBlock("shell", "Дом без внутренней отделки", lines), gaps };
+  }
+
+  const rect: RectFootprint = { spanM: footprint.spanM, lengthM: footprint.lengthM };
+  const profile = defaults.structuralProfiles?.[selection.family] ?? {};
+  const facade = defaults.facade ?? {};
+  const insulationCfg = defaults.insulation ?? {};
+  const filmsCfg = defaults.films ?? {};
+
+  const wallHeightM: number | null = profile.wallHeightM ?? (profile.cleanCeilingHeightMm != null ? profile.cleanCeilingHeightMm / 1000 : null);
+
+  if (wallHeightM == null) {
+    lines.push(
+      line(
+        {
+          label: "Площадь стен и зависимые материалы (утепление/облицовка/плёнка А)",
+          amount: null,
+          status: "needs_size",
+          costCategory: "material",
+          quantity: null,
+          note: `Высота стены семейства ${selection.family} не задана владельцем (needs_size) — раздел 7.3.`,
+        },
+        "wall_area_blocked"
+      )
+    );
+    gaps.push({ code: "wall_height_missing", message: `Высота стены семейства ${selection.family} не задана.`, blocksFinal: false });
+  } else {
+    const grossWallM2 = grossWallAreaM2(rect, wallHeightM);
+    const netWallM2 = netWallAreaM2(grossWallM2, windowsOpeningAreaM2);
+
+    lines.push(
+      line(
+        {
+          label: "Площадь стен нетто (за вычетом проёмов)",
+          quantity: Number(netWallM2.toFixed(2)),
+          unit: "м²",
+          amount: null,
+          status: "preliminary_by_analog",
+          costCategory: "material",
+          note: `Периметр ${wallPerimeterM(rect).toFixed(2)} м × высота ${wallHeightM.toFixed(2)} м − проёмы ${windowsOpeningAreaM2.toFixed(2)} м². Источник высоты: ${profile.wallHeightSource ?? profile.cleanCeilingHeightSource ?? "неизвестно"}.`,
+        },
+        "wall_area_net"
+      )
+    );
+
+    const planken = facade.planken20x120x3000;
+    if (planken?.pricePerM2) {
+      lines.push(
+        line(
+          {
+            label: "Наружная облицовка планкеном",
+            quantity: Number(netWallM2.toFixed(2)),
+            unit: "м²",
+            unitPrice: planken.pricePerM2,
+            amount: netWallM2.times(planken.pricePerM2).toNumber(),
+            status: "preliminary_by_analog",
+            costCategory: "material",
+            note: "Раздел 11: базовая технология — планкен по всему фасаду; выбор комбинированного фасада меняет эту строку.",
+          },
+          "facade_planken"
+        )
+      );
+    }
+
+    const wallInsulationM3 = insulationVolumeM3(netWallM2, profile.wallInsulationMm ?? 150);
+    const floorInsulationM3 = insulationVolumeM3(footprintAreaM2(rect), profile.floorInsulationMm ?? 200);
+    const totalInsulationM3 = wallInsulationM3.plus(floorInsulationM3);
+    if (insulationCfg.knaufPricePerM3) {
+      lines.push(
+        line(
+          {
+            label: "Утеплитель Knauf (стены + пол)",
+            quantity: Number(totalInsulationM3.toFixed(3)),
+            unit: "м³",
+            unitPrice: insulationCfg.knaufPricePerM3,
+            amount: totalInsulationM3.times(insulationCfg.knaufPricePerM3).toNumber(),
+            status: "preliminary_by_analog",
+            costCategory: "material",
+            note: `Стены: ${wallInsulationM3.toFixed(2)} м³ по ${profile.wallInsulationMm ?? 150} мм; пол: ${floorInsulationM3.toFixed(2)} м³ по ${profile.floorInsulationMm ?? 200} мм. Без учёта раскладки плит и обрезков (раздел 10).`,
+          },
+          "insulation_wall_floor"
+        )
+      );
+    }
+
+    const izospanA = filmsCfg.izospanA;
+    if (izospanA?.pricePerM2) {
+      const areaWithReserveM2 = areaWithReserve(netWallM2, filmsCfg.generalReservePct ?? 10);
+      lines.push(
+        line(
+          {
+            label: "Изоспан А (наружная сторона стен, с запасом)",
+            quantity: Number(areaWithReserveM2.toFixed(2)),
+            unit: "м²",
+            unitPrice: izospanA.pricePerM2,
+            amount: areaWithReserveM2.times(izospanA.pricePerM2).toNumber(),
+            status: "preliminary_by_analog",
+            costCategory: "material",
+            note: `Запас ${filmsCfg.generalReservePct ?? 10}% применён один раз (раздел 10/23 п.9).`,
+          },
+          "izospan_a_walls"
+        )
+      );
+    }
+
+    if (selection.family === "BARN") {
+      const angleDeg = profile.roofAngleDeg ?? 9;
+      const overhangM = profile.roofOverhangM ?? 0.3;
+      const roof = barnGableRoofAreaM2(rect, angleDeg, overhangM);
+      lines.push(
+        line(
+          {
+            label: `Кровля — двускатная ${angleDeg}° (два ската)`,
+            quantity: Number(roof.totalAreaM2.toFixed(2)),
+            unit: "м²",
+            amount: null,
+            status: "preliminary_by_analog",
+            costCategory: "material",
+            note: `Подъём конька ${roof.ridgeRiseM.toFixed(4)} м, свес ${overhangM} м (${profile.roofOverhangSource ?? "needs_price"}). Раздел 7.2.`,
+          },
+          "roof_area"
+        )
+      );
+      const roofing = facade.roofingC21;
+      if (roofing?.pricePerM2) {
+        lines.push(
+          line(
+            {
+              label: "Профлист С21 кровли",
+              quantity: Number(roof.totalAreaM2.toFixed(2)),
+              unit: "м²",
+              unitPrice: roofing.pricePerM2,
+              amount: roof.totalAreaM2.times(roofing.pricePerM2).toNumber(),
+              status: "preliminary_by_analog",
+              costCategory: "material",
+            },
+            "roofing_sheet"
+          )
+        );
+      }
+      const izospanAM = filmsCfg.izospanAM;
+      if (izospanAM?.pricePerM2) {
+        const roofFilmAreaWithReserve = areaWithReserve(roof.totalAreaM2, filmsCfg.generalReservePct ?? 10);
+        lines.push(
+          line(
+            {
+              label: "Изоспан АМ (сверху кровли, с запасом)",
+              quantity: Number(roofFilmAreaWithReserve.toFixed(2)),
+              unit: "м²",
+              unitPrice: izospanAM.pricePerM2,
+              amount: roofFilmAreaWithReserve.times(izospanAM.pricePerM2).toNumber(),
+              status: "preliminary_by_analog",
+              costCategory: "material",
+            },
+            "izospan_am_roof"
+          )
+        );
+      }
+    } else {
+      const angleDeg = profile.roofAngleDeg;
+      if (angleDeg == null) {
+        lines.push(
+          line(
+            {
+              label: "Кровля Нормы (уклон не задан владельцем)",
+              amount: null,
+              status: "needs_price",
+              costCategory: "material",
+              note: profile.roofAngleNote ?? "Раздел 7.3: угол — параметр конкретного профиля, не подставляется автоматически.",
+            },
+            "roof_area_norma_blocked"
+          )
+        );
+        gaps.push({ code: "norma_roof_angle_missing", message: "Угол кровли Нормы не задан владельцем.", blocksFinal: false });
+      }
+    }
+  }
+
+  return { block: makeBlock("shell", "Дом без внутренней отделки", lines), gaps };
+}
+
 function buildFoundationBlock(selection: EstimateSelection, defaults: any): { block: EstimateBlock; gaps: EstimateGap[] } {
   const gaps: EstimateGap[] = [];
   const lines: EstimateLine[] = [];
@@ -194,34 +439,14 @@ export function buildEstimate(selection: EstimateSelection): EstimateResult {
   const defaults = getCalculationDefaults();
   const gaps: EstimateGap[] = [];
 
-  // --- Блок 1: дом без внутренней отделки (оценка по аналогу Барн 96) ---
-  const shellScaled = scaleByAnalog({
-    analogLabel: BARN96_HISTORICAL_ANALOG.label,
-    analogValue: BARN96_HISTORICAL_ANALOG.directCostsD * BARN96_SHELL_DIRECT_COST_SHARE,
-    analogDriverVolume: BARN96_HISTORICAL_ANALOG.insideAreaM2,
-    newDriverVolume: selection.insideAreaM2,
-  });
-  const shellBlock = makeBlock("shell", "Дом без внутренней отделки", [
-    line(
-      {
-        label: `Каркас, утепление, кровля, фасад, окна/двери — оценка по аналогу (${BARN96_HISTORICAL_ANALOG.label})`,
-        amount: shellScaled.scaledValue.toNumber(),
-        status: "preliminary_by_analog",
-        costCategory: "material",
-        note: shellScaled.basis + ". Требует уточнения по рабочим чертежам для перехода в подтверждённый статус (раздел 7.5).",
-      },
-      "shell_analog"
-    ),
-  ]);
-  gaps.push({
-    code: "shell_bom_not_from_drawings",
-    message: "Состав каркаса/кровли/фасада рассчитан по аналогу площади, не по рабочим чертежам этой планировки.",
-    blocksFinal: false,
-  });
-
-  // --- Блок 2: окна (точный расчёт) ---
+  // --- Блок 2: окна (точный расчёт) — считаем первым, чтобы вычесть проёмы из стен ---
   const windowLines = selection.windows.map(computeWindowLine);
   const windowsBlock = makeBlock("windows", "Остекление", windowLines);
+  const windowsOpeningAreaM2 = totalWindowOpeningAreaM2(selection.windows);
+
+  // --- Блок 1: дом без внутренней отделки — реальная геометрия, где есть rectFootprint ---
+  const { block: shellBlock, gaps: shellGaps } = buildShellBlock(selection, defaults, windowsOpeningAreaM2);
+  gaps.push(...shellGaps);
 
   // --- Блок 3: фундамент ---
   const { block: foundationBlock, gaps: foundationGaps } = buildFoundationBlock(selection, defaults);
