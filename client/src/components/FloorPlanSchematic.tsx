@@ -1,11 +1,13 @@
 import type { CatalogProject } from "../types";
+import { RealPdfPage } from "./RealPdfPage";
 
 /**
- * Раздел 7.4: "не объединяй все контуры по одному признаку «площадь дома»". Это НЕ чертёж —
- * настоящих PDF планировок 13 стартовых домов в этой системе нет (архив с исходниками не был
- * приложен к заданию). Схема строит примерное расположение комнат по их площади простым
- * treemap-алгоритмом (slice-and-dice), чтобы дать понятную картинку вместо голого списка
- * цифр — реальные пропорции и расположение дверей/окон она не показывает.
+ * Раздел 7.4: "не объединяй все контуры по одному признаку «площадь дома»". Когда для
+ * планировки загружен и подтверждён (sha256) настоящий исходный PDF (sourceFileAvailable),
+ * показываем именно его — реальный размеченный чертёж, а не схему. Для остальных планировок
+ * настоящих PDF в системе нет — тогда схема строит примерное расположение комнат по площади
+ * простым treemap-алгоритмом (slice-and-dice), чтобы дать понятную картинку вместо голого
+ * списка цифр; реальные пропорции и расположение дверей/окон она не показывает.
  */
 
 interface RoomRect {
@@ -48,6 +50,17 @@ function layoutRooms(rooms: { name: string; areaM2: number }[], x: number, y: nu
 const ROOM_COLORS = ["#e8f0ea", "#eef2ee", "#e3ede6", "#f0f4f0", "#e6efe9", "#ecf1ec"];
 
 export function FloorPlanSchematic({ project }: { project: CatalogProject }) {
+  if (project.sourceFileAvailable) {
+    return (
+      <div>
+        <RealPdfPage catalogProjectId={project.id} pageNumber={project.pages} maxWidthPx={640} />
+        <p className="muted" style={{ maxWidth: 640 }}>
+          Настоящая планировка из загруженного PDF (страница {project.pages} — план с размерами).
+        </p>
+      </div>
+    );
+  }
+
   const spanM = project.rectFootprint?.spanM ?? Math.sqrt(project.closedFootprintM2);
   const lengthM = project.rectFootprint?.lengthM ?? Math.sqrt(project.closedFootprintM2);
   const isApproximateShape = !project.rectFootprint;

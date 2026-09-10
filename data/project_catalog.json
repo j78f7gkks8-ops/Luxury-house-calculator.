@@ -65,7 +65,7 @@
       "rectFootprint": { "spanM": 8, "lengthM": 9, "confidence": "confirmed_by_shared_dimension", "note": "8м — общий пролёт с террасой (2×8)." },
       "sourceFile": "Барн 93 V2 - планировка.pdf",
       "documentedSha256": "16e4df89333b1a94d62a6fdbb048fbc01d8e0deb8bd0bcfc426399d41fba0b45",
-      "sourceFileAvailable": false
+      "sourceFileAvailable": true
     },
     {
       "id": "barn_96",

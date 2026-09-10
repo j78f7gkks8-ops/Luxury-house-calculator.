@@ -61,23 +61,62 @@ export function classifyPageText(text: string): PageClassification {
   return "unclassified";
 }
 
+const SPACE_CHARS = "    ";
+const GROUPED_THOUSANDS_RE = new RegExp(`(?<!:)\\b\\d{1,3}(?:[${SPACE_CHARS}]\\d{3})+\\b`, "g");
+const PLAIN_DIMENSION_RE = /(?<!:)\b\d{2,5}\b/g;
+
 /**
- * Извлекает числа-кандидаты на размеры (в мм). Не путает страницу/масштаб/дату с размером:
- * фильтрует диапазон 50-20000 мм как правдоподобный для строительных размеров, но НЕ
- * утверждает калибровку — это только кандидаты для последующей ручной сверки (раздел 20.1 п.5).
+ * Извлекает числа-кандидаты на размеры (в мм) из ОДНОГО текстового фрагмента PDF (одного
+ * pdfjs TextItem, либо — для синтетических/тестовых PDF без пословной разбивки — целой
+ * строки). Работать нужно именно в пределах одного фрагмента, а не по всему склеенному
+ * пробелами тексту страницы: в реальных чертежах CAD-экспорта размер с разделителем тысяч
+ * ("9 000", "11 000") отдаётся pdfjs ОДНИМ фрагментом с пробелом внутри, а два разных
+ * соседних размера ("220" и "920") — двумя независимыми фрагментами. Если склеить всё в одну
+ * строку и мержить через regex вслепую, "220 920" неотличимо от настоящего "3 450 600" —
+ * можно случайно объединить два разных реальных размера в один мусорный.
  */
-export function extractCandidateDimensionsMm(text: string): number[] {
-  // Отрицательный lookbehind на ":" отсекает масштабные обозначения вида "М1:100".
-  const matches = text.match(/(?<!:)\b\d{2,5}(?=\s*(мм|mm)?\b)/g) ?? [];
-  const numbers = matches.map(Number).filter((n) => n >= 50 && n <= 20000);
-  return Array.from(new Set(numbers));
+function extractFromFragment(fragment: string): number[] {
+  // Площади в ведомости помещений записаны через запятую как разделитель дробной части
+  // ("4,72", "79,08 м²") — маскируем их целиком, иначе их целая/дробная часть проходит
+  // фильтр диапазона и превращается в мусорные "кандидаты на размер" вроде 72 или 79.
+  const masked = fragment.replace(/\d+[.,]\d+/g, (m) => " ".repeat(m.length));
+
+  const numbers: number[] = [];
+  for (const g of masked.match(GROUPED_THOUSANDS_RE) ?? []) {
+    const n = Number(g.replace(new RegExp(`[${SPACE_CHARS}]`, "g"), ""));
+    if (n >= 50 && n <= 20000) numbers.push(n);
+  }
+  // Вырезаем уже распознанные группы тысяч, чтобы их отдельные тройки цифр не задвоились
+  // как самостоятельные "размеры" на следующем шаге.
+  const withoutGrouped = masked.replace(GROUPED_THOUSANDS_RE, (m) => " ".repeat(m.length));
+  for (const p of withoutGrouped.match(PLAIN_DIMENSION_RE) ?? []) {
+    const n = Number(p);
+    if (n >= 50 && n <= 20000) numbers.push(n);
+  }
+  return numbers;
+}
+
+/**
+ * Не путает страницу/масштаб/дату с размером: фильтрует диапазон 50-20000 мм как
+ * правдоподобный для строительных размеров, но НЕ утверждает калибровку — это только
+ * кандидаты для последующей ручной сверки (раздел 20.1 п.5).
+ *
+ * Принимает либо массив текстовых фрагментов страницы (предпочтительно — см. extractPdfText),
+ * либо (для обратной совместимости и простых случаев) одну строку целиком.
+ */
+export function extractCandidateDimensionsMm(fragments: string | string[]): number[] {
+  const list = Array.isArray(fragments) ? fragments : [fragments];
+  const all = list.flatMap(extractFromFragment);
+  return Array.from(new Set(all));
 }
 
 export function sha256Hex(buffer: Buffer): string {
   return createHash("sha256").update(buffer).digest("hex");
 }
 
-export async function extractPdfText(buffer: Buffer): Promise<{ pageCount: number; pages: { pageNumber: number; text: string }[] }> {
+export async function extractPdfText(
+  buffer: Buffer
+): Promise<{ pageCount: number; pages: { pageNumber: number; text: string; items: string[] }[] }> {
   const pdfjsLib = await import("pdfjs-dist/legacy/build/pdf.mjs");
   const loadingTask = pdfjsLib.getDocument({
     data: new Uint8Array(buffer),
@@ -86,12 +125,17 @@ export async function extractPdfText(buffer: Buffer): Promise<{ pageCount: numbe
     disableFontFace: true,
   });
   const doc = await loadingTask.promise;
-  const pages: { pageNumber: number; text: string }[] = [];
+  const pages: { pageNumber: number; text: string; items: string[] }[] = [];
   for (let i = 1; i <= doc.numPages; i++) {
     const page = await doc.getPage(i);
     const content = await page.getTextContent();
-    const text = content.items.map((item: any) => ("str" in item ? item.str : "")).join(" ");
-    pages.push({ pageNumber: i, text });
+    // items сохраняем как отдельные фрагменты (не склеенные в одну строку) — это единственный
+    // способ надёжно отличить размер с разделителем тысяч внутри одного фрагмента ("9 000")
+    // от двух разных соседних размеров, случайно оказавшихся рядом через пробел-разделитель
+    // join(). См. extractFromFragment выше.
+    const items = content.items.map((item: any) => ("str" in item ? item.str : "")).filter((s: string) => s.trim().length > 0);
+    const text = items.join(" ");
+    pages.push({ pageNumber: i, text, items });
   }
   return { pageCount: doc.numPages, pages };
 }
@@ -106,7 +150,7 @@ export async function runPdfImportPipeline(buffer: Buffer): Promise<PdfImportRes
         pageNumber: p.pageNumber,
         text: p.text,
         classification: hasTextLayer ? classifyPageText(p.text) : "unclassified",
-        candidateDimensionsMm: hasTextLayer ? extractCandidateDimensionsMm(p.text) : [],
+        candidateDimensionsMm: hasTextLayer ? extractCandidateDimensionsMm(p.items) : [],
         hasTextLayer,
       };
     });
