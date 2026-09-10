@@ -1,5 +1,8 @@
 import express from "express";
 import cors from "cors";
+import path from "node:path";
+import { fileURLToPath } from "node:url";
+import { existsSync } from "node:fs";
 import { env } from "./env.js";
 import { authRouter } from "./routes/auth.js";
 import { catalogRouter } from "./routes/catalog.js";
@@ -20,6 +23,22 @@ app.use("/api/projects", projectsRouter);
 app.use("/api/actual-work", actualWorkRouter);
 app.use("/api/uploads", uploadsRouter);
 app.use("/api/exports", exportsRouter);
+
+/**
+ * Раздел 22: production-развёртывание — один контейнер, один порт. Сервер отдаёт собранный
+ * клиент (client/dist) как статику и делает SPA-fallback на index.html для любых путей,
+ * кроме /api/*. В режиме разработки (npm run dev) client/dist отсутствует — клиент тогда
+ * обслуживается отдельно через Vite (localhost:5173), и этот блок просто не активируется.
+ */
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const clientDist = path.resolve(__dirname, "../../client/dist");
+if (existsSync(clientDist)) {
+  app.use(express.static(clientDist));
+  app.get(/^(?!\/api).*/, (_req, res) => {
+    res.sendFile(path.join(clientDist, "index.html"));
+  });
+  console.log("Раздача собранного клиента включена:", clientDist);
+}
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 app.use((err: any, _req: express.Request, res: express.Response, _next: express.NextFunction) => {

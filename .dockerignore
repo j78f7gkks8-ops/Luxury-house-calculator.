@@ -1,0 +1,10 @@
+node_modules
+**/node_modules
+**/dist
+.git
+server/prisma/dev.db
+server/prisma/dev.db-journal
+server/uploads
+server/.env
+client/tsconfig.tsbuildinfo
+*.log

@@ -1,0 +1,16 @@
+services:
+  app:
+    build: .
+    ports:
+      - "80:4000"
+    environment:
+      JWT_SECRET: ${JWT_SECRET}
+      DATABASE_URL: "file:/app/data-volume/prod.db"
+      UPLOAD_DIR: "/app/data-volume/uploads"
+      PORT: "4000"
+    volumes:
+      - lhc_data:/app/data-volume
+    restart: unless-stopped
+
+volumes:
+  lhc_data:
