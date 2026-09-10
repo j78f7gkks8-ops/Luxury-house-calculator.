@@ -53,6 +53,12 @@ data/          project_catalog.json (13 планировок), window_catalog.js
 ```bash
 npm install                      # из корня — поднимет все три workspace
 
+# Расчётное ядро — ОБЯЗАТЕЛЬНО собрать перед первым запуском сервера,
+# иначе server упадёт с "Cannot find package '@lhc/calc-engine'"
+cd calc-engine
+npm run build
+cd ..
+
 # Сервер
 cd server
 cp .env.example .env             # при необходимости поменяйте JWT_SECRET
@@ -64,6 +70,9 @@ npm run dev                      # http://localhost:4000
 cd client
 npm run dev                      # http://localhost:5173, проксирует /api на :4000
 ```
+
+Если меняете код в `calc-engine/src/*.ts`, повторите `npm run build` там — сервер
+использует собранный `calc-engine/dist`, а не исходники напрямую.
 
 Демо-доступы (пароли — тестовые, сменить перед реальным использованием):
 
