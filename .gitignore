@@ -1,0 +1,20 @@
+node_modules/
+dist/
+build/
+*.log
+*.tsbuildinfo
+
+# Секреты и локальные окружения — не коммитить
+.env
+.env.local
+server/.env
+
+# Локальная БД разработки
+server/prisma/dev.db
+server/prisma/dev.db-journal
+server/uploads/
+
+# Артефакты редакторов/ОС
+.DS_Store
+.vscode/
+*.swp

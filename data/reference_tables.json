@@ -1,0 +1,155 @@
+{
+  "schema_version": "1.0",
+  "note": "Раздел В1/20.4: исходные тарифные таблицы в исходных единицах, включая составные строки (например 'А/В/АМ = 60/50/100' — три товара). Это реестр для нормализации разработчиком, НЕ готовый прайс для прямого умножения. Даты подтверждения конкретных предложений сохраняются отдельно от даты сборки этого набора (10.09.2026); при отсутствии — null.",
+  "foundationInvoiceItems": {
+    "sourceNote": "Товарный чек 08.09.2026, отдельный от общей ведомости.",
+    "screwPileD89x3000": { "beforeDiscount": 4560, "afterDiscount7pct": 4240.8 },
+    "screwPileD89x3_5xL3000": { "beforeDiscount": 3880, "afterDiscount7pct": 3608.4 },
+    "pileHead": { "beforeDiscount": 550, "afterDiscount7pct": 511.5 },
+    "bracingProfilePipe40x25x3PerMeter": 206.7,
+    "porchProfilePipe80x40x2PerBlank6m": 1780
+  },
+  "sanitationOptions": {
+    "sourceNote": "Раздел А4: бюджеты опций с указанными включениями, не розничный прайс.",
+    "toiletStandard": { "amount": 30000, "includes": "с установкой" },
+    "acrylicBathtub170cm": { "amount": 40000, "includes": "работа по прибору включена, смеситель отдельно" },
+    "bathtubMixer": { "amount": 16000, "installExtra": 5000 },
+    "showerCabinEconom": { "amount": 55000 },
+    "showerCornerWithReadyTileZone": { "amount": 55000, "note": "подготовка плиточного угла отдельная" },
+    "showerMixer": { "amount": 20000, "installExtra": 5000 },
+    "premiumStonePanWithLegs": { "amount": 40000 },
+    "premiumGlass": { "amount": 35000 },
+    "sinkWithCabinet": { "amount": 35000 },
+    "sinkMixer": { "amount": 10000, "installExtra": 5000 },
+    "mirror": { "amount": 20000 },
+    "boiler100l": { "amount": 30000 }
+  },
+  "heatingPriceCandidates": {
+    "sourceNote": "Раздел А5: ориентиры сети 'Водолей', разная степень подтверждения.",
+    "boilers": [
+      { "name": "ZOTA 4.5 Econom", "code": "119292", "price": 16300, "status": "in_catalog", "powerKw": 4.5 },
+      { "name": "VDL-6 Base", "code": "272303", "price": 18200, "status": "krasnoyarsk_card", "powerKw": 6 },
+      { "name": "VDL-9 Base", "code": "272304", "price": 19600, "status": "abakan_catalog_indexed", "powerKw": 9 },
+      { "name": "VDL-12 Base", "code": "272305", "price": 23650, "status": "krasnoyarsk_card", "powerKw": 12 },
+      { "name": "ZOTA-24 Econom", "code": "146211", "price": 45900, "status": "was_out_of_stock", "powerKw": 24 }
+    ],
+    "manifolds": [
+      { "name": "STOUT SMS 0917, 8 выходов", "code": "250267", "price": 23098, "status": "to_order" },
+      { "name": "STOUT SMS 0907, 8 выходов", "code": "250249", "price": 39399, "status": "catalog_fragment" }
+    ],
+    "mixingUnits": [
+      { "name": "VALTEC VALMIX", "code": "146850", "price": 14475, "note": "без насоса; монтажная длина насоса 130 мм" },
+      { "name": "VALTEC 25/6-130", "code": "146852", "price": 4311, "note": "гидравлику проверить" },
+      { "name": "KWK 25/6-180", "code": "294614", "price": 4020, "note": "не прямая замена 130 мм" }
+    ],
+    "tank": { "name": "Wester WRV 12 л", "code": "08901", "price": 2330 },
+    "safetyGroup": { "name": "AQUALINK", "code": "212867", "price": 1365 },
+    "boilerConnectionFittingsKitPer10mOneBoiler": {
+      "elbows90": 8, "couplings": 4, "tees": 2, "unionConnections": 2, "valves": 2, "clamps": 24,
+      "note": "Оценка подводящих труб, не вся гидравлическая обвязка. Диаметры/цены не заданы."
+    }
+  },
+  "historicalInvoiceAdditions": {
+    "internalInsulationKnaufNote": "3800 ₽/м³ — историческая база модульного Барна",
+    "ldspProcessingInvoice": { "cutting": 1920, "edging": 17840, "sawing": 7176, "total": 26936, "sheetsCovered": 13, "note": "Кромление указано в 'шт.' — не подтверждённые погонные метры. Среднее 2072 ₽/лист — оценка ЭТОГО заказа, не универсальный тариф." },
+    "consumablesBudget": { "total": 32000, "breakdown": { "grindingDiscs": 8000, "bits": 3000, "staples": 3000, "sawBlades": 6000, "jigsawBlades": 1500, "drillBits": 3000, "ppe": 3000, "misc": 2500, "cuttingDiscs": 2000 } },
+    "steelDoorKotelnaya": 40000,
+    "concreteBrickKotelnaya": { "price": 1500, "baseUnit": "preliminary_per_m2" },
+    "kotelnayaOutdoorLight": 2000,
+    "ppuAquaLineForPnd25": 481,
+    "ppuJointSealingKit": 1000,
+    "heatingCableTerminationKit": 1000,
+    "osbNailsHistorical": 1.2
+  },
+  "electricalHistoricalBill": {
+    "sourceNote": "Barn_96_materials.pdf — ведомость для проверки, НЕ отметка завершённой инженерной проверки. Количества нельзя переносить в новый дом только по площади.",
+    "cablesBeforeReserve": { "2x1_5": 90, "3x1_5": 206, "3x2_5": 235, "3x4": 18, "5x4": 18, "puGV1x10": 8, "totalBefore": 575 },
+    "cablesAfter20pctReserve": { "2x1_5": 108, "3x1_5": 247.2, "3x2_5": 282, "3x4": 21.6, "5x4": 21.6, "puGV1x10": 9.6, "totalAfter": 690 },
+    "corrugatedTubeBefore": { "d20": 531, "d25": 36 },
+    "corrugatedTubeAfter20pct": { "d20": 637.2, "d25": 43.2, "total": 680.4 },
+    "fasteningsD20": { "before": 560, "after20pct": 672 },
+    "fasteningsD25Preliminary": 50,
+    "controlSet": {
+      "internalSocketMechanisms": 29,
+      "doubleOutdoorSocket": 1,
+      "singleSwitches": 4,
+      "doubleSwitches": 3,
+      "outdoorSwitch": 1,
+      "framesSingle": 30,
+      "framesTriple": 2,
+      "boxes": 36,
+      "junctionBoxesTotal": 26,
+      "junctionBoxesNote": "предварительная разбивка 20 внутри + 6 снаружи, не 26+6"
+    },
+    "panel": { "originalCapacityModules": 24, "occupiedOrientation": 40, "replacementPanel": "EKF 54 места", "replacementPrice": 6250, "freeAfterReplacement": 14 },
+    "budgetSubblocks": {
+      "cablesAfter20pct": 96652.32,
+      "corrugatedAndAccessories": 35723.4,
+      "panelAndBreakers": 28450,
+      "socketsSwitchesFrames": 14546,
+      "groundingKit": 7700,
+      "lampsGU10x69AndPhotoRelay": 4959
+    }
+  },
+  "internalPipesFittings": {
+    "sourceNote": "Раздел А8: цены/статусы из исторического каталога сети, точный маршрут считается заново для нового проекта.",
+    "valfexUnionNutDu25": { "code": "258527", "price": 1170 },
+    "valfexUnionNutDu20": { "code": "258525", "price": 643 },
+    "valfexUnionNutDu15": { "code": "258522", "price": 460 },
+    "valfexCouplingDu25": { "code": "260679", "price": 706 },
+    "valfexCouplingDu15": { "code": "260677", "price": 284 },
+    "valtecNipple1inch": { "code": "03825", "price": 320 },
+    "valtecEuroconePEX16x2": { "code": "247291", "price": null, "status": "needs_price" },
+    "commonMixingHead": { "price": null, "status": "needs_price" }
+  },
+  "combinedHeatingHistoricalPackages": {
+    "sourceNote": "Раздел А8: предварительные пакеты ПРЕЖНЕГО комбинированного варианта, не подтверждённые товарные цены. Не складывать с А5/А8 и электрикой построчно.",
+    "manifold12outputs": 20000,
+    "connectionsEach": 300,
+    "commonHead": 2500,
+    "pumpsEach": 5000,
+    "bufferOverheatProtection": 45000,
+    "returnProtection": 6000,
+    "tankAndSafety": 8000,
+    "twoBoilersWiring": 30000,
+    "draftRegulator": 3000,
+    "nonCombustibleProtection": 25000,
+    "ventilation": 7500,
+    "boilersPumpsPowerWithInstall": 15000,
+    "coolantAndFirstStart": 10000,
+    "heatingAssemblyAndStart": 40000
+  },
+  "lavaBoilersAndChimney": {
+    "sourceNote": "Раздел А9: историческая подборка 09.09.2026, ориентир Красноярск. Наличие/паспорт проверяются перед утверждением.",
+    "boilers": [
+      { "model": "ZOTA Lava-13", "sku": "LV4931120013", "powerKw": 13, "price": 74400, "chimneyPassportMinM": 5 },
+      { "model": "ZOTA Lava-17", "sku": "LV4931120017", "powerKw": 17, "price": 81200, "chimneyPassportMinM": 5 },
+      { "model": "ZOTA Lava-26", "sku": "LV4931120026", "powerKw": 26, "price": 90400, "chimneyPassportMinM": 6 }
+    ],
+    "passportSource": "https://old.zota.ru/static/uploaded/documentation/entries/files/Pasport_ZOTA_Lava_redakciya_ot_11-02-2026.pdf",
+    "chimneyKitComponents": [
+      { "name": "Труба 150/250, 1 м", "code": "105503", "regularPrice": 5401, "historicalPromo": 3781, "exampleQty": 4 },
+      { "name": "Соединительная труба Ø150, 0,5 м", "code": "105516", "regularPrice": 1750, "historicalPromo": 1225, "exampleQty": 1 },
+      { "name": "Тройник Ø150 90°", "code": "105515", "regularPrice": 2284, "historicalPromo": 1599, "exampleQty": 1 },
+      { "name": "Конденсатоотвод Ø150", "code": "53253", "regularPrice": 658, "historicalPromo": 461, "exampleQty": 1 },
+      { "name": "Старт 150/250", "code": "101604", "regularPrice": 1562, "historicalPromo": 1093, "exampleQty": 1 },
+      { "name": "ППУ Ø250, проходной узел", "code": "223343", "regularPrice": 7043, "historicalPromo": 4930, "exampleQty": 1 },
+      { "name": "Master Flash №2 203-280", "code": "202171", "regularPrice": 2595, "historicalPromo": 1817, "exampleQty": 1 },
+      { "name": "Оголовок 150/250", "code": "53261", "regularPrice": 1908, "historicalPromo": 1336, "exampleQty": 1 },
+      { "name": "Обжимной хомут Ø250", "code": "96968", "regularPrice": 450, "historicalPromo": 315, "exampleQty": 7 },
+      { "name": "Обжимной хомут Ø150", "code": "104168", "regularPrice": 340, "historicalPromo": 238, "exampleQty": 3 },
+      { "name": "Монтажная площадка 150/250", "code": "53260", "regularPrice": 3600, "historicalPromo": 2520, "exampleQty": 1 },
+      { "name": "Опора 250×500", "code": "293763", "regularPrice": 768, "historicalPromo": 538, "exampleQty": 2 },
+      { "name": "Стеновой кронштейн Ø250", "code": "90586", "regularPrice": 1687, "historicalPromo": 1181, "exampleQty": 2 },
+      { "name": "Хомут для растяжек Ø250", "code": "138788", "regularPrice": 989, "historicalPromo": 692, "exampleQty": 1 },
+      { "name": "Термостойкий герметик 280 мл", "code": "81433", "regularPrice": 268, "historicalPromo": 188, "exampleQty": 1 }
+    ],
+    "exampleSetTotals": { "regular": 53341, "historicalPromo": 37342 },
+    "warning": "Не полный установленный дымоход: патрубок котла, часть крепления/пожарной защиты и работа могут требовать отдельных цен."
+  },
+  "suppliers": {
+    "electrical": "https://electroset19.ru/",
+    "waterHeating": "https://xn--b1aedqiqb.xn--p1ai/",
+    "metal": "https://ms19.ru/files/price-2.pdf"
+  }
+}

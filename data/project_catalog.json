@@ -1,0 +1,266 @@
+{
+  "schema_version": "1.0",
+  "note": "Раздел Г.14: 13 стартовых проектов. Исходные PDF не входят в это окружение (архив не был приложен) — documented_sha256 взят из текста задания как заявленный хеш источника, sourceFileAvailable=false, пока файл не загружен в систему.",
+  "projects": [
+    {
+      "id": "barn_69",
+      "name": "Барн 69",
+      "family": "BARN",
+      "insideByExplicationM2": 40.84,
+      "openZonesM2": { "terrace": 21.16 },
+      "closedFootprintM2": 48.0,
+      "pages": 7,
+      "rooms": [
+        { "name": "Холл", "areaM2": 2.93 },
+        { "name": "Кухня", "areaM2": 13.59 },
+        { "name": "Гостиная", "areaM2": 10.9 },
+        { "name": "Спальня", "areaM2": 10.38 },
+        { "name": "С/у", "areaM2": 3.04 }
+      ],
+      "footprintNote": "8×6 м; терраса с выступом, основной участок 8×2 м; общий габарит по размерному листу 8×9,5 м",
+      "sourceFile": "Барн 69 - ПДФ.pdf",
+      "documentedSha256": "a7bf79cebab2a05f08b523a6fafa43dcec00acdccd12e48720632bd6e96f8989",
+      "sourceFileAvailable": false
+    },
+    {
+      "id": "barn_88_v2",
+      "name": "Барн 88 V2",
+      "family": "BARN",
+      "insideByExplicationM2": 61.61,
+      "openZonesM2": { "terrace": 19.12, "porch": 1.98 },
+      "closedFootprintM2": 72.0,
+      "pages": 6,
+      "rooms": [
+        { "name": "Холл", "areaM2": 2.52 },
+        { "name": "Гостиная-кухня", "areaM2": 31.14 },
+        { "name": "С/у", "areaM2": 5.02 },
+        { "name": "Спальня 2", "areaM2": 9.64 },
+        { "name": "Спальня 1", "areaM2": 10.49 },
+        { "name": "Гардероб", "areaM2": 2.8 }
+      ],
+      "footprintNote": "8×9 м закрытой части; терраса 2 м с выступом ещё на 1 м — не обрезать выступ до прямоугольника 8×2",
+      "sourceFile": "Барн 88 V2 - пдф.pdf",
+      "documentedSha256": "a6b188b60dd3e6014147bc1a441d246a351877b6714b0d347bda69d0ca3b267c",
+      "sourceFileAvailable": false
+    },
+    {
+      "id": "barn_93_v2",
+      "name": "Барн 93 V2",
+      "family": "BARN",
+      "insideByExplicationM2": 61.82,
+      "openZonesM2": { "terrace": 15.28, "porch": 1.98 },
+      "closedFootprintM2": 72.0,
+      "pages": 2,
+      "rooms": [
+        { "name": "Холл", "areaM2": 4.72 },
+        { "name": "Гостиная-кухня", "areaM2": 26.86 },
+        { "name": "С/у", "areaM2": 5.02 },
+        { "name": "Спальня 2", "areaM2": 11.93 },
+        { "name": "Спальня 1", "areaM2": 10.49 },
+        { "name": "Гардероб", "areaM2": 2.8 }
+      ],
+      "footprintNote": "9×8 м закрытой части; терраса 2×8 м; крыльцо отдельно. НЕ путать с исторической рабочей сметой 'Барн 93' (комнаты Барна 96, 61,23 м²) — это другая планировка",
+      "sourceFile": "Барн 93 V2 - планировка.pdf",
+      "documentedSha256": "16e4df89333b1a94d62a6fdbb048fbc01d8e0deb8bd0bcfc426399d41fba0b45",
+      "sourceFileAvailable": false
+    },
+    {
+      "id": "barn_96",
+      "name": "Барн 96",
+      "family": "BARN",
+      "insideByExplicationM2": 61.23,
+      "openZonesM2": { "porch": 2.16, "terrace": 22.74 },
+      "closedFootprintM2": 72.0,
+      "pages": 4,
+      "rooms": [
+        { "name": "Холл", "areaM2": 10.05 },
+        { "name": "Котельная", "areaM2": 5.07 },
+        { "name": "С/у", "areaM2": 5.07 },
+        { "name": "Спальня 1", "areaM2": 9.35 },
+        { "name": "Гостиная-кухня", "areaM2": 22.34 },
+        { "name": "Спальня 2", "areaM2": 9.35 }
+      ],
+      "footprintNote": "9×8 м закрытой части; терраса 3×8 м; общий прямоугольник 12×8 м; крыльцо отдельно. 3 жилых модуля + 1 террасный. Вариант террасы 2 м — отдельная версия свайного поля (см. раздел 8)",
+      "sourceFile": "Барн 96 - ПДФ (1)(1).pdf",
+      "documentedSha256": "979ce97882cbbeb8c00c5a8f76dc253e7cc13d2a9ae8cfd678b2d38811b0a532",
+      "sourceFileAvailable": false,
+      "pileFieldTemplate": "barn96_kyzyl"
+    },
+    {
+      "id": "barn_112",
+      "name": "Барн 112",
+      "family": "BARN",
+      "insideByExplicationM2": 61.61,
+      "openZonesM2": { "porch": 1.86, "terrace": 15.28, "canopy": 22.29 },
+      "closedFootprintM2": 72.96,
+      "pages": 6,
+      "rooms": [
+        { "name": "Холл", "areaM2": 5.74 },
+        { "name": "Гардероб", "areaM2": 2.1 },
+        { "name": "Спальня 1", "areaM2": 12.04 },
+        { "name": "Спальня 2", "areaM2": 10.25 },
+        { "name": "Гостиная-кухня", "areaM2": 26.67 },
+        { "name": "С/у", "areaM2": 4.81 }
+      ],
+      "footprintNote": "Поперечная цепочка 2,88 навес + 9,12 закрытая часть + 2 терраса = 14 м; глубина 8 м. Навес НЕ означает палубный пол или утепление автоматически",
+      "sourceFile": "Барн 112 - ПДФ.pdf",
+      "documentedSha256": "4e8995f622c0d4a871f31d6175292508db61747cc82a772e04aa789d5a28d6ff",
+      "sourceFileAvailable": false
+    },
+    {
+      "id": "barn_43",
+      "name": "Барнхаус 43",
+      "family": "BARN",
+      "insideByExplicationM2": 24.54,
+      "openZonesM2": { "terrace": 11.45 },
+      "closedFootprintM2": 30.0,
+      "pages": 6,
+      "rooms": [
+        { "name": "Гостиная-кухня", "areaM2": 20.91 },
+        { "name": "С/у", "areaM2": 3.63 }
+      ],
+      "footprintNote": "Закрытая часть 6×5 м; терраса 2,5×5 м; общий габарит 8,5×5 м",
+      "sourceFile": "Барнхаус 43 - планировка (1).pdf",
+      "documentedSha256": "5c467dc6f8ea4116246a116e27adeb2ede6dfa926e70287befed49dfe330a04e",
+      "sourceFileAvailable": false
+    },
+    {
+      "id": "barn_48",
+      "name": "Барнхаус 48",
+      "family": "BARN",
+      "insideByExplicationM2": 31.12,
+      "openZonesM2": { "terrace": 11.74 },
+      "closedFootprintM2": 36.0,
+      "pages": 6,
+      "rooms": [
+        { "name": "Гостиная-кухня", "areaM2": 15.68 },
+        { "name": "Спальня", "areaM2": 7.67 },
+        { "name": "С/у", "areaM2": 3.67 },
+        { "name": "Тамбур", "areaM2": 4.1 }
+      ],
+      "footprintNote": "Закрытая часть 6×6 м; терраса Г-образная: 3×3 м + проход 1×3 м. Охватывающий прямоугольник 9×6 — не площадь настила",
+      "sourceFile": "Барнхаус 48 - планировка.pdf",
+      "documentedSha256": "b58348779d6760ef2bc8d653df3e42734009017f7474c4214cf01be2efef0b8f",
+      "sourceFileAvailable": false
+    },
+    {
+      "id": "norma_32",
+      "name": "Норма 32",
+      "family": "NORMA",
+      "insideByExplicationM2": 14.54,
+      "openZonesM2": { "terrace": 14.24 },
+      "closedFootprintM2": 18.0,
+      "pages": 7,
+      "rooms": [
+        { "name": "Гостиная-кухня", "areaM2": 11.64 },
+        { "name": "С/у", "areaM2": 2.9 }
+      ],
+      "footprintNote": "Закрытая часть 6×3 м; терраса Г-образная: 7×1,5 и 3,74×1 м; габарит с террасой 7×5,5 — рамка, не площадь",
+      "sourceFile": "Норма 32 - ПДФ (2).pdf",
+      "documentedSha256": "db730ff95f51e071ecf541249735ff9bc232ed0f904581eb388ae497288a22d2",
+      "sourceFileAvailable": false
+    },
+    {
+      "id": "norma_38",
+      "name": "Норма 38",
+      "family": "NORMA",
+      "insideByExplicationM2": 19.97,
+      "openZonesM2": { "terrace": 13.07 },
+      "closedFootprintM2": 25.0,
+      "pages": 7,
+      "rooms": [
+        { "name": "Гостиная", "areaM2": 11.91 },
+        { "name": "С/у", "areaM2": 2.64 },
+        { "name": "Спальня", "areaM2": 5.42 }
+      ],
+      "footprintNote": "Закрытый Г-образный контур: 6×3 + 2,8×2,5; общий габарит с террасой 7×6,5. Не достраивать отсутствующий угол ради сетки",
+      "sourceFile": "Норма 38 - ПДФ (1).pdf",
+      "documentedSha256": "c2f2172186e18c43994a83487802dcd1828b43a83a9e771e8da67da2574365ac",
+      "sourceFileAvailable": false
+    },
+    {
+      "id": "norma_54",
+      "name": "Норма 54",
+      "family": "NORMA",
+      "insideByExplicationM2": 29.84,
+      "openZonesM2": { "porch": 6.0, "terrace": 12.0 },
+      "closedFootprintM2": 36.0,
+      "pages": 7,
+      "rooms": [
+        { "name": "Гостиная-кухня", "areaM2": 21.13 },
+        { "name": "С/у", "areaM2": 2.9 },
+        { "name": "Спальня", "areaM2": 5.81 }
+      ],
+      "footprintNote": "Два прямоугольника 6×3 со смещением на 2 м; общая сторона примыкания 4 м; рамка 9×7 — не площадь дома",
+      "sourceFile": "Норма 54 - ПДФ.pdf",
+      "documentedSha256": "9cd22fdb35276e83533692406bd20c268abe1c9de603221147d64fce57ba0066",
+      "sourceFileAvailable": false
+    },
+    {
+      "id": "norma_63_v2",
+      "name": "Норма 63 V2",
+      "family": "NORMA",
+      "insideByExplicationM2": 35.16,
+      "openZonesM2": { "terrace": 19.72 },
+      "closedFootprintM2": 42.0,
+      "pages": 3,
+      "rooms": [
+        { "name": "Гостиная-кухня", "areaM2": 17.21 },
+        { "name": "С/у", "areaM2": 2.95 },
+        { "name": "Спальня 1", "areaM2": 7.5 },
+        { "name": "Спальня 2", "areaM2": 7.5 }
+      ],
+      "footprintNote": "Закрытая часть 7×6; терраса 7×3; общий прямоугольник 7×9. PDF побайтово совпадает с прежним 'Норма 40.2 V2'. Старый каркас Норма 63 (35,34 м² по комнатам) относится к ДРУГОЙ версии перегородок — не смешивать",
+      "sourceFile": "Норма 63 V2 - ПДФ.pdf",
+      "documentedSha256": "f063f51f9063a0df289bfbfad6589dcbc64d541cc1798f40fc4975e26c19f905",
+      "sourceFileAvailable": false,
+      "versionConflicts": [
+        "Рабочий комплект 'Норма 63' (не V2) даёт другую разбивку помещений (35,34 м²) — конфликт версий, не заменять автоматически"
+      ]
+    },
+    {
+      "id": "norma_77_v2",
+      "name": "Норма 77 V2",
+      "family": "NORMA",
+      "insideByExplicationM2": 42.25,
+      "openZonesM2": { "porch": 1.26, "terrace": 43.33 },
+      "closedFootprintM2": 51.0,
+      "pages": 7,
+      "rooms": [
+        { "name": "Гостиная-кухня", "areaM2": 24.1 },
+        { "name": "С/у", "areaM2": 4.47 },
+        { "name": "Спальня 1", "areaM2": 6.84 },
+        { "name": "Спальня 2", "areaM2": 6.84 }
+      ],
+      "footprintNote": "Закрытая часть 8,5×6; терраса Г-образная 43,5 м² по наружному контуру (43,33 по экспликации); рамка 10,5×9. Фасад полностью планкен. Крыша террасы — предварительная оценка 33 м² (проекция, не настил)",
+      "sourceFile": "Норма 77 V2 - ПДФ (2)(2).pdf",
+      "documentedSha256": "7c1fad6ebe0065d07a086ad01b43e5596627b63bc2616f323fbf1ca9f59ffcc3",
+      "sourceFileAvailable": false,
+      "pileFieldTemplate": "norma77",
+      "versionConflicts": [
+        "На архитектуре боковая терраса ~2 м, свайное поле соответствует ~3 м — конфликт хранится, не решается автоматически"
+      ]
+    },
+    {
+      "id": "norma_107",
+      "name": "Норма 107",
+      "family": "NORMA",
+      "insideByExplicationM2": 71.61,
+      "openZonesM2": { "terrace": 22.5 },
+      "closedFootprintM2": 84.0,
+      "pages": 7,
+      "rooms": [
+        { "name": "Прихожая", "areaM2": 4.22 },
+        { "name": "Гостиная-кухня", "areaM2": 37.24 },
+        { "name": "Спальня 1", "areaM2": 9.35 },
+        { "name": "Спальня 2", "areaM2": 8.6 },
+        { "name": "Спальня 3", "areaM2": 8.6 },
+        { "name": "С/у", "areaM2": 3.6 }
+      ],
+      "footprintNote": "Закрытая часть 12×7; терраса перед частью фасада, глубина участков различается; габарит по крайним точкам 12×10 — считать многоугольник террасы, а не рамку",
+      "sourceFile": "Норма 107- ПДФ.pdf",
+      "documentedSha256": "b3c6be8fcaaf96a97477beda970c0e602dac18e23fd24cd00f6e208b13a85432",
+      "sourceFileAvailable": false
+    }
+  ]
+}

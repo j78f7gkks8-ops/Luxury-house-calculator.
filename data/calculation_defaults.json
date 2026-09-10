@@ -1,0 +1,210 @@
+{
+  "schema_version": "1.0",
+  "note": "Раздел В1/20.4: стартовые настройки расчёта. Все значения редактируемые владельцем; статус source указывает происхождение (historical_reference = данные обсуждения/старой сметы, не заново проверенный рынок).",
+  "structuralProfiles": {
+    "BARN": {
+      "roofAngleDeg": 9,
+      "roofAngleSource": "confirmed",
+      "roofAngleNote": "Раздел 7.2: базовый угол обоих скатов 9° по последнему правилу владельца.",
+      "cleanCeilingFollowsSlope": true,
+      "floorInsulationMm": 200,
+      "wallInsulationMm": 150,
+      "partitionInsulationMm": 100,
+      "interModulePairInsulatedSidesMm": 100,
+      "kotelnayaBothAdjacentWallsInsulated": true
+    },
+    "NORMA": {
+      "roofAngleDeg": null,
+      "roofAngleSource": "needs_price",
+      "roofAngleNote": "Раздел 7.3: угол — параметр КОНКРЕТНОГО профиля/аналога. В разобранном примере встречался 3°, но это не утверждённый угол всех Норм.",
+      "roofAngleDocumentedAnalogDeg": 3,
+      "cleanCeilingFollowsSlope": false,
+      "cleanCeilingHeightMm": null,
+      "cleanCeilingHeightSource": "needs_size",
+      "cleanCeilingHeightNote": "Раздел 7.3: clean_ceiling_height_mm первоначально null. Запросить владельцу один раз и сохранить в семейство, не подставлять 2700/3000 как факт.",
+      "floorInsulationMm": 200,
+      "wallInsulationMm": 150,
+      "partitionInsulationMm": 100,
+      "interModulePairInsulatedSidesMm": 100,
+      "kotelnayaBothAdjacentWallsInsulated": true
+    }
+  },
+  "lumber": {
+    "dryFramingPricePerM3": 35500,
+    "naturalMoistureBoardPricePerM3": 19500,
+    "foundationBeamPricePerM3": 20000,
+    "nominalSections": { "200": "45x195", "150": "45x145", "100": "45x95" },
+    "stockLengthMm": 6000,
+    "kerfMm": 3,
+    "note": "Раздел 9: фактическое сечение и сечение для закупочного объёма хранятся раздельно."
+  },
+  "sheets": {
+    "osb9mm": { "widthMm": 1250, "heightMm": 2500, "price": 900 },
+    "osb12mm": { "widthMm": 1250, "heightMm": 2500, "price": 1120 },
+    "plywood12mm": { "widthMm": 1525, "heightMm": 1525, "price": 1200 },
+    "ldsp16mm": { "widthMm": 2800, "heightMm": 2070, "price": 6500, "areaM2": 5.796, "packageFastenerPct": 5 },
+    "gvlKnauf125mm": { "widthMm": 1200, "heightMm": 2500, "price": 1271, "priceByCard": 1238 }
+  },
+  "insulation": {
+    "knaufPricePerM3": 3800,
+    "note": "Историческая база модульного Барна; новый прайс вводится отдельно (раздел А1)."
+  },
+  "films": {
+    "izospanA": { "pricePerM2": 60, "rollAreaM2": 70, "rollWidthM": 1.5 },
+    "izospanB": { "pricePerM2": 50, "rollAreaM2": 70, "rollWidthM": 1.5 },
+    "izospanAM": { "pricePerM2": 100, "rollAreaM2": 70, "rollWidthM": 1.5 },
+    "generalReservePct": 10,
+    "tape": { "rollLengthM": 25, "rollPrice": 950, "consumptionPricePerM": 38 }
+  },
+  "facade": {
+    "planken20x120x3000": { "pricePerM2": 1200 },
+    "decking27mm": { "pricePerM2": 1750, "note": "Последняя согласованная цена вместо 1650" },
+    "imitationTimber20x120x3000": { "pricePerM2": 1250, "boardAreaM2": 0.36, "pricePerBoard": 450 },
+    "roofingC21": { "pricePerM2": 800 },
+    "falzMetalFacade": { "pricePerM2": 900 },
+    "skirtProfnastil": { "pricePerM2": 1950 },
+    "skirtPlanken": { "pricePerM2": 3950, "note": "У планкена монтаж включён" }
+  },
+  "interiorFinish": {
+    "pvcLaminate": { "pricePerM2": 2000, "cuttingReservePct": 5 },
+    "tile": { "pricePerM2": 3000, "note": "Исправление опечатки 300" },
+    "tileBasePackageComplex": { "pricePerM2": 5000, "note": "Включает ГВЛ/гидроизоляцию/клей/работу — не начислять второй раз" },
+    "skirtingBoard": { "pricePerMeter": 100 }
+  },
+  "paint": {
+    "briteFlexx25l": { "price": 5749 },
+    "exteriorPaintLaborPerM2": 300,
+    "interiorPaintLaborPerM2": 400,
+    "exteriorReservePct": 20,
+    "note": "Наружная — 1 сторона/1 слой; внутренняя имитация — 2 слоя, ставка уже за оба слоя."
+  },
+  "fasteners": {
+    "screw120": 2.7,
+    "screw80": 1.7,
+    "screw3_8x51_per_box_of_5500": 2407.55,
+    "lagBolt12x120": 30,
+    "lagBolt12x220": 30,
+    "roofingScrew35": 6,
+    "sheathingNail60": 1,
+    "osbNail": 1.2,
+    "mountingFoamPerCan": 600,
+    "sealantKit": 10000
+  },
+  "ceilings": {
+    "canvasPricePerM2": 420,
+    "cuttingPct": 2,
+    "installMountPricePerM2": 420,
+    "batonPerMeter": 180,
+    "insertPerMeter": 65,
+    "floatingProfilePerMeter": 2600,
+    "spotInstallPrice": 550,
+    "chandelierInstallPrice": 400,
+    "curtainRodUpTo3m": 1000
+  },
+  "lighting": {
+    "track2m": 2000,
+    "trackHeadGU10": 600,
+    "spotFixture": 600,
+    "ledChandelier": 7000,
+    "facadeFixture": 1500,
+    "alpineVent": 3000,
+    "airDuctPerMeter": 500,
+    "kitchenFan": 3000,
+    "blackConvector": 10000,
+    "reservePct": 10
+  },
+  "labor": {
+    "productionInstallRatePerHour": 550,
+    "siteAllowancePerPersonPerDay": 1000,
+    "electricianResidentialModule": 25000,
+    "electricianTerraceModule": 15000,
+    "internalPlumbingInstall": 20000,
+    "foundationWorkerRatePerHour": 750,
+    "porchWelderRatePerHour": 800,
+    "foundationEquipmentRatePerHour": 4000
+  },
+  "delivery": {
+    "equipmentDelivery": 4000,
+    "moduleDelivery": 15000,
+    "cranePerHour": 4000,
+    "craneHoursPerModule": 2,
+    "lumberOrPileDelivery": 3000,
+    "workshopMaterialsDeliveryPerHouse": 35000,
+    "installTripsAndFuelPerOrder": 35000
+  },
+  "foundation": {
+    "lagBoltsPerPileToBeam": 4,
+    "lagBoltsPerModuleToBeamHistorical": 25,
+    "wallToBaseFastenerStepMm": 700,
+    "roofingFelt": 1500,
+    "beamMastic": 2000
+  },
+  "wellAndSeptic": {
+    "drillingPricePerMeter": 4500,
+    "submersiblePump": 20000,
+    "pumpControl": 20000,
+    "wellHead": 3000,
+    "pnd25PricePerMeter": 120,
+    "heatingCableApproxPerMeter": 150,
+    "trenchPerMeter": 1000,
+    "septic2Rings1500mmPackage": 30000,
+    "septicDigInstall": 25000,
+    "septicDelivery": 5000,
+    "sewerWithInsulationPerMeter": 1500
+  },
+  "electricalWiring": {
+    "electricalInputAVVG4x25PerMeter": 3000,
+    "acRoutePerMeter": 4500
+  },
+  "heating": {
+    "boilerPowerNormKwPerM2": 0.1,
+    "screedPricePerM2": 1700,
+    "peFilmPricePerM2": 50,
+    "meshPricePerM2": 200,
+    "pipeLengthPerM2": 7,
+    "pipeCoilLengthM": 200,
+    "pipePricePerMeter": 40,
+    "floorPrepHumanHoursHistorical": 30,
+    "floorPrepLaborCostHistorical": 16500,
+    "collectorFeed": { "scope": "TOTAL", "totalLengthM": 3, "source": "historical_reference", "note": "Раздел 14: TOTAL — не PER_LOOP по старой ошибочной трактовке." },
+    "loopLengthLimitM": 60,
+    "boilerConnectionPipePerBoilerM": 10
+  },
+  "overhead": {
+    "adsMonthly": 200000,
+    "adsShareForModularHouses": 0.65,
+    "officeMonthly": 40000,
+    "workshopRentMonthly": 350000,
+    "workshopElectricityMonthly": 40000,
+    "plannedHousesPerYear": 20,
+    "toolAmortizationPerHouse": 70000,
+    "note": "Условная аренда учитывается в экономике, но не создаёт денежный платёж (раздел 17)."
+  },
+  "reserve": {
+    "defaultPctOfDirectCosts": 5,
+    "note": "Предложенная настройка, не утверждённая владельцем ставка (раздел 17)."
+  },
+  "pricing": {
+    "taxRateT": 0.06,
+    "managerCommissionM": 0.02,
+    "roundingStep": 50000,
+    "historicalMarkupProfile": {
+      "note": "Раздел А11: исторический отключаемый профиль, не доказанные рыночные нормы.",
+      "productionPct": 55,
+      "foundationPct": 40,
+      "logisticsPct": 25,
+      "installPct": 50,
+      "optionsPct": 30
+    },
+    "suggestedNewProfile": {
+      "note": "Предложение настройки, не новое согласование владельца.",
+      "basePct": 70,
+      "finishPct": 30,
+      "foundationPct": 40,
+      "outsideUtilitiesPct": 30,
+      "logisticsPct": 25,
+      "installPct": 50,
+      "plumbingSkirtPct": 30
+    }
+  }
+}

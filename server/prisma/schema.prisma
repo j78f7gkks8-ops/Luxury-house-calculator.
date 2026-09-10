@@ -1,0 +1,154 @@
+// Раздел 22: "Допускается другая схема БД с тем же смыслом" — сущности объединены там,
+// где это оправдано (например, геометрия/опции/окна хранятся как versioned JSON снимок
+// внутри ProjectVariant/EstimateSnapshot), но роли, версии, вложения и факты цеха —
+// отдельные таблицы с транзакционной защитой и идемпотентностью.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+// SQLite не поддерживает enum на уровне Prisma-коннектора — роль хранится строкой
+// и валидируется в коде (см. server/src/domain/roles.ts): OWNER | MANAGER | WORKSHOP.
+model User {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  passwordHash String
+  name         String
+  role         String
+  isDemo       Boolean  @default(false)
+  createdAt    DateTime @default(now())
+
+  createdProjects   Project[]          @relation("ProjectCreatedBy")
+  createdVariants   ProjectVariant[]   @relation("VariantCreatedBy")
+  uploadedFiles     Attachment[]       @relation("AttachmentUploadedBy")
+  actualWorkEntries ActualWorkEntry[]  @relation("ActualWorkCreatedBy")
+  approvals         Approval[]         @relation("ApprovalApprovedBy")
+}
+
+model Customer {
+  id        String    @id @default(cuid())
+  name      String
+  phone     String?
+  address   String?
+  createdAt DateTime  @default(now())
+  projects  Project[]
+}
+
+model Project {
+  id                String   @id @default(cuid())
+  name              String
+  customerId        String?
+  customer          Customer? @relation(fields: [customerId], references: [id])
+  catalogTemplateId String   // например "barn_96_v0" или "custom"
+  familyType        String   // BARN | NORMA
+  createdById       String
+  createdBy         User     @relation("ProjectCreatedBy", fields: [createdById], references: [id])
+  createdAt         DateTime @default(now())
+
+  variants          ProjectVariant[]
+  attachments       Attachment[]
+  actualWorkEntries ActualWorkEntry[]
+  importJobs        ImportJob[]
+}
+
+model ProjectVariant {
+  id              String   @id @default(cuid())
+  projectId       String
+  project         Project  @relation(fields: [projectId], references: [id])
+  label           String
+  status          String   // draft, preliminary_offer, agreed_offer, contract, production, montage, done
+  selectionJson   String   // геометрия/опции/окна/режим цены — версия входных данных
+  parentVariantId String?
+  createdById     String
+  createdBy       User     @relation("VariantCreatedBy", fields: [createdById], references: [id])
+  createdAt       DateTime @default(now())
+
+  snapshots  EstimateSnapshot[]
+  approvals  Approval[]
+}
+
+model EstimateSnapshot {
+  id                     String         @id @default(cuid())
+  projectVariantId       String
+  projectVariant         ProjectVariant @relation(fields: [projectVariantId], references: [id])
+  version                Int
+  resultJson             String         // полный неизменяемый результат расчётного ядра
+  referenceCatalogVersion String
+  createdAt              DateTime       @default(now())
+}
+
+model Attachment {
+  id            String   @id @default(cuid())
+  projectId     String
+  project       Project  @relation(fields: [projectId], references: [id])
+  filename      String
+  sha256        String
+  mimeType      String
+  kind          String   // source_pdf | evidence | export | plan_thumbnail
+  storagePath   String
+  containsPrices Boolean @default(false) // используется для запрета выдачи цеху/клиенту
+  uploadedById  String
+  uploadedBy    User     @relation("AttachmentUploadedBy", fields: [uploadedById], references: [id])
+  createdAt     DateTime @default(now())
+}
+
+model ActualWorkEntry {
+  id                 String   @id @default(cuid())
+  projectId          String
+  project            Project  @relation(fields: [projectId], references: [id])
+  operation          String
+  employeeOrCrew     String
+  entryMode          String   // per_person | crew_total
+  plannedHours       Float?
+  actualHours        Float
+  date               DateTime
+  comment            String?
+  isReworkOrDowntime Boolean  @default(false)
+  idempotencyKey     String   @unique
+  createdById        String
+  createdBy          User     @relation("ActualWorkCreatedBy", fields: [createdById], references: [id])
+  createdAt          DateTime @default(now())
+}
+
+model Approval {
+  id               String         @id @default(cuid())
+  projectVariantId String
+  projectVariant   ProjectVariant @relation(fields: [projectVariantId], references: [id])
+  type             String         // discount_below_floor, etc.
+  approvedById     String
+  approvedBy       User           @relation("ApprovalApprovedBy", fields: [approvedById], references: [id])
+  reason           String
+  amount           Float?
+  validForVersion  Int            // одобрение относится к конкретной версии — раздел 18
+  createdAt        DateTime       @default(now())
+}
+
+model ReferenceCatalog {
+  id        String   @id @default(cuid())
+  kind      String   // project_catalog | window_catalog | calculation_defaults | reference_tables | pricing_policy
+  version   String
+  dataJson  String
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+
+  @@unique([kind, version])
+}
+
+model ImportJob {
+  id           String   @id @default(cuid())
+  projectId    String?
+  project      Project? @relation(fields: [projectId], references: [id])
+  filename     String
+  sha256       String
+  status       String   // received, pages_detected, dimensions_recognized, needs_review, ready, calculated, error
+  stageLog     String   // JSON массив этапов с таймстампами
+  extracted    String?  // JSON: распознанные страницы/размеры/статусы
+  errorMessage String?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}

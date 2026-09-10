@@ -1,0 +1,38 @@
+{
+  "schema_version": "1.0",
+  "note": "Раздел 11.2/11.4: исходные значения окон. Расчётное ядро (@lhc/calc-engine) использует эти же числа как константы — этот файл служит документированным источником для импорта/сверки, а не отдельной формулой.",
+  "discountFraction": 0.26,
+  "standardSet": {
+    "sourceNote": "Три сопоставимых PDF: 'белые по бн (1).pdf', 'снаружи антрацит бн (1).pdf', 'антрацит бн (1).pdf'. VEKA Softline AD 5-камерный, стеклопакет 4x14x4x14x4, чёрное уплотнение.",
+    "products": [
+      { "id": "W1", "name": "2100×2200, три секции, средняя открывается", "qtyInSet": 1, "beforeDiscount": { "white": 38691.34, "outside": 46912.46, "both": 62280.59 } },
+      { "id": "W2", "name": "1500×1500, две секции, одна открывается", "qtyInSet": 3, "beforeDiscount": { "white": 22280.33, "outside": 27358.57, "both": 36464.94 } },
+      { "id": "W3", "name": "1200×2200, глухое", "qtyInSet": 1, "beforeDiscount": { "white": 17160.17, "outside": 20233.57, "both": 25754.87 } },
+      { "id": "W4", "name": "700×1500, открывающееся", "qtyInSet": 2, "beforeDiscount": { "white": 14030.72, "outside": 17455.75, "both": 23431.55 } },
+      { "id": "D1", "name": "1000×2100, входная остеклённая дверь", "qtyInSet": 1, "kind": "door", "beforeDiscount": { "white": 46087.29, "outside": 48081.1, "both": 55210.12 } }
+    ],
+    "controlTotalsAfterDiscount": {
+      "sevenWindowsAndDoor": { "white": 145662.51, "outside": 171838.61, "both": 221632.59 },
+      "onlySevenWindows": { "white": 111557.92, "outside": 136258.6, "both": 180777.1 }
+    }
+  },
+  "barn108Panoramic": {
+    "sourceNote": "Предложение ООО 'АРТТЕК' №11067/1 от 21.08.2026. Исполнение: антрацит снаружи, белое внутри. Скидка 26%. Отдельный источник от W1-W4/D1.",
+    "products": [
+      { "id": "P1", "name": "Глухое прямоугольное окно 1650×2050", "qtyInInvoice": 2, "beforeDiscount": 21434.72 },
+      { "id": "P2", "name": "Входная остеклённая дверь 1000×2050", "qtyInInvoice": 1, "kind": "door", "beforeDiscount": 46984.38 },
+      { "id": "P3", "name": "Открывающееся окно 1000×2050", "qtyInInvoice": 1, "beforeDiscount": 25823.05 },
+      { "id": "P4", "name": "Глухая широкая трапеция (ширина 1650; высоты 419/675)", "qtyInInvoice": 2, "beforeDiscount": 14553.65 },
+      { "id": "P5", "name": "Глухая узкая трапеция (ширина 1000; высоты 250/390)", "qtyInInvoice": 2, "beforeDiscount": 7696.45 }
+    ],
+    "blocks": {
+      "withDoor": { "composition": { "P1": 1, "P2": 1, "P4": 1, "P5": 1 }, "afterDiscount": 67095.21 },
+      "withWindow": { "composition": { "P1": 1, "P3": 1, "P4": 1, "P5": 1 }, "afterDiscount": 51435.82 }
+    },
+    "originalInvoice": { "composition": { "P1": 2, "P2": 1, "P3": 1, "P4": 2, "P5": 2 }, "afterDiscount": 118531.03, "areaM2": 13.3101 },
+    "withBackBlockScenarios": {
+      "withDoor": { "totalAfterDiscount": 185626.24, "blockCount": 3 },
+      "withWindow": { "totalAfterDiscount": 169966.85, "blockCount": 3 }
+    }
+  }
+}

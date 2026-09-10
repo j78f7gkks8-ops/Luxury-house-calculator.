@@ -1,0 +1,21 @@
+{
+  "name": "luxury-house-calculator",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Калькулятор модульных домов Luxury House",
+  "workspaces": [
+    "calc-engine",
+    "server",
+    "client"
+  ],
+  "scripts": {
+    "build": "npm run build -w calc-engine && npm run build -w server && npm run build -w client",
+    "test": "npm run test -w calc-engine",
+    "dev:server": "npm run dev -w server",
+    "dev:client": "npm run dev -w client",
+    "seed": "npm run seed -w server"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}
