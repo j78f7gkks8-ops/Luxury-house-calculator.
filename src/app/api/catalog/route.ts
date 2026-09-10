@@ -3,6 +3,7 @@ export const dynamic = "force-dynamic";
 import { NextResponse } from "next/server";
 import { requireRole } from "@/lib/api/guard";
 import { prisma } from "@/lib/prisma";
+import { hasDrawingRevision } from "@/lib/drawings";
 
 /**
  * Catalog models available for selection. Areas are returned as the separate,
@@ -36,6 +37,7 @@ export async function GET() {
     bathroomsCount: r.bathroomsCount,
     issues: JSON.parse(r.issuesJson) as { code: string; message: string }[],
     approvedTemplateId: r.approvedTemplateId,
+    hasDrawing: hasDrawingRevision(r.projectId),
   }));
 
   return NextResponse.json({ projects });

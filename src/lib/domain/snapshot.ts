@@ -111,6 +111,8 @@ export interface ReadinessSummary {
   gaps: string[];
   /** Assumptions a human accepted to get this far. */
   assumptions: string[];
+  /** Id of the drawing revision this calculation was based on, when one exists. */
+  sourceRevisionId?: string;
 }
 
 /** The catalog model this calculation was started from, with its areas kept separate (rules 4, 5). */

@@ -11,6 +11,7 @@ import { applyOptions, OptionDefinition, OwnedLine } from "../../calc/options";
 import { packLoopsIntoCoils, pipeLengthForZoneM } from "../../calc/floorHeating";
 import { showerCornerAreaM2 } from "../../calc/finishes";
 import { CatalogProject } from "../../catalog/schema";
+import { DrawingRevision, closedCostingGaps, deriveGeometry } from "../../drawings";
 import { advertisedVsLabeledDeltaM2, isBlockedForCalculation, missingForCostingKeys } from "../../catalog/parse";
 import { OVERHEAD_STARTING_POLICY, PRICING_STARTING_POLICY, REFERENCE_PRICES } from "../referenceData";
 import {
@@ -54,6 +55,13 @@ export interface CatalogProjectInput {
   taxFraction?: number;
   commissionFraction?: number;
   totalRoundingStepRub?: number;
+  /**
+   * Transcribed architectural sheets for this model, when they exist. §6 source
+   * priority: an approved drawing outranks the website snapshot, so wherever a
+   * figure appears in both, the drawing wins and the line is marked CONFIRMED
+   * instead of PRELIMINARY_BY_ANALOGY.
+   */
+  drawingRevision?: DrawingRevision;
 }
 
 /** Generic options whose quantities come from THIS project's own plan figures (rule 16). */
@@ -99,8 +107,10 @@ const GAP_LABELS: Record<string, { name: string; block: CommercialBlock; unit: s
   base_package_detailed_scope: { name: "Точный состав базовой комплектации", block: "SHELL", unit: "—" },
 };
 
-function gapLines(p: CatalogProject): CompositionLine[] {
-  return missingForCostingKeys(p).map((key) => {
+function gapLines(p: CatalogProject, closedKeys: string[] = []): CompositionLine[] {
+  return missingForCostingKeys(p)
+    .filter((key) => !closedKeys.includes(key))
+    .map((key) => {
     const meta = GAP_LABELS[key] ?? { name: key, block: "SHELL" as CommercialBlock, unit: "—" };
     return {
       key: `gap:${key}`,
@@ -268,11 +278,17 @@ export function buildCatalogProjectSnapshot(p: CatalogProject, input: CatalogPro
     commissionFraction: input.commissionFraction ?? PRICING_STARTING_POLICY.commissionFraction,
   };
 
-  const planSource = `План сайта ${p.source_url} (${p.floor_plan.review_status})`;
+  const drawing = input.drawingRevision;
+  const geometry = drawing ? deriveGeometry(drawing) : null;
+  const planSource = drawing
+    ? `Чертёж ${drawing.drawing_revision_id}, листы ${drawing.source.sheets_in_file.join(", ")}`
+    : `План сайта ${p.source_url} (${p.floor_plan.review_status})`;
   const optionDefs = buildOptionDefs(p);
   const selected = input.selectedOptionIds.filter((id) => optionDefs[id]);
 
-  const indoorArea = p.floor_plan.derived_labeled_indoor_area_sum_m2;
+  // Areas: the drawing's own room schedule when we have it, the site's
+  // transcribed labels otherwise.
+  const indoorArea = geometry ? geometry.labeledIndoorAreaM2 : p.floor_plan.derived_labeled_indoor_area_sum_m2;
   const baseOwnedLines: OwnedLine[] =
     indoorArea !== null
       ? [
@@ -286,8 +302,29 @@ export function buildCatalogProjectSnapshot(p: CatalogProject, input: CatalogPro
 
   const { lines: optionLines, conflicts } = applyOptions(baseOwnedLines, selected, optionDefs);
   const derivedLines = ownedLinesToCompositionLines(optionLines, planSource);
-  const gaps = gapLines(p);
-  const allLines = [...derivedLines, ...gaps];
+  const closedGapKeys = drawing ? closedCostingGaps(drawing) : [];
+  const gaps = gapLines(p, closedGapKeys);
+  const porchLines: CompositionLine[] =
+    drawing && drawing.porch.status === "CONFIRMED"
+      ? [
+          {
+            key: "options:porch:deck",
+            block: "OPTIONS",
+            category: "MATERIAL",
+            name: `Крыльцо ${drawing.porch.width_mm} x ${drawing.porch.depth_mm} мм (настил)`,
+            qty: drawing.porch.area_m2,
+            unit: "m2",
+            unitCostRub: 1750,
+            totalCostRub: Number((drawing.porch.area_m2 * 1750).toFixed(2)),
+            status: "CONFIRMED",
+            source: `Чертёж, лист ${drawing.porch.source_sheet}`,
+            formulaExplanation: `${drawing.porch.width_mm} x ${drawing.porch.depth_mm} мм = ${drawing.porch.area_m2} м² x 1750 ₽`,
+            ownerOptionId: "BASE",
+          },
+        ]
+      : [];
+
+  const allLines = [...derivedLines, ...porchLines, ...gaps];
 
   // Cost summary over what is actually known. This is explicitly NOT a full
   // cost - readiness.isFullCost stays false for every catalog calculation.
@@ -351,17 +388,27 @@ export function buildCatalogProjectSnapshot(p: CatalogProject, input: CatalogPro
   const readiness: ReadinessSummary = {
     level: "CATALOG_PRELIMINARY",
     isFullCost: false,
+    sourceRevisionId: drawing?.drawing_revision_id,
     // Production blocks still to be confirmed. Source discrepancies are NOT
     // listed here: they are internal notes for the owner (rule 14) and travel
     // in catalogRef.issues, so they never reach a client document.
     gaps: gaps.map((g) => g.name),
-    assumptions: [
-      `Площади взяты с подписей плана сайта (${p.floor_plan.area_use ?? "reference_only"}), не из утверждённой редакции.`,
-      "Свайное поле не рассчитано: нужна схема модулей и обвязки, а не деление площади на норматив.",
-      p.website_specs.ceiling_height_m !== null
-        ? `Высота потолка ${p.website_specs.ceiling_height_m} м - рекламная карточка, не длина стойки каркаса.`
-        : "Высота потолка на карточке не указана.",
-    ],
+    assumptions: drawing
+      ? [
+          `Площади и габариты взяты из экспликации и размерных цепочек чертежа ${drawing.drawing_revision_id} (листы ${drawing.source.sheets_in_file.join(", ")}).`,
+          `Модулей: ${drawing.modules.living_module_count} жилых по ${drawing.modules.module_footprint_mm.join(" x ")} мм плюс террасный.`,
+          "Свайное поле по-прежнему не рассчитано: свайной схемы в этом комплекте листов нет.",
+          drawing.roof.slope_deg === null
+            ? "Уклон кровли на листах не подписан - площади по скату не считаются."
+            : `Уклон кровли ${drawing.roof.slope_deg}°.`,
+        ]
+      : [
+          `Площади взяты с подписей плана сайта (${p.floor_plan.area_use ?? "reference_only"}), не из утверждённой редакции.`,
+          "Свайное поле не рассчитано: нужна схема модулей и обвязки, а не деление площади на норматив.",
+          p.website_specs.ceiling_height_m !== null
+            ? `Высота потолка ${p.website_specs.ceiling_height_m} м - рекламная карточка, не длина стойки каркаса.`
+            : "Высота потолка на карточке не указана.",
+        ],
   };
 
   // The client-facing description lists only what was actually selected and
@@ -396,7 +443,13 @@ export function buildCatalogProjectSnapshot(p: CatalogProject, input: CatalogPro
     priceSummary,
     clientDescription,
     readiness,
-    catalogRef: catalogReference(p),
+    catalogRef: {
+      ...catalogReference(p),
+      issues: [
+        ...p.issues,
+        ...(drawing?.conflicts.map((c) => ({ code: c.code, message: c.message })) ?? []),
+      ],
+    },
     pileSummary: {
       totalPiles: null,
       variantName: "свайное поле не определено",

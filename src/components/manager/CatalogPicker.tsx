@@ -23,6 +23,7 @@ export interface CatalogListItem {
   bathroomsCount: number | null;
   issues: { code: string; message: string }[];
   approvedTemplateId: string | null;
+  hasDrawing?: boolean;
 }
 
 function area(value: number | null): string {
@@ -89,6 +90,7 @@ function Group({
               </span>
               <span className="catalog-badges">
                 {p.roofText && <span className="tag">{p.roofText}</span>}
+                {p.hasDrawing && <span className="tag ok">есть рабочий чертёж</span>}
                 {p.approvedTemplateId && <span className="tag ok">есть утверждённая редакция</span>}
                 {p.blockedForCalculation && <span className="tag danger">план противоречит карточке</span>}
                 {!p.blockedForCalculation && p.issues.length > 0 && <span className="tag warn">расхождение источника</span>}

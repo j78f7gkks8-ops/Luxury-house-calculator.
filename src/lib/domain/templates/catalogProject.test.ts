@@ -4,6 +4,7 @@ import path from "node:path";
 import { parseCatalog } from "../../catalog/parse";
 import { buildCatalogProjectSnapshot } from "./catalogProject";
 import { CalcError } from "../../calc/money";
+import { loadDrawingRevision } from "../../drawings";
 
 const catalog = parseCatalog(
   JSON.parse(fs.readFileSync(path.join(process.cwd(), "data/catalog/Luxury_House_Projects_Catalog.json"), "utf8")),
@@ -115,5 +116,64 @@ describe("client-facing content boundaries (§21, rule 14)", () => {
     expect(snapshot.catalogRef!.issues.length).toBeGreaterThan(0);
     expect(snapshot.readiness.gaps.join(" ")).not.toContain("Расхождение источника");
     expect(snapshot.readiness.gaps.join(" ")).not.toContain("Региональная");
+  });
+});
+
+describe("a drawing revision upgrades the catalog estimate (§6 source priority)", () => {
+  const barn96 = byId.get("lh_house_barn96")!;
+  const drawing = loadDrawingRevision("lh_house_barn96")!;
+
+  const fromSite = buildCatalogProjectSnapshot(barn96, { selectedOptionIds: [] });
+  const fromDrawing = buildCatalogProjectSnapshot(barn96, { selectedOptionIds: [], drawingRevision: drawing });
+
+  it("records which revision the calculation stands on", () => {
+    expect(fromSite.readiness.sourceRevisionId).toBeUndefined();
+    expect(fromDrawing.readiness.sourceRevisionId).toBe("barn96_arch_2026_09_sheets_20_23");
+  });
+
+  it("closes the gaps the sheets actually answer, and only those", () => {
+    expect(fromDrawing.readiness.gaps.length).toBeLessThan(fromSite.readiness.gaps.length);
+
+    const gapKeys = (s: typeof fromSite) => s.compositionLines.filter((l) => l.key.startsWith("gap:")).map((l) => l.key);
+    expect(gapKeys(fromSite)).toContain("gap:production_module_count");
+    expect(gapKeys(fromDrawing)).not.toContain("gap:production_module_count");
+    expect(gapKeys(fromDrawing)).not.toContain("gap:module_geometry");
+
+    // the framing BOM and pile scheme are not in this sheet set, so they remain
+    expect(gapKeys(fromDrawing)).toContain("gap:structural_bom");
+    expect(gapKeys(fromDrawing)).toContain("gap:pile_count");
+  });
+
+  it("still refuses to invent a pile field - a plan is not a pile scheme", () => {
+    expect(fromDrawing.pileSummary.totalPiles).toBeNull();
+    expect(fromDrawing.readiness.isFullCost).toBe(false);
+  });
+
+  it("adds the porch as a real dimensioned line", () => {
+    expect(fromSite.compositionLines.find((l) => l.key === "options:porch:deck")).toBeUndefined();
+    const porch = fromDrawing.compositionLines.find((l) => l.key === "options:porch:deck")!;
+    expect(porch.qty).toBe(2.16);
+    expect(porch.status).toBe("CONFIRMED");
+    expect(porch.totalCostRub).toBeCloseTo(2.16 * 1750, 2);
+  });
+
+  it("attributes quantities to the drawing instead of the website plan", () => {
+    const withOption = buildCatalogProjectSnapshot(barn96, {
+      selectedOptionIds: ["warm-floor"],
+      drawingRevision: drawing,
+    });
+    const screed = withOption.compositionLines.find((l) => l.key === "interior:floor:screed")!;
+    expect(screed.qty).toBe(61.23);
+    const floor = withOption.compositionLines.find((l) => l.key === "interior:floor:finish")!;
+    expect(floor.source).toContain("Чертёж");
+  });
+
+  it("surfaces the drawing's conflicts to the owner without touching the client document", () => {
+    const codes = fromDrawing.catalogRef!.issues.map((i) => i.code);
+    expect(codes).toContain("ceiling_height_definition");
+    expect(codes).toContain("roof_slope_vs_historical_note");
+
+    // client-facing gap list still carries no source-conflict wording
+    expect(fromDrawing.readiness.gaps.join(" ")).not.toContain("2,7");
   });
 });

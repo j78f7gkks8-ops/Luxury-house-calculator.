@@ -117,10 +117,19 @@ export default async function ProjectDetailPage({ params }: { params: { id: stri
                     </tr>
                   </tbody>
                 </table>
+                {snapshot.readiness.sourceRevisionId && (
+                  <p className="muted" style={{ fontSize: 12 }}>
+                    Расчёт по рабочему чертежу: <strong>{snapshot.readiness.sourceRevisionId}</strong> (
+                    <a href="/drawings/barn96/sheet1.jpg" target="_blank" rel="noreferrer">лист 1</a>,{" "}
+                    <a href="/drawings/barn96/sheet2.jpg" target="_blank" rel="noreferrer">2</a>,{" "}
+                    <a href="/drawings/barn96/sheet3.jpg" target="_blank" rel="noreferrer">3</a>,{" "}
+                    <a href="/drawings/barn96/sheet4.jpg" target="_blank" rel="noreferrer">4</a>)
+                  </p>
+                )}
                 {session.user.role === "OWNER" && (
                   <p className="muted" style={{ fontSize: 12 }}>
-                    Источник: <a href={snapshot.catalogRef.sourceUrl}>{snapshot.catalogRef.sourceUrl}</a> · статус
-                    плана: {snapshot.catalogRef.planReviewStatus}
+                    Источник карточки: <a href={snapshot.catalogRef.sourceUrl}>{snapshot.catalogRef.sourceUrl}</a> ·
+                    статус плана: {snapshot.catalogRef.planReviewStatus}
                   </p>
                 )}
                 {snapshot.catalogRef.issues.map((issue, i) => (

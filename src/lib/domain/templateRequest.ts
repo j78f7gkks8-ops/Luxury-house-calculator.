@@ -1,6 +1,7 @@
 import { z } from "zod";
 import { prisma } from "@/lib/prisma";
 import { catalogProjectSchema } from "@/lib/catalog/schema";
+import { loadDrawingRevision } from "@/lib/drawings";
 import { CalcError } from "@/lib/calc/money";
 import { TemplateInput } from "./templates";
 
@@ -55,5 +56,8 @@ export async function resolveTemplateInput(request: TemplateRequest): Promise<Te
   // honest even if the stored row was edited by hand.
   const catalogProject = catalogProjectSchema.parse(JSON.parse(row.rawJson));
   const { catalogProjectId: _ignored, ...rest } = request;
-  return { ...rest, catalogProject };
+  // §6 source priority: if approved sheets exist for this model, they outrank
+  // the website snapshot and the calculation says so.
+  const drawingRevision = loadDrawingRevision(request.catalogProjectId) ?? undefined;
+  return { ...rest, catalogProject, drawingRevision };
 }

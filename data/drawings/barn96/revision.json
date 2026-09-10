@@ -1,0 +1,155 @@
+{
+  "schema_version": "1.0.0",
+  "drawing_revision_id": "barn96_arch_2026_09_sheets_20_23",
+  "project_id": "lh_house_barn96",
+  "model_name": "БАРН 96",
+  "source": {
+    "file": "data/drawings/barn96/barn96_arch_sheets_20-23.pdf",
+    "sha256": "979ce97882cbbeb8c00c5a8f76dc253e7cc13d2a9ae8cfd678b2d38811b0a532",
+    "sheets_in_file": [20, 21, 22, 23],
+    "sheet_titles": [
+      "Планировка с экспликацией",
+      "Обмерный план с размерными цепочками",
+      "Фасады (торцы 8 000)",
+      "Фасады (длинные стороны 12 000)"
+    ],
+    "producer": "ArchiCAD / GSPublisher 0.89.100.100",
+    "received_at": "2026-09-10",
+    "review_status": "transcribed_from_architectural_sheets_not_production_verified",
+    "note": "Архитектурные листы. Ведомость деталей каркаса («Объемы материалов» — отдельная вкладка альбома) в этот файл не входит."
+  },
+
+  "envelope": {
+    "overall_length_mm": 12000,
+    "overall_depth_mm": 8000,
+    "living_part_length_mm": 9000,
+    "terrace_length_mm": 3000,
+    "internal_clear_depth_mm": 7580,
+    "derived_exterior_wall_thickness_mm": 210,
+    "wall_thickness_derivation": "(8000 - 7580) / 2 = 210 мм на сторону; толщина выведена из размерных цепочек, а не указана на листе",
+    "status": "CONFIRMED",
+    "source_sheet": 21
+  },
+
+  "modules": {
+    "bay_pitch_mm": 3000,
+    "bay_count": 4,
+    "living_module_count": 3,
+    "terrace_module_count": 1,
+    "module_footprint_mm": [3000, 8000],
+    "status": "CONFIRMED",
+    "source_sheet": 20,
+    "note": "Верхняя размерная цепочка 3000+3000+3000+3000 = 12000; 9000 жилая часть + 3000 терраса. Совпадает с §Б1 задания: три жилых модуля, террасный отдельный."
+  },
+
+  "room_schedule": {
+    "title": "Экспликация помещений первого этажа",
+    "source_sheet": 20,
+    "status": "CONFIRMED",
+    "measurement_note": "Площади помещений указаны без учёта толщины отделочных материалов (примечание 4 на листе).",
+    "rooms": [
+      { "no": 1, "name": "Холл", "area_m2": 10.05, "kind": "indoor" },
+      { "no": 2, "name": "Котельная", "area_m2": 5.07, "kind": "indoor" },
+      { "no": 3, "name": "С/у", "area_m2": 5.07, "kind": "indoor" },
+      { "no": 4, "name": "Спальня 1", "area_m2": 9.35, "kind": "indoor" },
+      { "no": 5, "name": "Гостиная-кухня", "area_m2": 22.34, "kind": "indoor" },
+      { "no": 6, "name": "Спальня 2", "area_m2": 9.35, "kind": "indoor" },
+      { "no": 7, "name": "Крыльцо", "area_m2": 2.16, "kind": "porch" },
+      { "no": 8, "name": "Терраса", "area_m2": 22.74, "kind": "terrace" }
+    ],
+    "drawing_stated_total_m2": 86.13
+  },
+
+  "porch": {
+    "width_mm": 1800,
+    "depth_mm": 1200,
+    "area_m2": 2.16,
+    "status": "CONFIRMED",
+    "source_sheet": 21,
+    "note": "Размерная цепочка низа листа: 300 | 1800 | 300 по ширине и 1200 по выносу. 1,8 x 1,2 = 2,16 м² — сходится с экспликацией."
+  },
+
+  "levels_m": {
+    "finished_floor": 0.0,
+    "plinth_bottom": -0.3,
+    "window_sill": 0.9,
+    "opening_head": 2.1,
+    "eave_low_side": 2.169,
+    "eave_high_side": 2.37,
+    "ridge": 3.3,
+    "status": "CONFIRMED",
+    "source_sheets": [22, 23],
+    "datum_note": "За отм. 0.000 принят уровень чистого пола 1-го этажа (примечание 1 на листе 20)."
+  },
+
+  "roof": {
+    "shape": "асимметричная двускатная",
+    "covering_from_facade": "профилированный лист",
+    "ridge_runs_along": "длинную сторону 12 000",
+    "span_mm": 8000,
+    "rise_from_high_eave_mm": 930,
+    "rise_from_low_eave_mm": 1131,
+    "slope_deg": null,
+    "slope_status": "SIZE_NEEDED",
+    "slope_note": "Уклон на листах числом не подписан. Из отметок (конёк 3,300; карнизы 2,370 и 2,169; пролёт 8 000) он попадает в диапазон примерно 13-16° в зависимости от положения конька, которое на листах тоже не указано. Требуется подтверждение владельца или разрез.",
+    "status": "PARTIAL",
+    "source_sheets": [22, 23]
+  },
+
+  "facade": {
+    "materials": ["планкен вертикальный", "тёмная металлическая панель (фальц)"],
+    "composition": "комбинированный",
+    "status": "PER_DRAWING_NEEDS_CHECK",
+    "source_sheets": [22, 23],
+    "note": "Раскладка материалов по фасадам видна графически; площади каждого материала на листах не подписаны."
+  },
+
+  "openings_from_dimension_chains": {
+    "status": "PER_DRAWING_NEEDS_CHECK",
+    "source_sheet": 21,
+    "note": "Ширины сняты с размерных цепочек; привязка каждого проёма к помещению требует сверки с ведомостью проёмов, которой в этом файле нет.",
+    "west_wall_8000": [
+      { "width_mm": 1800, "type": "window" },
+      { "width_mm": 600, "type": "window" }
+    ],
+    "north_wall_12000": [{ "width_mm": 1500, "type": "window" }],
+    "south_wall_12000": [
+      { "width_mm": 1000, "type": "entrance_door", "note": "вход через крыльцо" },
+      { "width_mm": 1500, "type": "window" }
+    ],
+    "terrace_side": [
+      { "width_mm": 900, "type": "door_leaf", "count": 2, "note": "выходы на террасу из гостиной-кухни и спальни 2" }
+    ]
+  },
+
+  "conflicts": [
+    {
+      "code": "ceiling_height_definition",
+      "severity": "important",
+      "message": "Карточка сайта заявляет высоту потолков 2,7 м, но по фасадам потолок скатный: карниз 2,370, конёк 3,300. Единой высоты 2,7 м в доме нет. Нельзя считать площади стен и объёмы по 2,7 м.",
+      "sources": ["сайт lhmodul.ru/barn96", "листы 22-23"]
+    },
+    {
+      "code": "roof_slope_vs_historical_note",
+      "severity": "important",
+      "message": "§Б1 задания упоминает угол 9° для обсуждавшегося варианта. С отметками этого чертежа (карнизы 2,370/2,169, конёк 3,300, пролёт 8 000) 9° не согласуется — расчётный диапазон около 13-16°. Возможны разные варианты модели. Не объединять без решения владельца.",
+      "sources": ["§Б1 мастер-промпта", "листы 22-23"]
+    },
+    {
+      "code": "area_definition_resolved",
+      "severity": "info",
+      "message": "Расхождение площадей объяснено: 96 м² на карточке = габарит 12,0 x 8,0 включая террасу; 86,13 м² = итог экспликации (помещения + крыльцо + терраса); 61,23 м² = сумма только внутренних помещений. Три определения, каждое верно в своей роли.",
+      "sources": ["лист 20", "каталог сайта"]
+    }
+  ],
+
+  "still_missing_for_costing": {
+    "structural_bom": "Ведомость деталей каркаса — лист «Объемы материалов» в альбом не вошёл",
+    "pile_count": "Свайная схема не входит в этот файл",
+    "pile_coordinates": "Свайная схема не входит в этот файл",
+    "roof_slope_deg": "На листах не подписан",
+    "finish_schedule": "Отделочная ведомость по помещениям отсутствует",
+    "engineering_bom": "Электрика/вода/отопление отсутствуют",
+    "labor_hours": "Не относится к архитектурным листам"
+  }
+}
