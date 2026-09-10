@@ -22,6 +22,10 @@ authRouter.post("/login", async (req, res) => {
     res.status(401).json({ error: "Неверный email или пароль" });
     return;
   }
+  if (!user.isActive) {
+    res.status(403).json({ error: "Учётная запись деактивирована. Обратитесь к владельцу." });
+    return;
+  }
   if (!isRole(user.role)) {
     res.status(500).json({ error: "Некорректная роль пользователя в базе" });
     return;

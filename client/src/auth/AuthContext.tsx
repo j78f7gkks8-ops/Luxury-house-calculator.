@@ -42,7 +42,7 @@ function decodeUserFromToken(): AuthUser | null {
   if (!token) return null;
   try {
     const payload = JSON.parse(base64UrlDecode(token.split(".")[1]));
-    return { sub: payload.sub, name: payload.name, email: payload.email, role: payload.role };
+    return { id: payload.sub, sub: payload.sub, name: payload.name, email: payload.email, role: payload.role };
   } catch {
     return null;
   }
@@ -57,7 +57,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     try {
       const result = await api.post<{ token: string; user: AuthUser }>("/auth/login", { email, password });
       setToken(result.token);
-      setUser(result.user);
+      setUser({ ...result.user, sub: result.user.id, id: result.user.id });
     } finally {
       setLoading(false);
     }

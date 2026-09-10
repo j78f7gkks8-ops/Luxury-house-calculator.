@@ -10,6 +10,7 @@ import { projectsRouter } from "./routes/projects.js";
 import { actualWorkRouter } from "./routes/actualWork.js";
 import { uploadsRouter } from "./routes/uploads.js";
 import { exportsRouter } from "./routes/exports.js";
+import { usersRouter } from "./routes/users.js";
 
 const app = express();
 app.use(cors());
@@ -23,6 +24,7 @@ app.use("/api/projects", projectsRouter);
 app.use("/api/actual-work", actualWorkRouter);
 app.use("/api/uploads", uploadsRouter);
 app.use("/api/exports", exportsRouter);
+app.use("/api/users", usersRouter);
 
 /**
  * Раздел 22: production-развёртывание — один контейнер, один порт. Сервер отдаёт собранный

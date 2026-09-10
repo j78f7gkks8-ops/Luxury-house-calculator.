@@ -21,6 +21,7 @@ model User {
   name         String
   role         String
   isDemo       Boolean  @default(false)
+  isActive     Boolean  @default(true)
   createdAt    DateTime @default(now())
 
   createdProjects   Project[]          @relation("ProjectCreatedBy")
