@@ -1,0 +1,250 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+// SQLite has no native enum support in Prisma - roles/statuses are plain
+// strings here, validated against the union types in src/lib/domain/enums.ts.
+
+model User {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  passwordHash String
+  name         String
+  role         String // "SHOP" | "MANAGER" | "OWNER"
+  isDemo       Boolean  @default(false)
+  createdAt    DateTime @default(now())
+
+  projectsCreated   Project[]           @relation("ProjectCreatedBy")
+  revisionsCreated  EstimateRevision[]  @relation("RevisionCreatedBy")
+  actualWorkEntries ActualWorkEntry[]
+  materialMovements MaterialMovement[]
+  approvals         Approval[]
+  exports           ExportSnapshot[]
+}
+
+model Customer {
+  id        String    @id @default(cuid())
+  name      String
+  phone     String?
+  address   String?
+  createdAt DateTime  @default(now())
+  projects  Project[]
+}
+
+model Project {
+  id              String           @id @default(cuid())
+  customerId      String
+  customer        Customer         @relation(fields: [customerId], references: [id])
+  title           String
+  houseFamily     String // "BARN" | "NORMA_FLAT_ROOF"
+  createdByUser   User             @relation("ProjectCreatedBy", fields: [createdByUserId], references: [id])
+  createdByUserId String
+  createdAt       DateTime         @default(now())
+  variants        ProjectVariant[]
+}
+
+model ProjectVariant {
+  id        String              @id @default(cuid())
+  projectId String
+  project   Project             @relation(fields: [projectId], references: [id])
+  name      String
+  createdAt DateTime            @default(now())
+  revisions EstimateRevision[]
+}
+
+// An immutable, versioned computed estimate - §20. Once created it is never
+// mutated; "recalculate with new prices" creates a new row with
+// parentRevisionId pointing at the one it was derived from.
+model EstimateRevision {
+  id                String             @id @default(cuid())
+  variantId         String
+  variant           ProjectVariant     @relation(fields: [variantId], references: [id])
+  version           Int
+  status            String             @default("DRAFT")
+  calcEngineVersion String
+  // Full snapshot: geometry inputs, selected options, pricing policy inputs,
+  // computed composition lines and totals - see src/lib/domain/snapshot.ts
+  snapshotJson      String
+  parentRevisionId  String?
+  parentRevision    EstimateRevision?  @relation("RevisionParent", fields: [parentRevisionId], references: [id])
+  childRevisions    EstimateRevision[] @relation("RevisionParent")
+  createdByUser     User               @relation("RevisionCreatedBy", fields: [createdByUserId], references: [id])
+  createdByUserId   String
+  createdAt         DateTime           @default(now())
+
+  actualWorkEntries ActualWorkEntry[]
+  materialMovements MaterialMovement[]
+  approvals         Approval[]
+  exports           ExportSnapshot[]
+
+  @@unique([variantId, version])
+}
+
+model Material {
+  id          String    @id @default(cuid())
+  sku         String?
+  name        String
+  supplier    String?
+  unit        String
+  packageSize Float?
+  priceRub    Float? // null = "не задана", never treated as free
+  priceDate   DateTime?
+  region      String?
+  source      String?
+  status      String    @default("PRELIMINARY_BY_ANALOGY")
+  comment     String?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+}
+
+model WorkNorm {
+  id              String   @id @default(cuid())
+  operationKey    String   @unique
+  name            String
+  unitOfMeasure   String
+  hoursPerUnit    Float? // null = "трудоёмкость не задана"
+  ratePerHourRub  Float?
+  packagePriceRub Float?
+  location        String?
+  comment         String?
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+}
+
+model PricingPolicy {
+  id                   String   @id @default(cuid())
+  name                 String
+  taxFraction          Float
+  commissionFraction   Float
+  reserveFraction      Float
+  lineRoundingStepRub  Float?
+  totalRoundingStepRub Float?
+  isActive             Boolean  @default(true)
+  createdAt            DateTime @default(now())
+}
+
+model ActualWorkEntry {
+  id                String           @id @default(cuid())
+  revisionId        String
+  revision          EstimateRevision @relation(fields: [revisionId], references: [id])
+  operationKey      String
+  employeeOrBrigade String
+  hours             Float
+  entryMode         String // "PER_PERSON" | "BRIGADE_TOTAL"
+  reworkFlag        Boolean          @default(false)
+  idleFlag          Boolean          @default(false)
+  comment           String?
+  enteredByUser     User             @relation(fields: [enteredByUserId], references: [id])
+  enteredByUserId   String
+  idempotencyKey    String           @unique
+  createdAt         DateTime         @default(now())
+}
+
+model MaterialMovement {
+  id              String           @id @default(cuid())
+  revisionId      String
+  revision        EstimateRevision @relation(fields: [revisionId], references: [id])
+  materialName    String
+  direction       String // "ISSUED" | "RETURNED" | "CONSUMED" | "SHORTAGE"
+  qty             Float
+  unit            String
+  photoRef        String?
+  comment         String?
+  enteredByUser   User             @relation(fields: [enteredByUserId], references: [id])
+  enteredByUserId String
+  idempotencyKey  String           @unique
+  createdAt       DateTime         @default(now())
+}
+
+model Approval {
+  id               String           @id @default(cuid())
+  revisionId       String
+  revision         EstimateRevision @relation(fields: [revisionId], references: [id])
+  approvedPriceRub Float
+  reason           String
+  approvedByUser   User             @relation(fields: [approvedByUserId], references: [id])
+  approvedByUserId String
+  createdAt        DateTime         @default(now())
+}
+
+model ExportSnapshot {
+  id              String           @id @default(cuid())
+  revisionId      String
+  revision        EstimateRevision @relation(fields: [revisionId], references: [id])
+  kind            String // "CLIENT_PDF" | "CLIENT_DOCX" | "OWNER_XLSX" | "PRODUCTION_PDF" | "PRODUCTION_XLSX" | "JSON"
+  filePath        String
+  createdByUser   User             @relation(fields: [createdByUserId], references: [id])
+  createdByUserId String
+  createdAt       DateTime         @default(now())
+}
+
+// Catalog entry imported from the lhmodul.ru snapshot (data/catalog).
+// This is SOURCE DATA, not an approved production spec and not an estimate
+// (import rule 1). It never carries prices (rule 3) and never overwrites the
+// owner's approved norms - it only links to them via approvedTemplateId
+// (rule 12). Re-import upserts on projectId, never duplicates (rule 2).
+model HouseProject {
+  id          String @id @default(cuid())
+  projectId   String @unique
+  websiteSlug String
+  displayName String
+  // rule 13: project 107 keeps both НОРМА 107 and БАРН 107
+  nameAliasesJson String
+  category    String // "house" | "sauna"
+  series      String?
+  sourceUrl   String
+  catalogUrl  String?
+  snapshotDate String
+
+  // website_specs - advertised figures stored literally and separately from
+  // any plan-derived area (rules 4, 5). null means unknown, never zero (rule 8).
+  advertisedAreaM2 Float?
+  areaDefinition   String?
+  // ad-card ceiling height: NOT the structural stud height (rule 9)
+  ceilingHeightM   Float?
+  roofText         String?
+  roofFamilyHint   String?
+  bedroomsCount    Int?
+  bathroomsCount   Int?
+  featureLinesJson String
+
+  // floor_plan - visual transcription of the published plan image
+  floorPlanFile         String?
+  floorPlanSourceUrl    String?
+  floorPlanSha256       String?
+  floorPlanReviewStatus String // "visually_transcribed_not_production_verified" | "conflict_do_not_use"
+  // rectangle of the drawn dimension lines: its product is neither the area of
+  // a complex contour nor a pile field (rule 6)
+  dimensionedEnvelopeMmJson String?
+  envelopeIsFullFootprint   Boolean @default(false)
+  enclosedBodyMmJson        String?
+  enclosedBodyGrossAreaM2   Float?
+  dimensionsNotes           String?
+  roomsJson                 String
+  outdoorZonesJson          String
+  labeledIndoorAreaSumM2    Float?
+  labeledOutdoorAreaSumM2   Float?
+  terraceLabeledAreaM2      Float?
+  areaUse                   String?
+
+  // what the site cannot give for full costing - all null by design
+  missingForCostingJson String
+  // source conflicts (e.g. БАРН 48 plan/card mismatch, СТАНДАРТ 1 area gap)
+  issuesJson            String
+
+  coverImageUrl   String?
+  galleryUrlsJson String
+
+  // full raw record as imported, for traceability back to the snapshot
+  rawJson    String
+  importedAt DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  // owner-approved calculation template for this model, when one exists
+  approvedTemplateId String?
+}
