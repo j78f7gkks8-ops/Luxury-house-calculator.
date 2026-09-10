@@ -97,3 +97,62 @@ describe("options engine", () => {
     ).not.toThrow();
   });
 });
+
+describe("acceptance #16: a component already inside a package is not charged again", () => {
+  // §Б3: the preliminary terrace-roof frame estimate is 40 six-metre "150"
+  // boards + 6 "200", and it ALREADY covers the nine composite posts
+  // (9 x 3 = 27 boards) and the offcuts they leave.
+  const roofKitDefs: Record<string, OptionDefinition> = {
+    "terrace-roof-kit": {
+      id: "terrace-roof-kit",
+      actions: [
+        {
+          type: "ADD",
+          key: "shell:terrace:roof-frame",
+          line: { material: "Доска 150, 6 м (несущий каркас крыши террасы)", qty: 40, unit: "шт" },
+        },
+        {
+          type: "ADD",
+          key: "shell:terrace:roof-frame-200",
+          line: { material: "Доска 200, 6 м", qty: 6, unit: "шт" },
+        },
+        // the posts are part of this kit, occupying their own physical node
+        {
+          type: "ADD",
+          key: "shell:terrace:posts",
+          line: { material: "Столбы (9 составных, входят в комплект крыши)", qty: 9, unit: "шт" },
+        },
+      ],
+    },
+    // a separate option that would add the same posts as loose boards
+    "terrace-posts-separate": {
+      id: "terrace-posts-separate",
+      actions: [
+        {
+          type: "ADD",
+          key: "shell:terrace:posts",
+          line: { material: "Доски столбов 3 шт x 9 столбов", qty: 27, unit: "шт" },
+        },
+      ],
+    },
+  };
+
+  it("selecting both the roof kit and separate posts does not double the posts", () => {
+    const result = applyOptions([], ["terrace-roof-kit", "terrace-posts-separate"], roofKitDefs);
+    const postLines = result.lines.filter((l) => l.key === "shell:terrace:posts");
+
+    expect(postLines).toHaveLength(1);
+    expect(postLines[0]!.line.qty).toBe(9); // the kit's posts, not 27 loose boards on top
+    expect(postLines[0]!.ownerOptionId).toBe("terrace-roof-kit");
+    expect(result.conflicts.some((c) => c.includes("shell:terrace:posts"))).toBe(true);
+  });
+
+  it("the roof kit total is not inflated by re-adding post boards", () => {
+    const kitOnly = applyOptions([], ["terrace-roof-kit"], roofKitDefs);
+    const kitPlusPosts = applyOptions([], ["terrace-roof-kit", "terrace-posts-separate"], roofKitDefs);
+
+    const boards = (r: typeof kitOnly) =>
+      r.lines.reduce((sum, l) => sum + (l.line.unit === "шт" ? l.line.qty : 0), 0);
+    expect(boards(kitPlusPosts)).toBe(boards(kitOnly));
+  });
+});
